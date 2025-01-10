@@ -4,6 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const mongoose = require('mongoose');
+require("./models/categoryModel");
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -18,6 +21,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+mongoose.connect('mongodb+srv://npblam1201:21102005@cluster.31ujg.mongodb.net/')
+  .then(() => console.log('DB Connected!!!'))
+  .catch(err => console.log('DB connect error!!!!'));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
