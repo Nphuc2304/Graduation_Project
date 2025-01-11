@@ -18,6 +18,11 @@ const product = new Schema({
         required: true,
         min: 0
     },
+    sold: {
+        type: Number,
+        require: true,
+        min: 0
+    },
     addDay: {
         type: Date,
         default: Date.now
