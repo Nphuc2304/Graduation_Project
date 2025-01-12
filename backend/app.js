@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 const mongoose = require('mongoose');
 require("./models/categoryModel");
+require("./models/userModel");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
