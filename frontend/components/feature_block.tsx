@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   text: {
-    marginTop: 10,
-    fontSize: 14,
+    marginTop: 5,
+    fontSize: 10,
     color: "#333",
   },
 });

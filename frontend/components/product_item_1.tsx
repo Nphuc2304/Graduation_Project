@@ -8,7 +8,7 @@ import {
   ImageSourcePropType,
 } from "react-native";
 
-interface productItem {
+interface productItem1 {
   id: string;
   image: ImageSourcePropType;
   name: string;
@@ -18,7 +18,7 @@ interface productItem {
   brandName: string;
 }
 
-const productItem: React.FC<productItem> = ({
+const productItem1: React.FC<productItem1> = ({
   id,
   image,
   name,
@@ -112,9 +112,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     borderRadius: 5,
-    borderColor: "#EEE9E9",
-    borderWidth: 1,
     margin: 5,
+    backgroundColor: "#fff",
   },
   imageProduct: {
     height: 150,
@@ -180,4 +179,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default productItem;
+export default productItem1;
