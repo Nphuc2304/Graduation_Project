@@ -61,8 +61,8 @@ router.post("/add", async function (req, res) {
       const newUser = new userModel({
         email,
         username,
-        password, // Lưu trực tiếp (nên mã hóa nếu dùng thực tế)
-        role: role || "buyer", // Nếu không có 'role', mặc định là 'buyer'
+        password,
+        role: role || "buyer", 
         createDay: new Date(),
         updateDay: new Date(),
       });
@@ -88,17 +88,17 @@ router.put("/update/:id", async function (req, res) {
         return res.status(403).json({ status: false, message: "Token không hợp lệ hoặc hết hạn" });
       }
 
-      const userId = req.params.id; // Lấy ID người dùng từ URL
-      const updatedData = req.body; // Dữ liệu cập nhật từ body
+      const userId = req.params.id; 
+      const updatedData = req.body; 
 
       // Cập nhật thông tin người dùng
       const user = await userModel.findByIdAndUpdate(
         userId,
         {
-          ...updatedData, // Cập nhật dữ liệu
-          updateDay: new Date(), // Cập nhật thời gian chỉnh sửa
+          ...updatedData, 
+          updateDay: new Date(), 
         },
-        { new: true, runValidators: true } // Trả về dữ liệu sau khi cập nhật
+        { new: true, runValidators: true } 
       );
 
       if (!user) {
@@ -126,9 +126,8 @@ router.delete("/delete/:id", async function (req, res) {
         return res.status(403).json({ status: false, message: "Token không hợp lệ hoặc hết hạn" });
       }
 
-      const userId = req.params.id; // Lấy ID người dùng từ URL
+      const userId = req.params.id; 
 
-      // Tìm và xóa người dùng
       const user = await userModel.findByIdAndDelete(userId);
 
       if (!user) {
