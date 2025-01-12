@@ -32,6 +32,7 @@ router.post('/add_new_product', async (req, res) => {
             description,
             price,
             stock,
+            sold,
             imgUri,
             brandName
         } = req.body;
@@ -40,6 +41,7 @@ router.post('/add_new_product', async (req, res) => {
             description,
             price,
             stock,
+            sold,
             imgUri,
             brandName,
         });
@@ -72,6 +74,7 @@ router.put('/update_product/:id', async (req, res) => {
             description,
             price,
             stock,
+            sold,
             imgUri,
             brandName } = req.body;
 
@@ -81,6 +84,7 @@ router.put('/update_product/:id', async (req, res) => {
                 description,
                 price,
                 stock,
+                sold,
                 imgUri,
                 brandName,
                 updateDay: Date.now()
