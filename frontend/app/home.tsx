@@ -1,5 +1,6 @@
 import ImageWithTextComponent from "@/components/feature_block";
 import ProductItem from "@/components/product_item";
+import ProductItem1 from "@/components/product_item_1";
 import { FontAwesome } from "@expo/vector-icons";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -258,41 +259,41 @@ export function Home() {
   };
 
   return (
-    <ScrollView>
+    <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
+      <View style={styles.container}>
+        <View style={styles.searchAndCartContainer}>
+          <View style={styles.searchContainer}>
+            <Image
+              source={require("../assets/icons/search.png")}
+              style={styles.searchIcon}
+            />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Tìm kiếm..."
+              value={searchText}
+              onChangeText={setSearchText}
+              onSubmitEditing={handleSearch}
+              clearButtonMode="always"
+            />
+            {searchText ? (
+              <TouchableOpacity onPress={() => setSearchText("")}>
+                <FontAwesome
+                  name="times"
+                  size={20}
+                  color="#888"
+                  style={styles.clearIcon}
+                />
+              </TouchableOpacity>
+            ) : null}
+          </View>
+          <Image
+            source={require("../assets/icons/shopping-cart.png")}
+            style={styles.cartIcon}
+          />
+        </View>
+      </View>
       <View style={styles.appDfColor}>
         <View style={styles.appColorBg}>
-          <View style={styles.container}>
-            <View style={styles.searchAndCartContainer}>
-              <View style={styles.searchContainer}>
-                <Image
-                  source={require("../assets/icons/search.png")}
-                  style={styles.searchIcon}
-                />
-                <TextInput
-                  style={styles.searchInput}
-                  placeholder="Tìm kiếm..."
-                  value={searchText}
-                  onChangeText={setSearchText}
-                  onSubmitEditing={handleSearch}
-                  clearButtonMode="always"
-                />
-                {searchText ? (
-                  <TouchableOpacity onPress={() => setSearchText("")}>
-                    <FontAwesome
-                      name="times"
-                      size={20}
-                      color="#888"
-                      style={styles.clearIcon}
-                    />
-                  </TouchableOpacity>
-                ) : null}
-              </View>
-              <Image
-                source={require("../assets/icons/shopping-cart.png")}
-                style={styles.cartIcon}
-              />
-            </View>
-          </View>
           <View style={styles.carouselWrapper}>
             <Animated.View
               style={{
@@ -317,7 +318,7 @@ export function Home() {
           />
           <Text style={styles.textSize}>Giao đến: </Text>
         </View>
-        <View>
+        <View style={{ backgroundColor: "#fff" }}>
           <View style={styles.headerTopDeal}>
             <Image
               source={require("../assets/images/top_deal.png")}
@@ -342,9 +343,10 @@ export function Home() {
               />
             )}
             keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
           />
         </View>
-        <View>
+        <View style={{ backgroundColor: "#fff" }}>
           <View style={styles.headerTopDeal}>
             <Text style={styles.titleList}>Hàng ngoại giá hot</Text>
             <Text style={styles.textLink}>Xem tất cả</Text>
@@ -366,32 +368,34 @@ export function Home() {
               />
             )}
             keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
           />
         </View>
         <View style={{ marginTop: 8 }}>
           <View style={styles.headerTopDeal}>
             <Text style={styles.titleList}>Gợi ý hôm nay</Text>
           </View>
-          <FlatList
-            data={products2}
-            horizontal={false}
-            numColumns={2}
-            refreshing={false}
-            style={styles.listTopDeal}
-            renderItem={({ item }) => (
-              <ProductItem
-                id={item.id}
-                image={item.image}
-                name={item.name}
-                rate={item.rate}
-                price={item.price}
-                sale={item.sale}
-                brandName={item.brandName}
-              />
-            )}
-            keyExtractor={(item) => item.id}
-          />
         </View>
+        <FlatList
+          data={products2}
+          horizontal={false}
+          numColumns={2}
+          refreshing={false}
+          style={styles.listTopDeal}
+          renderItem={({ item }) => (
+            <ProductItem1
+              id={item.id}
+              image={item.image}
+              name={item.name}
+              rate={item.rate}
+              price={item.price}
+              sale={item.sale}
+              brandName={item.brandName}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
     </ScrollView>
   );
@@ -408,14 +412,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   container: {
-    flex: 1,
+    position: "absolute",
+    width: "100%",
     padding: 10,
+    zIndex: 1,
+    top: 0,
   },
   searchAndCartContainer: {
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-    marginTop: 20,
+    marginTop: 10,
     backgroundColor: "#fff",
     borderRadius: 12,
     elevation: 3,
@@ -457,7 +464,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   carouselWrapper: {
-    marginTop: 20,
+    paddingTop: 100,
     overflow: "hidden",
   },
   carousel: {
@@ -519,7 +526,6 @@ const styles = StyleSheet.create({
     color: "blue",
   },
   listTopDeal: {
-    backgroundColor: "#fff",
     padding: 5,
   },
   titleList: {
