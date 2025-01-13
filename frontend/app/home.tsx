@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 
-export function Home() {
+const Home = () => {
   const [searchText, setSearchText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -399,7 +399,7 @@ export function Home() {
       </View>
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   appDfColor: {
@@ -533,3 +533,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+export default Home;
