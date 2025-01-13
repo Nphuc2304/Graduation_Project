@@ -96,12 +96,14 @@ const productItem1: React.FC<productItem1> = ({
   return (
     <View style={styles.container}>
       <Image source={image} style={styles.imageProduct} />
-      <Text style={styles.nameProduct}>{name}</Text>
-      <View style={styles.star}>{renderStars(rate)}</View>
-      <View>{renderPrice()}</View>
-      <Text style={styles.textSize}>{brandName}</Text>
-      <View style={styles.hr}></View>
-      <Text style={styles.textSize}>Giao hàng siêu tốc</Text>
+      <View style={{ paddingLeft: 10, paddingRight: 10 }}>
+        <Text style={styles.nameProduct}>{name}</Text>
+        <View style={styles.star}>{renderStars(rate)}</View>
+        <View>{renderPrice()}</View>
+        <Text style={styles.textSize}>{brandName}</Text>
+        <View style={styles.hr}></View>
+        <Text style={styles.textSize}>Giao hàng siêu tốc</Text>
+      </View>
     </View>
   );
 };
@@ -110,20 +112,20 @@ const styles = StyleSheet.create({
   container: {
     width: 140,
     flex: 1,
-    padding: 10,
+    overflow: "hidden",
     borderRadius: 5,
     margin: 5,
     backgroundColor: "#fff",
   },
   imageProduct: {
-    height: 150,
+    height: 170,
     width: "100%",
   },
   nameProduct: {
     fontSize: 12,
-    color: "gray",
-    marginBottom: 5,
-    marginTop: 5,
+    color: "#000",
+    marginBottom: 10,
+    marginTop: 10,
   },
   textSize: {
     fontSize: 10,
