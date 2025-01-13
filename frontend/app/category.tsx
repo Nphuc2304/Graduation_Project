@@ -1,10 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
+import { router, Link } from "expo-router";
+import { Button, StyleSheet, Text, View } from "react-native";
 
 export function Category() {
   return (
-    <View>
-      <Text>Category</Text>
-    </View>
+    <Link href="/login">
+        <Button onPress={() => {router.push("/login")}} title="đăng nhập"/>
+    </Link>
   );
 }
 
