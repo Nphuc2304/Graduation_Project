@@ -11,8 +11,9 @@ import {
 import ProductItem from "@/components/product_item";
 import ProductItem1 from "@/components/product_item_1";
 import ImageWithTextComponent from "@/components/feature_block";
+import { Link, router } from "expo-router";
 
-export function Account() {
+const Account = ({ navigation }: any) => {
   // data test
   const products = [
     {
@@ -214,10 +215,13 @@ export function Account() {
       <View style={styles.header}>
         <Text style={styles.textBold}>Tài khoản</Text>
         <View style={styles.rowBlock}>
-          <Image
-            source={require("../assets/icons/setting.png")}
-            style={styles.iconBar}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+            <Image
+              source={require("../assets/icons/setting.png")}
+              style={styles.iconBar}
+            />
+          </TouchableOpacity>
+
           <Image
             source={require("../assets/icons/shopping-cart.png")}
             style={styles.iconBar}
@@ -441,7 +445,7 @@ export function Account() {
       />
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   appDfColor: {
@@ -568,3 +572,5 @@ const styles = StyleSheet.create({
     padding: 5,
   },
 });
+
+export default Account;

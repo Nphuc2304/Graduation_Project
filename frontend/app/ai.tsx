@@ -1,11 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export function AI() {
+const AI = () => {
   return (
     <View>
       <Text>AI</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({});
+
+export default AI;
