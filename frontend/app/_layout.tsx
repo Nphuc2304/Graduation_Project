@@ -1,14 +1,34 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, Image, StyleSheet } from "react-native";
-import { Home } from "./home";
-import { Account } from "./account";
-import { Category } from "./category";
-import { AI } from "./ai";
-import { Notify } from "./notiffy";
+import { createStackNavigator } from "@react-navigation/stack";
+import Settings from "./settings";
+import Account from "./account";
+import Home from "./home";
+import Category from "./category";
+import AI from "./ai";
+import Notify from "./notiffy";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-export default function Index() {
+function SettingsStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Account"
+        component={Account}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={Settings}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function Index() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -93,7 +113,7 @@ export default function Index() {
       />
       <Tab.Screen
         name="Account"
-        component={Account}
+        component={SettingsStack}
         options={{
           tabBarLabel: "tài khoản",
           tabBarIcon: ({ color, size }) => (
@@ -116,3 +136,5 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
 });
+
+export default Index;

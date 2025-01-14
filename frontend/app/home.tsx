@@ -28,7 +28,7 @@ interface Product {
   brandName: string;
 }
 
-export function Home() {
+const Home = () => {
   const [searchText, setSearchText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -427,7 +427,7 @@ export function Home() {
 
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   appDfColor: {
@@ -561,3 +561,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+export default Home;

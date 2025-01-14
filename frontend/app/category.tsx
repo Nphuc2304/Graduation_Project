@@ -1,11 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export function Category() {
+const Category = () => {
   return (
     <View>
       <Text>Category</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({});
+
+export default Category;
