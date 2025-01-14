@@ -10,16 +10,43 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ImageSourcePropType,
   Dimensions,
   Animated,
   ScrollView,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import { getAllProducts } from "@/src/services/productsServices";
+
+interface Product {
+  id: string;
+  image: ImageSourcePropType;
+  name: string;
+  rate: number;
+  price: number;
+  sale: number;
+  brandName: string;
+}
 
 const Home = () => {
   const [searchText, setSearchText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
+  const [products1, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProducts();
+        console.log("Fetched products:", data);
+        setProducts(data);
+      } catch (error) {
+        console.error("Failed to fetch products", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -377,7 +404,7 @@ const Home = () => {
           </View>
         </View>
         <FlatList
-          data={products2}
+          data={products1}
           horizontal={false}
           numColumns={2}
           refreshing={false}
@@ -397,6 +424,7 @@ const Home = () => {
           showsVerticalScrollIndicator={false}
         />
       </View>
+
     </ScrollView>
   );
 };
