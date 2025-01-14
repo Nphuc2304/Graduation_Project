@@ -28,22 +28,24 @@ router.get('/all_products', async (req, res) => {
 // add new product
 router.post('/add_new_product', async (req, res) => {
     try {
-        const { productName,
+        const { name,
             description,
             price,
             stock,
             sold,
-            imgUri,
-            brandName
+            image,
+            brandName,
+            sale
         } = req.body;
         const newProduct = new Product({
-            productName,
+            name,
             description,
             price,
             stock,
             sold,
-            imgUri,
+            image,
             brandName,
+            sale
         });
         const saveProduct = await newProduct.save();
 
@@ -70,23 +72,25 @@ router.put('/update_product/:id', async (req, res) => {
         const { id } = req.params;
 
         const {
-            productName,
+            name,
             description,
             price,
             stock,
             sold,
-            imgUri,
-            brandName } = req.body;
+            image,
+            brandName,
+            sale } = req.body;
 
         const updatedProduct = await Product.findByIdAndUpdate(id,
             {
-                productName,
+                name,
                 description,
                 price,
                 stock,
                 sold,
-                imgUri,
+                image,
                 brandName,
+                sale,
                 updateDay: Date.now()
             }, { new: true });
         
