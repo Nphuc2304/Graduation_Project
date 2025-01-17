@@ -34,6 +34,7 @@ const product = new Schema({
     image: { type: String },
     brandName: { type: String },
     sale: { type: Number},
+    rate: { type: Number},
     categoryId: {
         type: Schema.Types.ObjectId,
         ref: 'Category'
