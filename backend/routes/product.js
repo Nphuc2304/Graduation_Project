@@ -35,7 +35,8 @@ router.post('/add_new_product', async (req, res) => {
             sold,
             image,
             brandName,
-            sale
+            sale,
+            rate
         } = req.body;
         const newProduct = new Product({
             name,
@@ -45,7 +46,8 @@ router.post('/add_new_product', async (req, res) => {
             sold,
             image,
             brandName,
-            sale
+            sale,
+            rate
         });
         const saveProduct = await newProduct.save();
 
@@ -79,7 +81,9 @@ router.put('/update_product/:id', async (req, res) => {
             sold,
             image,
             brandName,
-            sale } = req.body;
+            sale,
+            rate
+        } = req.body;
 
         const updatedProduct = await Product.findByIdAndUpdate(id,
             {
@@ -91,9 +95,10 @@ router.put('/update_product/:id', async (req, res) => {
                 image,
                 brandName,
                 sale,
+                rate,
                 updateDay: Date.now()
             }, { new: true });
-        
+
         if (!updatedProduct) {
             return res.status(404).json({ status: false, message: 'Sản phẩm không tồn tại' });
         }
@@ -111,7 +116,7 @@ router.put('/update_product/:id', async (req, res) => {
         };
         res.status(200).json(dateProduct);
     } catch (error) {
-        res.status(400).json({ status: false, message: 'Có lỗi xảy ra', error: error.message });
+        res.status(400).json({ status: false, message: 'Có lỗi xảy ra' });
     }
 });
 
@@ -127,7 +132,21 @@ router.delete('/delete_product/:id', async (req, res) => {
 
         res.status(200).json({ status: true, message: 'Xóa sản phẩm thành công', deletedProduct });
     } catch (error) {
-        res.status(400).json({ status: false, message: 'Có lỗi xảy ra', error: error.message });
+        res.status(400).json({ status: false, message: 'Có lỗi xảy ra' });
+    }
+});
+
+//sale
+router.get('/sale_products', async (req, res) => {
+    try {
+        const products = await Product.find({ sale: { $gt: 0 } });
+
+        const shuffledProducts = products.sort(() => 0.5 - Math.random());
+        const selectedProducts = shuffledProducts.slice(0, 10);
+
+        res.status(200).json(selectedProducts);
+    } catch (error) {
+        res.status(400).json({ status: false, message: 'Có lỗi xảy ra' });
     }
 });
 

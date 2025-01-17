@@ -11,3 +11,13 @@ export const getAllProducts = async () => {
         throw error;
     }
 };
+
+export const saleProducts = async() => {
+    try{
+        const response = await axios.get(`${API_URL}/sale_products`);
+        return response.data
+    }catch(error){
+        console.error('Error fetching products:', error);
+        throw error;
+    }
+};
