@@ -9,6 +9,7 @@ import AI from "./ai";
 import Notify from "./notiffy";
 import Search from "./search";
 import { useEffect } from "react";
+import OTP from "./otp";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();

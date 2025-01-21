@@ -10,15 +10,57 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ImageSourcePropType,
   Dimensions,
   Animated,
   ScrollView,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import { getAllProducts } from "@/src/services/productsServices";
+import { saleProducts } from "@/src/services/productsServices";
+
+interface Product {
+  id: string;
+  image: ImageSourcePropType;
+  name: string;
+  rate: number;
+  price: number;
+  sale: number;
+  brandName: string;
+}
 
 const Home = ({ navigation }: any) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
+
+  const [sugesstProducts, setProducts] = useState<Product[]>([]);
+  const [salesProducts, setSaleProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getAllProducts();
+        console.log("Fetched products: ", data);
+        setProducts(data);
+      } catch (error) {
+        console.error("Failed to fetch products", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const fetchDiscountedProducts = async () => {
+      try {
+        const data = await saleProducts();
+        setSaleProducts(data); 
+      } catch (error) {
+        console.error("Error fetching discounted products:", error);
+      }
+    };
+
+    fetchDiscountedProducts();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -312,7 +354,7 @@ const Home = ({ navigation }: any) => {
             <Text style={styles.textLink}>Xem tất cả</Text>
           </View>
           <FlatList
-            data={products}
+            data={salesProducts}
             horizontal={true}
             refreshing={false}
             style={styles.listTopDeal}
@@ -362,7 +404,7 @@ const Home = ({ navigation }: any) => {
           </View>
         </View>
         <FlatList
-          data={products2}
+          data={sugesstProducts}
           horizontal={false}
           numColumns={2}
           refreshing={false}
@@ -382,6 +424,7 @@ const Home = ({ navigation }: any) => {
           showsVerticalScrollIndicator={false}
         />
       </View>
+
     </ScrollView>
   );
 };

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 const product = new Schema({
     productId: { type: ObjectId },
-    productName: {
+    name: {
         type: String,
         required: true
     },
@@ -31,8 +31,10 @@ const product = new Schema({
         type: Date,
         default: Date.now
     },
-    imgUri: { type: String },
+    image: { type: String },
     brandName: { type: String },
+    sale: { type: Number},
+    rate: { type: Number},
     categoryId: {
         type: Schema.Types.ObjectId,
         ref: 'Category'
