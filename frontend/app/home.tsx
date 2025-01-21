@@ -29,8 +29,7 @@ interface Product {
   brandName: string;
 }
 
-const Home = () => {
-  const [searchText, setSearchText] = useState("");
+const Home = ({ navigation }: any) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -86,10 +85,6 @@ const Home = () => {
     require("../assets/images/banner4.jpg"),
     require("../assets/images/banner5.jpg"),
   ];
-
-  const handleSearch = () => {
-    console.log("Searching for:", searchText);
-  };
 
   const renderDots = () => {
     return (
@@ -224,7 +219,8 @@ const Home = () => {
     },
     {
       id: "5",
-      image: require("../assets/images/img_def_2.jpg"),
+      image:
+        "https://i.pinimg.com/736x/b9/7c/31/b97c31a1b9f39a42cf06e60f024ab4df.jpg",
       name: "Sản phẩm 5",
       rate: 4.8,
       price: 250000,
@@ -304,30 +300,19 @@ const Home = () => {
     <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <View style={styles.searchAndCartContainer}>
-          <View style={styles.searchContainer}>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={styles.searchContainer}
+            onPress={() => {
+              navigation.navigate("Search");
+            }}
+          >
             <Image
               source={require("../assets/icons/search.png")}
               style={styles.searchIcon}
             />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Tìm kiếm..."
-              value={searchText}
-              onChangeText={setSearchText}
-              onSubmitEditing={handleSearch}
-              clearButtonMode="always"
-            />
-            {searchText ? (
-              <TouchableOpacity onPress={() => setSearchText("")}>
-                <FontAwesome
-                  name="times"
-                  size={20}
-                  color="#888"
-                  style={styles.clearIcon}
-                />
-              </TouchableOpacity>
-            ) : null}
-          </View>
+            <Text style={styles.searchInput}>Tìm kiếm...</Text>
+          </TouchableOpacity>
           <Image
             source={require("../assets/icons/shopping-cart.png")}
             style={styles.cartIcon}
@@ -480,7 +465,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     paddingHorizontal: 15,
-    paddingVertical: 5,
+    paddingVertical: 10,
     width: "85%",
     borderColor: "gray",
     borderWidth: 1,
@@ -496,8 +481,6 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   searchInput: {
-    flex: 1,
-    height: 28,
     fontSize: 12,
     color: "#333",
     borderWidth: 0,
