@@ -7,13 +7,15 @@ import Home from "./home";
 import Category from "./category";
 import AI from "./ai";
 import Notify from "./notiffy";
+import Search from "./search";
+import { useEffect } from "react";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 function SettingsStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Account">
       <Stack.Screen
         name="Account"
         component={Account}
@@ -22,6 +24,23 @@ function SettingsStack() {
       <Stack.Screen
         name="Settings"
         component={Settings}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function HomeStack() {
+  return (
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Search"
+        component={Search}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -37,19 +56,19 @@ function Index() {
         tabBarStyle: {
           backgroundColor: "#fff",
           borderTopWidth: 0,
-          paddingBottom: 5,
-          height: 60,
+          height: 55,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 10,
           fontWeight: "bold",
+          marginTop: 2,
         },
         headerShown: false,
       }}
     >
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={HomeStack}
         options={{
           tabBarLabel: "Trang chủ",
           tabBarIcon: ({ color, size }) => (
@@ -114,7 +133,7 @@ function Index() {
       <Tab.Screen
         name="Account"
         component={SettingsStack}
-        options={{
+        options={({ route }) => ({
           tabBarLabel: "tài khoản",
           tabBarIcon: ({ color, size }) => (
             <Image
@@ -125,7 +144,7 @@ function Index() {
               ]}
             />
           ),
-        }}
+        })}
       />
     </Tab.Navigator>
   );
