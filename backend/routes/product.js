@@ -150,4 +150,17 @@ router.get('/sale_products', async (req, res) => {
     }
 });
 
+//tìm kiếm phổ biến
+router.get('/popular_searches', async (req, res) => {
+    try {
+        const popularProducts = await Product.find()
+            .sort({ searchCount: -1 })
+            .limit(6);
+        res.status(200).json(popularProducts);
+    } catch (error) {
+        console.error('Error fetching popular searches:', error);
+        res.status(500).json({ status: false, message: 'Có lỗi xảy ra' });
+    }
+});
+
 module.exports = router;
