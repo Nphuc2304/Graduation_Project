@@ -1,6 +1,6 @@
 import PopularSearch from "@/components/popular_search";
 import { FontAwesome } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FlatList,
   Image,
@@ -8,12 +8,33 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ImageSourcePropType,
   TouchableOpacity,
   View,
 } from "react-native";
+import { getPopularSearches } from "@/src/services/productsServices";
+
+interface popularSearch {
+  id: string;
+  image: ImageSourcePropType;
+  name: string;
+}
 
 const Search: React.FC = ({ navigation }: any) => {
   const [searchText, setSearchText] = useState("");
+  const [popularSearches, setPopularSearches] = useState<popularSearch[]>([]);
+
+  useEffect(() => {
+    const fetchPopularSearches = async () => {
+      try {
+        const data = await getPopularSearches();
+        setPopularSearches(data);
+      } catch (error) {
+        console.error("Error fetching popular searches:", error);
+      }
+    };
+    fetchPopularSearches();
+  }, []);
 
   const handleSearch = () => {
     console.log("Searching for:", searchText);
@@ -108,13 +129,13 @@ const Search: React.FC = ({ navigation }: any) => {
         </View>
       </View>
       <FlatList
-        data={data}
+        data={popularSearches}
         horizontal={false}
         numColumns={2}
         refreshing={false}
         style={styles.listPopular}
         renderItem={({ item }) => (
-          <PopularSearch id={item.id} image={item.image} title={item.title} />
+          <PopularSearch id={item.id} image={item.image} name={item.name} />
         )}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
