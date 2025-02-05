@@ -8,10 +8,15 @@ const mongoose = require('mongoose');
 require("./models/categoryModel");
 require("./models/userModel");
 require("./models/productModel");
+require("./models/cartModel");
+require("./models/cartItemModel");
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productsRouter = require('./routes/product');
+var cartsRouter = require('./routes/cart');
+var cartItemRouter = require('./routes/cartItem');
 
 var app = express();
 
@@ -36,6 +41,8 @@ mongoose.connect('mongodb+srv://npblam1201:21102005@cluster.31ujg.mongodb.net/')
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/product', productsRouter);
+app.use('./carts', cartsRouter);
+app.use('./cartItems', cartItemRouter);
 
 
 // catch 404 and forward to error handler
