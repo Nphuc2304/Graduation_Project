@@ -28,22 +28,26 @@ router.get('/all_products', async (req, res) => {
 // add new product
 router.post('/add_new_product', async (req, res) => {
     try {
-        const { productName,
+        const { name,
             description,
             price,
             stock,
             sold,
-            imgUri,
-            brandName
+            image,
+            brandName,
+            sale,
+            rate
         } = req.body;
         const newProduct = new Product({
-            productName,
+            name,
             description,
             price,
             stock,
             sold,
-            imgUri,
+            image,
             brandName,
+            sale,
+            rate
         });
         const saveProduct = await newProduct.save();
 
@@ -70,26 +74,31 @@ router.put('/update_product/:id', async (req, res) => {
         const { id } = req.params;
 
         const {
-            productName,
+            name,
             description,
             price,
             stock,
             sold,
-            imgUri,
-            brandName } = req.body;
+            image,
+            brandName,
+            sale,
+            rate
+        } = req.body;
 
         const updatedProduct = await Product.findByIdAndUpdate(id,
             {
-                productName,
+                name,
                 description,
                 price,
                 stock,
                 sold,
-                imgUri,
+                image,
                 brandName,
+                sale,
+                rate,
                 updateDay: Date.now()
             }, { new: true });
-        
+
         if (!updatedProduct) {
             return res.status(404).json({ status: false, message: 'Sản phẩm không tồn tại' });
         }
@@ -107,7 +116,7 @@ router.put('/update_product/:id', async (req, res) => {
         };
         res.status(200).json(dateProduct);
     } catch (error) {
-        res.status(400).json({ status: false, message: 'Có lỗi xảy ra', error: error.message });
+        res.status(400).json({ status: false, message: 'Có lỗi xảy ra' });
     }
 });
 
@@ -123,7 +132,34 @@ router.delete('/delete_product/:id', async (req, res) => {
 
         res.status(200).json({ status: true, message: 'Xóa sản phẩm thành công', deletedProduct });
     } catch (error) {
-        res.status(400).json({ status: false, message: 'Có lỗi xảy ra', error: error.message });
+        res.status(400).json({ status: false, message: 'Có lỗi xảy ra' });
+    }
+});
+
+//sale
+router.get('/sale_products', async (req, res) => {
+    try {
+        const products = await Product.find({ sale: { $gt: 0 } });
+
+        const shuffledProducts = products.sort(() => 0.5 - Math.random());
+        const selectedProducts = shuffledProducts.slice(0, 10);
+
+        res.status(200).json(selectedProducts);
+    } catch (error) {
+        res.status(400).json({ status: false, message: 'Có lỗi xảy ra' });
+    }
+});
+
+//tìm kiếm phổ biến
+router.get('/popular_searches', async (req, res) => {
+    try {
+        const popularProducts = await Product.find()
+            .sort({ searchCount: -1 })
+            .limit(6);
+        res.status(200).json(popularProducts);
+    } catch (error) {
+        console.error('Error fetching popular searches:', error);
+        res.status(500).json({ status: false, message: 'Có lỗi xảy ra' });
     }
 });
 

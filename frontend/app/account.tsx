@@ -371,11 +371,13 @@ const Account = ({ navigation }: any) => {
             style={styles.iconNext}
           />
         </View>
-        <Image
-          source={require("../assets/images/img_banner_account.png")}
-          style={styles.banner}
-          resizeMode="contain"
-        />
+        <View style={styles.banner}>
+          <Image
+            source={require("../assets/images/img_banner_account.png")}
+            style={styles.imgBanner}
+            resizeMode="cover"
+          />
+        </View>
         {renderItems()}
       </View>
       <View style={styles.container2}>
@@ -492,7 +494,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: "blue",
     borderWidth: 1,
-    padding: 5,
+    padding: 4,
     marginTop: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -500,6 +502,7 @@ const styles = StyleSheet.create({
   textLinkBlue: {
     color: "blue",
     fontSize: 12,
+    lineHeight: 20,
   },
   rowBlock: {
     flexDirection: "row",
@@ -556,6 +559,11 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 20,
     marginTop: 10,
+    overflow: "hidden",
+  },
+  imgBanner: {
+    width: "100%",
+    height: "100%",
   },
   featureContainer: {
     marginTop: 10,
