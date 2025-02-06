@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var userModel = require("../models/userModel");
 const JWT = require('jsonwebtoken');
+const createCartForUser = require("../ultil/createCart");
 const config = require("../ultil/tokenConfig");
 
 // Đăng nhập bằng token
@@ -9,15 +10,17 @@ router.post("/login", async function(req, res){
   try{
     const {username, password} = req.body;
     const checkUser = await userModel.findOne({username: username, password: password});
+    const user = await userModel.findOne({username: username, password: password});
     if(checkUser == null){
       res.status(200).json({status: false, message:"Username or Password không đúng"});
     } else {
       const token = JWT.sign({username: username}, config.SECRETKEY, {expiresIn: '1h'});
       const refreshToken = JWT.sign({username: username}, config.SECRETKEY, {expiresIn: '1d'});
-      res.status(200).json({status: true, message:"Đăng nhập thành công",token: token, refreshToken: refreshToken});
+      const cartData = await createCartForUser(user._id);
+      res.status(200).json({status: true, message:`Gio hang: ${cartData}`, token: token, refreshToken: refreshToken});
     }
   } catch(e){
-    res.status(400).json({status:false, message:"Đã có lỗi xảy ra"});
+    res.status(400).json({status:false, message:"Đã có lỗi xảy ra" + e});
   }
 });
 

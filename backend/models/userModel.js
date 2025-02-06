@@ -40,6 +40,10 @@ const user = new Schema({
     updateDay: {
         type: Date,
         default: Date.now
+    },
+    cartId:{
+        type: ObjectId,
+        ref: "cart"
     }
 });
 
