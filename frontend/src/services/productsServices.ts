@@ -21,3 +21,14 @@ export const saleProducts = async() => {
         throw error;
     }
 };
+
+export const getPopularSearches = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/popular_searches`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching popular searches:', error);
+        throw error;
+    }
+};
+

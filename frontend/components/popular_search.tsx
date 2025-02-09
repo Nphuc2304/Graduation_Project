@@ -10,14 +10,14 @@ import {
 interface popularSearch {
   id: String;
   image: ImageSourcePropType;
-  title: String;
+  name: String;
 }
 
-const PopularSearch: React.FC<popularSearch> = ({ id, image, title }) => {
+const PopularSearch: React.FC<popularSearch> = ({ id, image, name }) => {
   return (
     <View style={styles.container}>
       <Image source={image} style={styles.img} resizeMode="contain" />
-      <Text style={styles.text}>{title}</Text>
+      <Text style={styles.text}>{name}</Text>
     </View>
   );
 };
