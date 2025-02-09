@@ -9,7 +9,7 @@ const cart = new Schema({
     },
     discount:{
         type: Number,
-        default: 0
+        default: 1
     },
     finalPrice:{
         type:Number,

@@ -27,13 +27,12 @@ const cartItem = new Schema({
         type: ObjectId,
         ref: 'product',
         required: true,
-        unique: true
+        
     },
     cartId:{
         type: ObjectId,
         ref: 'cart',
         required: true,
-        unique: true
     }
 })
 module.exports = mongoose.models.cartItem || mongoose.model('cartItem', cartItem);
