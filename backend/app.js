@@ -41,8 +41,8 @@ mongoose.connect('mongodb+srv://npblam1201:21102005@cluster.31ujg.mongodb.net/')
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/product', productsRouter);
-app.use('./carts', cartsRouter);
-app.use('./cartItems', cartItemRouter);
+app.use('/carts', cartsRouter);
+app.use('/cartItems', cartItemRouter);
 
 
 // catch 404 and forward to error handler

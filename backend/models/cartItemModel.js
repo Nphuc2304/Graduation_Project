@@ -4,7 +4,8 @@ const ObjectId = Schema.ObjectId;
 const cartItem = new Schema({
     cartItemId:{type:ObjectId},
     quantity:{
-        type: Number
+        type: Number,
+        min:1
     },
     price:{
         type: Number
@@ -16,22 +17,22 @@ const cartItem = new Schema({
         type:Number
     },
     status:{
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     varient:{
         type:String
     },
     productId:{
         type: ObjectId,
-        ref: 'products',
+        ref: 'product',
         required: true,
-        unique: true
+        
     },
     cartId:{
         type: ObjectId,
-        ref: 'carts',
+        ref: 'cart',
         required: true,
-        unique: true
     }
 })
 module.exports = mongoose.models.cartItem || mongoose.model('cartItem', cartItem);
