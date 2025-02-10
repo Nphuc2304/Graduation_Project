@@ -8,47 +8,12 @@ import Category from "./category";
 import AI from "./ai";
 import Notify from "./notiffy";
 import Search from "./search";
-import { useEffect } from "react";
-import OTP from "./otp";
+import Cart from "./cart";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-function SettingsStack() {
-  return (
-    <Stack.Navigator initialRouteName="Account">
-      <Stack.Screen
-        name="Account"
-        component={Account}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Settings"
-        component={Settings}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function HomeStack() {
-  return (
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen
-        name="Home"
-        component={Home}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Search"
-        component={Search}
-        options={{ headerShown: false }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function Index() {
+function TabNavigation() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -69,7 +34,7 @@ function Index() {
     >
       <Tab.Screen
         name="Home"
-        component={HomeStack}
+        component={Home}
         options={{
           tabBarLabel: "Trang chủ",
           tabBarIcon: ({ color, size }) => (
@@ -133,7 +98,7 @@ function Index() {
       />
       <Tab.Screen
         name="Account"
-        component={SettingsStack}
+        component={Account}
         options={({ route }) => ({
           tabBarLabel: "tài khoản",
           tabBarIcon: ({ color, size }) => (
@@ -148,6 +113,33 @@ function Index() {
         })}
       />
     </Tab.Navigator>
+  );
+}
+
+function Index() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="HomeTabs"
+        component={TabNavigation}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Search"
+        component={Search}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={Settings}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Cart"
+        component={Cart}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
   );
 }
 

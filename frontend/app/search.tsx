@@ -11,8 +11,10 @@ import {
   ImageSourcePropType,
   TouchableOpacity,
   View,
+  SafeAreaView,
 } from "react-native";
 import { getPopularSearches } from "@/src/services/productsServices";
+import { FlashList } from "@shopify/flash-list";
 
 interface popularSearch {
   id: string;
@@ -75,72 +77,81 @@ const Search: React.FC = ({ navigation }: any) => {
   ];
 
   return (
-    <ScrollView
-      style={styles.appDfColor}
-      stickyHeaderIndices={[0]}
-      showsVerticalScrollIndicator={false}
-    >
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Image
-            source={require("../assets/icons/back.png")}
-            style={styles.iconBack}
-          />
-        </TouchableOpacity>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Sản phẩm, thương hiệu và mọi thứ bạn cần..."
-          value={searchText}
-          onChangeText={setSearchText}
-          onSubmitEditing={handleSearch}
-          clearButtonMode="always"
-        />
-        {searchText ? (
-          <TouchableOpacity onPress={() => setSearchText("")}>
-            <FontAwesome
-              name="times"
-              size={20}
-              color="#888"
-              style={styles.clearIcon}
+        <View style={styles.rowContainer2}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Image
+              source={require("../assets/icons/back.png")}
+              style={styles.iconBack}
             />
           </TouchableOpacity>
-        ) : null}
-        <Image
-          source={require("../assets/icons/send.png")}
-          style={styles.iconSend}
-        />
-      </View>
-      <View style={[styles.container, { marginTop: 55 }]}>
-        <Text style={styles.title}>Săn deal hời Tết</Text>
-      </View>
-      <View style={[styles.container, { marginTop: 8 }]}>
-        <View style={styles.rowContainer}>
-          <View style={styles.iconIncrease}>
-            <Image
-              source={require("../assets/icons/increase.png")}
-              style={styles.icon}
-            />
-          </View>
-          <Text style={styles.title}>Tìm kiếm phổ biến</Text>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Sản phẩm, thương hiệu và mọi thứ bạn cần..."
+            value={searchText}
+            onChangeText={setSearchText}
+            onSubmitEditing={handleSearch}
+            clearButtonMode="always"
+          />
+          {searchText ? (
+            <TouchableOpacity onPress={() => setSearchText("")}>
+              <FontAwesome
+                name="times"
+                size={20}
+                color="#888"
+                style={styles.clearIcon}
+              />
+            </TouchableOpacity>
+          ) : null}
+          <Image
+            source={require("../assets/icons/send.png")}
+            style={styles.iconSend}
+          />
         </View>
       </View>
-      <FlatList
-        data={popularSearches}
-        horizontal={false}
-        numColumns={2}
-        refreshing={false}
-        style={styles.listPopular}
-        renderItem={({ item }) => (
-          <PopularSearch id={item.id} image={item.image} name={item.name} />
+      <FlashList
+        data={[1]}
+        renderItem={() => (
+          <View>
+            <View style={styles.container}>
+              <Text style={styles.title}>Săn deal hời Tết</Text>
+            </View>
+            <View style={[styles.container, { marginTop: 8 }]}>
+              <View style={styles.rowContainer}>
+                <View style={styles.iconIncrease}>
+                  <Image
+                    source={require("../assets/icons/increase.png")}
+                    style={styles.icon}
+                  />
+                </View>
+                <Text style={styles.title}>Tìm kiếm phổ biến</Text>
+              </View>
+            </View>
+            <FlatList
+              data={popularSearches}
+              horizontal={false}
+              numColumns={2}
+              refreshing={false}
+              style={styles.listPopular}
+              renderItem={({ item }) => (
+                <PopularSearch
+                  id={item.id}
+                  image={item.image}
+                  name={item.name}
+                />
+              )}
+              keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
         )}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
       />
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -154,9 +165,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     flexDirection: "row",
     backgroundColor: "#fff",
-    padding: 15,
-    alignItems: "center",
-    justifyContent: "space-between",
     elevation: 3,
     shadowColor: "#000",
     shadowOpacity: 0.1,
@@ -168,7 +176,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   searchInput: {
-    width: "100%",
+    width: "65%",
     fontSize: 12,
     color: "#333",
     borderWidth: 0,
@@ -208,6 +216,12 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  rowContainer2: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 15,
   },
   listPopular: {
     backgroundColor: "#fff",

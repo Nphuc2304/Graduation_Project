@@ -2,6 +2,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,7 +12,7 @@ import {
 import ProductItem from "@/components/product_item";
 import ProductItem1 from "@/components/product_item_1";
 import ImageWithTextComponent from "@/components/feature_block";
-import { Link, router } from "expo-router";
+import { FlashList } from "@shopify/flash-list";
 
 const Account = ({ navigation }: any) => {
   // data test
@@ -207,11 +208,7 @@ const Account = ({ navigation }: any) => {
   };
 
   return (
-    <ScrollView
-      style={styles.appDfColor}
-      stickyHeaderIndices={[0]}
-      showsVerticalScrollIndicator={false}
-    >
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.header}>
         <Text style={styles.textBold}>Tài khoản</Text>
         <View style={styles.rowBlock}>
@@ -222,230 +219,244 @@ const Account = ({ navigation }: any) => {
             />
           </TouchableOpacity>
 
-          <Image
-            source={require("../assets/icons/shopping-cart.png")}
-            style={styles.iconBar}
-          />
+          <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
+            <Image
+              source={require("../assets/icons/shopping-cart.png")}
+              style={styles.iconBar}
+            />
+          </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.container}>
-        <View style={styles.accountContainer}>
-          <Image
-            source={require("../assets/images/default_img.jpg")}
-            style={styles.accountImage}
-          />
+      <FlashList
+        data={[1]}
+        renderItem={() => (
           <View>
-            <Text style={styles.textBold}>
-              Chào mừng bạn đến với TypeScript!
-            </Text>
-            <TouchableOpacity style={styles.logIn}>
-              <Text style={styles.textLinkBlue}>Đăng nhập / tạo tài khoản</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={[styles.rowBlock, { marginTop: 10 }]}>
-          <TouchableOpacity
-            style={[styles.accountBlock, { backgroundColor: "#FFBBFF" }]}
-          >
-            <Text style={styles.textGray}>Astra</Text>
-            <Text style={styles.text}>Tìm thêm</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.accountBlock, { backgroundColor: "#FFFFE0" }]}
-          >
-            <Text style={styles.textGray}>Tiki xu</Text>
-            <Text style={styles.text}>Tìm thêm</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.accountBlock, { backgroundColor: "#C6E2FF" }]}
-          >
-            <Text style={styles.textGray}>Mã giảm giá</Text>
-            <Text style={styles.text}>Tìm thêm</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.container2}>
-        <View style={styles.rowBlock}>
-          <Text style={styles.textBold}>Đơn hàng của tôi</Text>
-          <Image
-            source={require("../assets/icons/next.png")}
-            style={styles.iconNext}
-          />
-        </View>
-        <View style={[styles.rowBlock, { marginTop: 10 }]}>
-          <View style={styles.featureBlock}>
-            <View style={styles.iconFeatureBlock}>
-              <Image
-                source={require("../assets/icons/wallet.png")}
-                style={styles.iconFeature}
-              />
+            <View style={styles.container}>
+              <View style={styles.accountContainer}>
+                <View style={styles.accountImage}>
+                  <Image
+                    style={{ width: 70, height: 70 }}
+                    source={require("../assets/images/default_img.jpg")}
+                  />
+                </View>
+                <View>
+                  <Text style={styles.textBold}>
+                    Chào mừng bạn đến với TypeScript!
+                  </Text>
+                  <TouchableOpacity style={styles.logIn}>
+                    <Text style={styles.textLinkBlue}>
+                      Đăng nhập / tạo tài khoản
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View style={[styles.rowBlock, { marginTop: 10 }]}>
+                <TouchableOpacity
+                  style={[styles.accountBlock, { backgroundColor: "#FFBBFF" }]}
+                >
+                  <Text style={styles.textGray}>Astra</Text>
+                  <Text style={styles.text}>Tìm thêm</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.accountBlock, { backgroundColor: "#FFFFE0" }]}
+                >
+                  <Text style={styles.textGray}>Tiki xu</Text>
+                  <Text style={styles.text}>Tìm thêm</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.accountBlock, { backgroundColor: "#C6E2FF" }]}
+                >
+                  <Text style={styles.textGray}>Mã giảm giá</Text>
+                  <Text style={styles.text}>Tìm thêm</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <Text style={[styles.textGray, { textAlign: "center" }]}>
-              Chờ thanh toán
-            </Text>
-          </View>
-          <View style={styles.featureBlock}>
-            <View style={styles.iconFeatureBlock}>
-              <Image
-                source={require("../assets/icons/file.png")}
-                style={styles.iconFeature}
-              />
+            <View style={styles.container2}>
+              <View style={styles.rowBlock}>
+                <Text style={styles.textBold}>Đơn hàng của tôi</Text>
+                <Image
+                  source={require("../assets/icons/next.png")}
+                  style={styles.iconNext}
+                />
+              </View>
+              <View style={[styles.rowBlock, { marginTop: 10 }]}>
+                <View style={styles.featureBlock}>
+                  <View style={styles.iconFeatureBlock}>
+                    <Image
+                      source={require("../assets/icons/wallet.png")}
+                      style={styles.iconFeature}
+                    />
+                  </View>
+                  <Text style={[styles.textGray, { textAlign: "center" }]}>
+                    Chờ thanh toán
+                  </Text>
+                </View>
+                <View style={styles.featureBlock}>
+                  <View style={styles.iconFeatureBlock}>
+                    <Image
+                      source={require("../assets/icons/file.png")}
+                      style={styles.iconFeature}
+                    />
+                  </View>
+                  <Text style={[styles.textGray, { textAlign: "center" }]}>
+                    Đang xử lý
+                  </Text>
+                </View>
+                <View style={styles.featureBlock}>
+                  <View style={styles.iconFeatureBlock}>
+                    <Image
+                      source={require("../assets/icons/delivery.png")}
+                      style={styles.iconFeature}
+                    />
+                  </View>
+                  <Text style={[styles.textGray, { textAlign: "center" }]}>
+                    Đang vận chuyển
+                  </Text>
+                </View>
+                <View style={styles.featureBlock}>
+                  <View style={styles.iconFeatureBlock}>
+                    <Image
+                      source={require("../assets/icons/delivered.png")}
+                      style={styles.iconFeature}
+                    />
+                  </View>
+                  <Text style={[styles.textGray, { textAlign: "center" }]}>
+                    Đã giao
+                  </Text>
+                </View>
+                <View style={styles.featureBlock}>
+                  <View style={styles.iconFeatureBlock}>
+                    <Image
+                      source={require("../assets/icons/reload.png")}
+                      style={styles.iconFeature}
+                    />
+                  </View>
+                  <Text style={[styles.textGray, { textAlign: "center" }]}>
+                    Đổi trả
+                  </Text>
+                </View>
+              </View>
             </View>
-            <Text style={[styles.textGray, { textAlign: "center" }]}>
-              Đang xử lý
-            </Text>
-          </View>
-          <View style={styles.featureBlock}>
-            <View style={styles.iconFeatureBlock}>
-              <Image
-                source={require("../assets/icons/delivery.png")}
-                style={styles.iconFeature}
-              />
+            <View style={styles.container2}>
+              <View style={styles.rowBlock}>
+                <Text style={styles.textBold}>Đánh giá sản phẩm</Text>
+                <Image
+                  source={require("../assets/icons/next.png")}
+                  style={styles.iconNext}
+                />
+              </View>
             </View>
-            <Text style={[styles.textGray, { textAlign: "center" }]}>
-              Đang vận chuyển
-            </Text>
-          </View>
-          <View style={styles.featureBlock}>
-            <View style={styles.iconFeatureBlock}>
-              <Image
-                source={require("../assets/icons/delivered.png")}
-                style={styles.iconFeature}
-              />
+            <View style={styles.container2}>
+              <View style={styles.rowBlock}>
+                <Text style={styles.textBold}>Bạn có thể thích</Text>
+              </View>
             </View>
-            <Text style={[styles.textGray, { textAlign: "center" }]}>
-              Đã giao
-            </Text>
-          </View>
-          <View style={styles.featureBlock}>
-            <View style={styles.iconFeatureBlock}>
-              <Image
-                source={require("../assets/icons/reload.png")}
-                style={styles.iconFeature}
-              />
+            <FlatList
+              data={products}
+              horizontal={true}
+              refreshing={false}
+              style={styles.listMaybeLove}
+              renderItem={({ item }) => (
+                <ProductItem
+                  id={item.id}
+                  image={item.image}
+                  name={item.name}
+                  rate={item.rate}
+                  price={item.price}
+                  sale={item.sale}
+                  brandName={item.brandName}
+                />
+              )}
+              keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
+            />
+            <View style={styles.container2}>
+              <View style={styles.rowBlock}>
+                <Text style={styles.textBold}>Trạm dịch vụ tiện ích</Text>
+                <Image
+                  source={require("../assets/icons/next.png")}
+                  style={styles.iconNext}
+                />
+              </View>
+              <View style={styles.banner}>
+                <Image
+                  source={require("../assets/images/img_banner_account.png")}
+                  style={styles.imgBanner}
+                  resizeMode="cover"
+                />
+              </View>
+              {renderItems()}
             </View>
-            <Text style={[styles.textGray, { textAlign: "center" }]}>
-              Đổi trả
-            </Text>
+            <View style={styles.container2}>
+              <View style={styles.rowBlock}>
+                <Text style={styles.textBold}>Quan tâm</Text>
+              </View>
+              <View style={[styles.rowBlock2, { marginTop: 10 }]}>
+                <View style={styles.featureBlock}>
+                  <View style={styles.iconFeatureBlock}>
+                    <Image
+                      source={require("../assets/icons/view.png")}
+                      style={styles.iconFeature}
+                    />
+                  </View>
+                  <Text style={[styles.textGray, { textAlign: "center" }]}>
+                    Đã xem
+                  </Text>
+                </View>
+                <View style={styles.featureBlock}>
+                  <View style={styles.iconFeatureBlock}>
+                    <Image
+                      source={require("../assets/icons/love.png")}
+                      style={styles.iconFeature}
+                    />
+                  </View>
+                  <Text style={[styles.textGray, { textAlign: "center" }]}>
+                    Yêu thích
+                  </Text>
+                </View>
+                <View style={styles.featureBlock}>
+                  <View style={styles.iconFeatureBlock}>
+                    <Image
+                      source={require("../assets/icons/checkout.png")}
+                      style={styles.iconFeature}
+                    />
+                  </View>
+                  <Text style={[styles.textGray, { textAlign: "center" }]}>
+                    Mua lại
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View style={styles.container2}>
+              <View style={styles.rowBlock}>
+                <Text style={styles.textBold}>Gợi ý hôm nay</Text>
+              </View>
+            </View>
+            <FlatList
+              data={products2}
+              horizontal={false}
+              numColumns={2}
+              refreshing={false}
+              style={styles.listTopDeal}
+              renderItem={({ item }) => (
+                <ProductItem1
+                  id={item.id}
+                  image={item.image}
+                  name={item.name}
+                  rate={item.rate}
+                  price={item.price}
+                  sale={item.sale}
+                  brandName={item.brandName}
+                />
+              )}
+              keyExtractor={(item) => item.id}
+              showsVerticalScrollIndicator={false}
+            />
           </View>
-        </View>
-      </View>
-      <View style={styles.container2}>
-        <View style={styles.rowBlock}>
-          <Text style={styles.textBold}>Đánh giá sản phẩm</Text>
-          <Image
-            source={require("../assets/icons/next.png")}
-            style={styles.iconNext}
-          />
-        </View>
-      </View>
-      <View style={styles.container2}>
-        <View style={styles.rowBlock}>
-          <Text style={styles.textBold}>Bạn có thể thích</Text>
-        </View>
-      </View>
-      <FlatList
-        data={products}
-        horizontal={true}
-        refreshing={false}
-        style={styles.listMaybeLove}
-        renderItem={({ item }) => (
-          <ProductItem
-            id={item.id}
-            image={item.image}
-            name={item.name}
-            rate={item.rate}
-            price={item.price}
-            sale={item.sale}
-            brandName={item.brandName}
-          />
         )}
-        keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
       />
-      <View style={styles.container2}>
-        <View style={styles.rowBlock}>
-          <Text style={styles.textBold}>Trạm dịch vụ tiện ích</Text>
-          <Image
-            source={require("../assets/icons/next.png")}
-            style={styles.iconNext}
-          />
-        </View>
-        <View style={styles.banner}>
-          <Image
-            source={require("../assets/images/img_banner_account.png")}
-            style={styles.imgBanner}
-            resizeMode="cover"
-          />
-        </View>
-        {renderItems()}
-      </View>
-      <View style={styles.container2}>
-        <View style={styles.rowBlock}>
-          <Text style={styles.textBold}>Quan tâm</Text>
-        </View>
-        <View style={[styles.rowBlock2, { marginTop: 10 }]}>
-          <View style={styles.featureBlock}>
-            <View style={styles.iconFeatureBlock}>
-              <Image
-                source={require("../assets/icons/view.png")}
-                style={styles.iconFeature}
-              />
-            </View>
-            <Text style={[styles.textGray, { textAlign: "center" }]}>
-              Đã xem
-            </Text>
-          </View>
-          <View style={styles.featureBlock}>
-            <View style={styles.iconFeatureBlock}>
-              <Image
-                source={require("../assets/icons/love.png")}
-                style={styles.iconFeature}
-              />
-            </View>
-            <Text style={[styles.textGray, { textAlign: "center" }]}>
-              Yêu thích
-            </Text>
-          </View>
-          <View style={styles.featureBlock}>
-            <View style={styles.iconFeatureBlock}>
-              <Image
-                source={require("../assets/icons/checkout.png")}
-                style={styles.iconFeature}
-              />
-            </View>
-            <Text style={[styles.textGray, { textAlign: "center" }]}>
-              Mua lại
-            </Text>
-          </View>
-        </View>
-      </View>
-      <View style={styles.container2}>
-        <View style={styles.rowBlock}>
-          <Text style={styles.textBold}>Gợi ý hôm nay</Text>
-        </View>
-      </View>
-      <FlatList
-        data={products2}
-        horizontal={false}
-        numColumns={2}
-        refreshing={false}
-        style={styles.listTopDeal}
-        renderItem={({ item }) => (
-          <ProductItem1
-            id={item.id}
-            image={item.image}
-            name={item.name}
-            rate={item.rate}
-            price={item.price}
-            sale={item.sale}
-            brandName={item.brandName}
-          />
-        )}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-      />
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -454,7 +465,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F8F8FF",
   },
   header: {
-    position: "absolute",
+    position: "fixed",
     width: "100%",
     padding: 10,
     height: 50,
@@ -475,7 +486,6 @@ const styles = StyleSheet.create({
     height: 24,
   },
   container: {
-    marginTop: 50,
     padding: 10,
     backgroundColor: "#fff",
   },
@@ -484,9 +494,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   accountImage: {
-    width: 70,
-    height: 70,
     borderRadius: "50%",
+    overflow: "hidden",
     marginRight: 20,
   },
   logIn: {
