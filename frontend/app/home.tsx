@@ -218,11 +218,11 @@ const Home = ({ navigation }: any) => {
     {
       id: "10",
       image: require("../assets/images/img_def_2.jpg"),
-      name: "Sản phẩm 10",
-      rate: 4.6,
-      price: 210000,
+      name: "Tịnh Tần Tương Tứn",
+      rate: 1.0,
+      price: 3500000,
       sale: 15,
-      brandName: "Thương hiệu J",
+      brandName: "Thương hiệu J97",
     },
   ];
   //////////////////////////
