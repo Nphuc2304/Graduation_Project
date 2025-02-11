@@ -208,7 +208,7 @@ const Account = ({ navigation }: any) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.appDfColor}>
       <View style={styles.header}>
         <Text style={styles.textBold}>Tài khoản</Text>
         <View style={styles.rowBlock}>
@@ -243,7 +243,12 @@ const Account = ({ navigation }: any) => {
                   <Text style={styles.textBold}>
                     Chào mừng bạn đến với TypeScript!
                   </Text>
-                  <TouchableOpacity style={styles.logIn}>
+                  <TouchableOpacity
+                    style={styles.logIn}
+                    onPress={() => {
+                      navigation.navigate("LogIn");
+                    }}
+                  >
                     <Text style={styles.textLinkBlue}>
                       Đăng nhập / tạo tài khoản
                     </Text>
@@ -463,6 +468,7 @@ const Account = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   appDfColor: {
     backgroundColor: "#F8F8FF",
+    flex: 1,
   },
   header: {
     position: "fixed",

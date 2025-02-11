@@ -62,28 +62,27 @@ const Home = ({ navigation }: any) => {
     fetchDiscountedProducts();
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % imgCarousel.length);
-    }, 6000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    Animated.timing(scrollX, {
-      toValue: -(currentIndex * Dimensions.get("window").width),
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  }, [currentIndex]);
-
   const imgCarousel = [
-    require("../assets/images/banner1.jpg"),
-    require("../assets/images/banner2.jpg"),
-    require("../assets/images/banner3.jpg"),
-    require("../assets/images/banner4.jpg"),
-    require("../assets/images/banner5.jpg"),
+    {
+      id: 1,
+      image: require("../assets/images/banner1.jpg"),
+    },
+    {
+      id: 2,
+      image: require("../assets/images/banner2.jpg"),
+    },
+    {
+      id: 3,
+      image: require("../assets/images/banner3.jpg"),
+    },
+    {
+      id: 4,
+      image: require("../assets/images/banner4.jpg"),
+    },
+    {
+      id: 5,
+      image: require("../assets/images/banner5.jpg"),
+    },
   ];
 
   const renderDots = () => {
@@ -269,10 +268,10 @@ const Home = ({ navigation }: any) => {
                       transform: [{ translateX: scrollX }],
                     }}
                   >
-                    {imgCarousel.map((item, index) => (
+                    {imgCarousel.map((item) => (
                       <Image
-                        key={index}
-                        source={item}
+                        key={item.id.toLocaleString()}
+                        source={item.image}
                         style={styles.carouselImage}
                       />
                     ))}
