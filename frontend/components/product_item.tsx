@@ -76,18 +76,18 @@ const productItem: React.FC<productItem> = ({
       return (
         <View style={styles.priceContainer}>
           <Text style={styles.salePrice}>
-            {discountedPrice.toLocaleString()}₫
+            {discountedPrice.toLocaleString()} ₫
           </Text>
           <View style={styles.containerSale}>
             <Text style={styles.saleP}>-{sale}%</Text>
-            <Text style={styles.originalPrice}>{price.toLocaleString()}₫</Text>
+            <Text style={styles.originalPrice}>{price.toLocaleString()} ₫</Text>
           </View>
         </View>
       );
     } else {
       return (
         <View style={styles.priceContainer}>
-          <Text style={styles.defaultPrice}>{price.toLocaleString()}₫</Text>
+          <Text style={styles.defaultPrice}>{price.toLocaleString()} ₫</Text>
         </View>
       );
     }

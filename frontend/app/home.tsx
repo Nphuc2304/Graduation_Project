@@ -1,7 +1,5 @@
-import ImageWithTextComponent from "@/components/feature_block";
 import ProductItem from "@/components/product_item";
 import ProductItem1 from "@/components/product_item_1";
-import { FontAwesome } from "@expo/vector-icons";
 import React, { useEffect, useRef, useState } from "react";
 import {
   StyleSheet,
@@ -18,6 +16,8 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import { getAllProducts } from "@/src/services/productsServices";
 import { saleProducts } from "@/src/services/productsServices";
+import { FlashList } from "@shopify/flash-list";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Product {
   id: string;
@@ -53,7 +53,7 @@ const Home = ({ navigation }: any) => {
     const fetchDiscountedProducts = async () => {
       try {
         const data = await saleProducts();
-        setSaleProducts(data); 
+        setSaleProducts(data);
       } catch (error) {
         console.error("Error fetching discounted products:", error);
       }
@@ -129,54 +129,6 @@ const Home = ({ navigation }: any) => {
       id: "5",
       title: "Product",
       image: require("../assets/images/banner1.jpg"),
-    },
-  ];
-
-  const products = [
-    {
-      id: "1",
-      image: require("../assets/images/img_def.jpg"),
-      name: "Sản phẩm 1",
-      rate: 4.5,
-      price: 100000,
-      sale: 10,
-      brandName: "Thương hiệu A",
-    },
-    {
-      id: "2",
-      image: require("../assets/images/img_def.jpg"),
-      name: "Sản phẩm 2",
-      rate: 4.0,
-      price: 150000,
-      sale: 5,
-      brandName: "Thương hiệu B",
-    },
-    {
-      id: "3",
-      image: require("../assets/images/img_def.jpg"),
-      name: "Sản phẩm 3",
-      rate: 4.7,
-      price: 200000,
-      sale: 15,
-      brandName: "Thương hiệu C",
-    },
-    {
-      id: "4",
-      image: require("../assets/images/img_def.jpg"),
-      name: "Sản phẩm 4",
-      rate: 3.5,
-      price: 120000,
-      sale: 20,
-      brandName: "Thương hiệu D",
-    },
-    {
-      id: "5",
-      image: require("../assets/images/img_def.jpg"),
-      name: "Sản phẩm 5",
-      rate: 4.8,
-      price: 250000,
-      sale: 25,
-      brandName: "Thương hiệu E",
     },
   ];
 
@@ -266,38 +218,17 @@ const Home = ({ navigation }: any) => {
     {
       id: "10",
       image: require("../assets/images/img_def_2.jpg"),
-      name: "Sản phẩm 10",
-      rate: 4.6,
-      price: 210000,
+      name: "Tịnh Tần Tương Tứn",
+      rate: 1.0,
+      price: 3500000,
       sale: 15,
-      brandName: "Thương hiệu J",
+      brandName: "Thương hiệu J97",
     },
   ];
   //////////////////////////
 
-  const renderItems = () => {
-    const rows = [];
-    const numberOfItemsPerRow = 5;
-
-    for (let i = 0; i < data.length; i += numberOfItemsPerRow) {
-      const rowItems = data.slice(i, i + numberOfItemsPerRow);
-      rows.push(
-        <View style={styles.featureContainer} key={i}>
-          {rowItems.map((item) => (
-            <ImageWithTextComponent
-              key={item.id}
-              image={item.image}
-              text={item.title}
-            />
-          ))}
-        </View>
-      );
-    }
-    return rows;
-  };
-
   return (
-    <ScrollView stickyHeaderIndices={[0]} showsVerticalScrollIndicator={false}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <View style={styles.searchAndCartContainer}>
           <TouchableOpacity
@@ -313,119 +244,172 @@ const Home = ({ navigation }: any) => {
             />
             <Text style={styles.searchInput}>Tìm kiếm...</Text>
           </TouchableOpacity>
-          <Image
-            source={require("../assets/icons/shopping-cart.png")}
-            style={styles.cartIcon}
-          />
-        </View>
-      </View>
-      <View style={styles.appDfColor}>
-        <View style={styles.appColorBg}>
-          <View style={styles.carouselWrapper}>
-            <Animated.View
-              style={{
-                flexDirection: "row",
-                transform: [{ translateX: scrollX }],
-              }}
-            >
-              {imgCarousel.map((item, index) => (
-                <Image key={index} source={item} style={styles.carouselImage} />
-              ))}
-            </Animated.View>
-          </View>
-
-          {renderDots()}
-
-          {renderItems()}
-        </View>
-        <View style={styles.addressContainer}>
-          <Image
-            source={require("../assets/icons/placeholder.png")}
-            style={styles.mapIcon}
-          />
-          <Text style={styles.textSize}>Giao đến: </Text>
-        </View>
-        <View style={{ backgroundColor: "#fff" }}>
-          <View style={styles.headerTopDeal}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Cart");
+            }}
+          >
             <Image
-              source={require("../assets/images/top_deal.png")}
-              style={styles.topDealImg}
+              source={require("../assets/icons/shopping-cart.png")}
+              style={styles.cartIcon}
             />
-            <Text style={styles.textLink}>Xem tất cả</Text>
-          </View>
-          <FlatList
-            data={salesProducts}
-            horizontal={true}
-            refreshing={false}
-            style={styles.listTopDeal}
-            renderItem={({ item }) => (
-              <ProductItem
-                id={item.id}
-                image={item.image}
-                name={item.name}
-                rate={item.rate}
-                price={item.price}
-                sale={item.sale}
-                brandName={item.brandName}
-              />
-            )}
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-          />
+          </TouchableOpacity>
         </View>
-        <View style={{ backgroundColor: "#fff" }}>
-          <View style={styles.headerTopDeal}>
-            <Text style={styles.titleList}>Hàng ngoại giá hot</Text>
-            <Text style={styles.textLink}>Xem tất cả</Text>
-          </View>
-          <FlatList
-            data={products2}
-            horizontal={true}
-            refreshing={false}
-            style={styles.listTopDeal}
-            renderItem={({ item }) => (
-              <ProductItem
-                id={item.id}
-                image={item.image}
-                name={item.name}
-                rate={item.rate}
-                price={item.price}
-                sale={item.sale}
-                brandName={item.brandName}
-              />
-            )}
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-          />
-        </View>
-        <View style={{ marginTop: 8 }}>
-          <View style={styles.headerTopDeal}>
-            <Text style={styles.titleList}>Gợi ý hôm nay</Text>
-          </View>
-        </View>
-        <FlatList
-          data={sugesstProducts}
-          horizontal={false}
-          numColumns={2}
-          refreshing={false}
-          style={styles.listTopDeal}
-          renderItem={({ item }) => (
-            <ProductItem1
-              id={item.id}
-              image={item.image}
-              name={item.name}
-              rate={item.rate}
-              price={item.price}
-              sale={item.sale}
-              brandName={item.brandName}
-            />
-          )}
-          keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-        />
       </View>
+      <FlashList
+        data={[1]}
+        renderItem={() => (
+          <View>
+            <View style={styles.appDfColor}>
+              <View style={styles.appColorBg}>
+                <View style={styles.carouselWrapper}>
+                  <Animated.View
+                    style={{
+                      flexDirection: "row",
+                      transform: [{ translateX: scrollX }],
+                    }}
+                  >
+                    {imgCarousel.map((item, index) => (
+                      <Image
+                        key={index}
+                        source={item}
+                        style={styles.carouselImage}
+                      />
+                    ))}
+                  </Animated.View>
+                </View>
 
-    </ScrollView>
+                {renderDots()}
+
+                <View style={styles.rowContainer}>
+                  <View style={styles.container2}>
+                    <Image
+                      source={require("@/assets/images/img_test.jpg")}
+                      style={styles.image}
+                    />
+                    <Text style={styles.text}>pppp</Text>
+                  </View>
+                  <View style={styles.container2}>
+                    <Image
+                      source={require("@/assets/images/img_test.jpg")}
+                      style={styles.image}
+                    />
+                    <Text style={styles.text}>pppp</Text>
+                  </View>
+                  <View style={styles.container2}>
+                    <Image
+                      source={require("@/assets/images/img_test.jpg")}
+                      style={styles.image}
+                    />
+                    <Text style={styles.text}>pppp</Text>
+                  </View>
+                  <View style={styles.container2}>
+                    <Image
+                      source={require("@/assets/images/img_test.jpg")}
+                      style={styles.image}
+                    />
+                    <Text style={styles.text}>pppp</Text>
+                  </View>
+                  <View style={styles.container2}>
+                    <Image
+                      source={require("@/assets/images/img_test.jpg")}
+                      style={styles.image}
+                    />
+                    <Text style={styles.text}>pppp</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.addressContainer}>
+                <Image
+                  source={require("../assets/icons/placeholder.png")}
+                  style={styles.mapIcon}
+                />
+                <Text style={styles.textSize}>Giao đến: </Text>
+              </View>
+              <View style={{ backgroundColor: "#fff" }}>
+                <View style={styles.headerTopDeal}>
+                  <Image
+                    source={require("../assets/images/top_deal.png")}
+                    style={styles.topDealImg}
+                  />
+                  <Text style={styles.textLink}>Xem tất cả</Text>
+                </View>
+                <FlatList
+                  data={salesProducts}
+                  horizontal={true}
+                  refreshing={false}
+                  style={styles.listTopDeal}
+                  renderItem={({ item }) => (
+                    <ProductItem
+                      id={item.id}
+                      image={item.image}
+                      name={item.name}
+                      rate={item.rate}
+                      price={item.price}
+                      sale={item.sale}
+                      brandName={item.brandName}
+                    />
+                  )}
+                  keyExtractor={(item) => item.id}
+                  showsVerticalScrollIndicator={false}
+                />
+              </View>
+              <View style={{ backgroundColor: "#fff" }}>
+                <View style={styles.headerTopDeal}>
+                  <Text style={styles.titleList}>Hàng ngoại giá hot</Text>
+                  <Text style={styles.textLink}>Xem tất cả</Text>
+                </View>
+                <FlatList
+                  data={products2}
+                  horizontal={true}
+                  refreshing={false}
+                  style={styles.listTopDeal}
+                  renderItem={({ item }) => (
+                    <ProductItem
+                      id={item.id}
+                      image={item.image}
+                      name={item.name}
+                      rate={item.rate}
+                      price={item.price}
+                      sale={item.sale}
+                      brandName={item.brandName}
+                    />
+                  )}
+                  keyExtractor={(item) => item.id}
+                  showsVerticalScrollIndicator={false}
+                />
+              </View>
+              <View style={{ marginTop: 8 }}>
+                <View style={styles.headerTopDeal}>
+                  <Text style={styles.titleList}>Gợi ý hôm nay</Text>
+                </View>
+              </View>
+              <FlatList
+                data={sugesstProducts}
+                horizontal={false}
+                numColumns={2}
+                refreshing={false}
+                style={styles.listTopDeal}
+                renderItem={({ item }) => (
+                  <ProductItem1
+                    id={item.id}
+                    image={item.image}
+                    name={item.name}
+                    rate={item.rate}
+                    price={item.price}
+                    sale={item.sale}
+                    brandName={item.brandName}
+                  />
+                )}
+                keyExtractor={(item) => item.id}
+                showsVerticalScrollIndicator={false}
+              />
+            </View>
+          </View>
+        )}
+        showsVerticalScrollIndicator={false}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -440,11 +424,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   container: {
-    position: "absolute",
+    position: "fixed",
     width: "100%",
     padding: 10,
     zIndex: 1,
     top: 0,
+    backgroundColor: "#fff",
   },
   searchAndCartContainer: {
     flexDirection: "row",
@@ -490,7 +475,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   carouselWrapper: {
-    paddingTop: 100,
     overflow: "hidden",
   },
   carousel: {
@@ -515,13 +499,23 @@ const styles = StyleSheet.create({
   activeDot: {
     color: "#007bff",
   },
-  featureContainer: {
-    marginTop: 10,
-    marginBottom: 10,
-    width: "100%",
-    display: "flex",
+  rowContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    padding: 10,
+  },
+  container2: {
+    alignItems: "center",
+  },
+  image: {
+    width: 40,
+    height: 40,
+    borderRadius: 10,
+  },
+  text: {
+    marginTop: 5,
+    fontSize: 10,
+    color: "#333",
   },
   addressContainer: {
     marginTop: 8,
