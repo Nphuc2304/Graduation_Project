@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,87 +6,84 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
-} from 'react-native';
+  Image,
+} from "react-native";
 
-const CreateAccountScreen = () => {
+const CreateAccountScreen = ({ navigation }: any) => {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   return (
-    
     <View style={styles.body}>
-  
-    <TouchableOpacity style={styles.backButton1}>
-          <Text style={styles.backButtonText}>{'<'}</Text>
-        </TouchableOpacity>
-
-    <SafeAreaView style={styles.container}>
-        
-      <TouchableOpacity style={styles.backButton}>
-        {/* Icon có thể sử dụng từ react-native-vector-icons */}
-        {/* <Icon name="arrow-back" size={24} color="#000" /> */}
-      </TouchableOpacity>
-      
-      <Text style={styles.title}>Tạo tài khoản</Text>
-      
-      <View style={styles.inputGroup}>
-        <Text style={styles.label}>Vui lòng cho biết tên của bạn</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Họ & Tên"
-          placeholderTextColor="#999"
-        />
-        <Text style={styles.hint}>
-          Gồm 2 từ trở lên, không bao gồm số và ký tự đặc biệt
-        </Text>
-      </View>
-
-      <View style={styles.inputGroup}>
-        <Text style={styles.label}>Đặt mật khẩu</Text>
-        <View style={styles.passwordContainer}>
-          
-          <TextInput
-            style={[styles.input, { flex: 1 }]}
-            placeholder="Mật khẩu"
-            placeholderTextColor="#999"
-            secureTextEntry={!passwordVisible}
-          />
-
-          <TouchableOpacity
-            onPress={() => setPasswordVisible(!passwordVisible)}
-          >
-            <Text style={styles.showText}>
-              {passwordVisible ? 'Ẩn' : 'Hiện'}
-            </Text>
+      <SafeAreaView style={styles.container}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginBottom: 20,
+          }}
+        >
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              style={{ width: 17, height: 17, marginRight: 10 }}
+              source={require("@/assets/icons/left-arrow.png")}
+            />
           </TouchableOpacity>
+
+          <Text style={styles.title}>Tạo tài khoản</Text>
         </View>
 
-        <Text style={styles.hint}>
-          Từ 8 đến 32 ký tự, bao gồm số và chữ
-        </Text>
-      </View>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Vui lòng cho biết tên của bạn</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Họ & Tên"
+            placeholderTextColor="#999"
+          />
+          <Text style={styles.hint}>
+            Gồm 2 từ trở lên, không bao gồm số và ký tự đặc biệt
+          </Text>
+        </View>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Tạo Tài Khoản</Text>
-      </TouchableOpacity>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Đặt mật khẩu</Text>
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={[styles.input, { flex: 1 }]}
+              placeholder="Mật khẩu"
+              placeholderTextColor="#999"
+              secureTextEntry={!passwordVisible}
+            />
 
-    </SafeAreaView>
+            <TouchableOpacity
+              onPress={() => setPasswordVisible(!passwordVisible)}
+            >
+              <Text style={styles.showText}>
+                {passwordVisible ? "Ẩn" : "Hiện"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text style={styles.hint}>Từ 8 đến 32 ký tự, bao gồm số và chữ</Text>
+        </View>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <Text style={styles.buttonText}>Tạo Tài Khoản</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  body:{
+  body: {
     padding: 20,
-  },
-  backButton1: {
-    position: 'absolute',
-    top: 20,
-    
-  },
-  backButtonText: {
-    fontSize: 24,
-    color: '#000000',
-    bottom: 10,
+    backgroundColor: "#F8F8FF",
+    height: "100%",
   },
   container: {
     flex: 1,
@@ -98,51 +95,50 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontWeight: "700",
   },
   inputGroup: {
     marginBottom: 20,
   },
   label: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
     marginBottom: 10,
   },
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 8,
     paddingHorizontal: 15,
     fontSize: 16,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: "#F8F8FF",
   },
   hint: {
     fontSize: 12,
-    color: '#999',
+    color: "#999",
     marginTop: 5,
   },
   passwordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   showText: {
-    color: '#007BFF',
+    color: "#007BFF",
     fontSize: 16,
     marginLeft: 10,
   },
   button: {
-    backgroundColor: '#FF3B30',
+    backgroundColor: "#FF3B30",
     height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 8,
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 

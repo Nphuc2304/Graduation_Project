@@ -9,6 +9,8 @@ import AI from "./ai";
 import Notify from "./notiffy";
 import Search from "./search";
 import Cart from "./cart";
+import LoginScreen from "./login";
+import CreateAccountScreen from "./createAccount";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -137,6 +139,16 @@ function Index() {
       <Stack.Screen
         name="Cart"
         component={Cart}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="LogIn"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={CreateAccountScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
