@@ -95,7 +95,7 @@ const productItem: React.FC<productItem> = ({
 
   return (
     <View style={styles.container}>
-      <Image source={image} style={styles.imageProduct} />
+      <Image source={{uri: image.toLocaleString()}} style={styles.imageProduct} />
       <View style={{ paddingLeft: 10, paddingRight: 10 }}>
         <Text style={styles.nameProduct}>{name}</Text>
         <View style={styles.star}>{renderStars(rate)}</View>
