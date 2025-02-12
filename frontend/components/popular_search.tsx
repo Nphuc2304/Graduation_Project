@@ -16,7 +16,11 @@ interface popularSearch {
 const PopularSearch: React.FC<popularSearch> = ({ id, image, name }) => {
   return (
     <View style={styles.container}>
-      <Image source={image} style={styles.img} resizeMode="contain" />
+      <Image
+        source={{ uri: image.toLocaleString() }}
+        style={styles.img}
+        resizeMode="contain"
+      />
       <Text style={styles.text}>{name}</Text>
     </View>
   );

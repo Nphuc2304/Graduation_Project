@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import ProductItem from "@/components/product_item";
 import ProductItem1 from "@/components/product_item_1";
-import ImageWithTextComponent from "@/components/feature_block";
 import { FlashList } from "@shopify/flash-list";
 
 const Account = ({ navigation }: any) => {
@@ -186,27 +185,6 @@ const Account = ({ navigation }: any) => {
   ];
   //////////////////////////
 
-  const renderItems = () => {
-    const rows = [];
-    const numberOfItemsPerRow = 5;
-
-    for (let i = 0; i < data.length; i += numberOfItemsPerRow) {
-      const rowItems = data.slice(i, i + numberOfItemsPerRow);
-      rows.push(
-        <View style={styles.featureContainer} key={i}>
-          {rowItems.map((item) => (
-            <ImageWithTextComponent
-              key={item.id}
-              image={item.image}
-              text={item.title}
-            />
-          ))}
-        </View>
-      );
-    }
-    return rows;
-  };
-
   return (
     <SafeAreaView style={styles.appDfColor}>
       <View style={styles.header}>
@@ -370,6 +348,7 @@ const Account = ({ navigation }: any) => {
                   price={item.price}
                   sale={item.sale}
                   brandName={item.brandName}
+                  navigation={navigation}
                 />
               )}
               keyExtractor={(item) => item.id}
@@ -390,7 +369,6 @@ const Account = ({ navigation }: any) => {
                   resizeMode="cover"
                 />
               </View>
-              {renderItems()}
             </View>
             <View style={styles.container2}>
               <View style={styles.rowBlock}>
@@ -452,6 +430,7 @@ const Account = ({ navigation }: any) => {
                   price={item.price}
                   sale={item.sale}
                   brandName={item.brandName}
+                  navigation={navigation}
                 />
               )}
               keyExtractor={(item) => item.id}

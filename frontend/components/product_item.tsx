@@ -6,6 +6,7 @@ import {
   Image,
   StyleSheet,
   ImageSourcePropType,
+  TouchableOpacity,
 } from "react-native";
 
 interface productItem {
@@ -16,6 +17,7 @@ interface productItem {
   price: number;
   sale: number;
   brandName: string;
+  navigation: any;
 }
 
 const productItem: React.FC<productItem> = ({
@@ -26,6 +28,7 @@ const productItem: React.FC<productItem> = ({
   price,
   sale,
   brandName,
+  navigation,
 }) => {
   const renderStars = (rating: number) => {
     const fullStars = Math.floor(rating);
@@ -94,8 +97,16 @@ const productItem: React.FC<productItem> = ({
   };
 
   return (
-    <View style={styles.container}>
-      <Image source={{uri: image.toLocaleString()}} style={styles.imageProduct} />
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        navigation.navigate("DetailProduct");
+      }}
+    >
+      <Image
+        source={{ uri: image.toLocaleString() }}
+        style={styles.imageProduct}
+      />
       <View style={{ paddingLeft: 10, paddingRight: 10 }}>
         <Text style={styles.nameProduct}>{name}</Text>
         <View style={styles.star}>{renderStars(rate)}</View>
@@ -104,7 +115,7 @@ const productItem: React.FC<productItem> = ({
         <View style={styles.hr}></View>
         <Text style={styles.textSize}>Giao hàng siêu tốc</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

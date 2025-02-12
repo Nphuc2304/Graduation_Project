@@ -73,7 +73,10 @@ const CartItem: React.FC<cartItem> = ({
           status={isChecked ? "checked" : "unchecked"}
           onPress={() => setIsChecked(!isChecked)}
         />
-        <Image style={styles.imgItem} source={image} />
+        <Image
+          style={styles.imgItem}
+          source={{ uri: image.toLocaleString() }}
+        />
         <View>
           <Text numberOfLines={2} style={styles.nameItem}>
             {name}

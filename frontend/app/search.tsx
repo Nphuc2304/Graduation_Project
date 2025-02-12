@@ -42,42 +42,8 @@ const Search: React.FC = ({ navigation }: any) => {
     console.log("Searching for:", searchText);
   };
 
-  // dữ liệu test
-  const data = [
-    {
-      id: "1",
-      image: require("../assets/images/img_test.jpg"),
-      title: "Cân điện tử",
-    },
-    {
-      id: "2",
-      image: require("../assets/images/img_test.jpg"),
-      title: "Cân dây nịt",
-    },
-    {
-      id: "3",
-      image: require("../assets/images/img_test.jpg"),
-      title: "Đầm dự tiệc cao cấp",
-    },
-    {
-      id: "4",
-      image: require("../assets/images/img_test.jpg"),
-      title: "Điện thoại",
-    },
-    {
-      id: "5",
-      image: require("../assets/images/img_test.jpg"),
-      title: "Gạo st25",
-    },
-    {
-      id: "6",
-      image: require("../assets/images/img_test.jpg"),
-      title: "giày lười nữ",
-    },
-  ];
-
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.appDfColor}>
       <View style={styles.header}>
         <View style={styles.rowContainer2}>
           <TouchableOpacity
@@ -92,7 +58,7 @@ const Search: React.FC = ({ navigation }: any) => {
           </TouchableOpacity>
           <TextInput
             style={styles.searchInput}
-            placeholder="Sản phẩm, thương hiệu và mọi thứ bạn cần..."
+            placeholder="Sản phẩm, thương hiệu và..."
             value={searchText}
             onChangeText={setSearchText}
             onSubmitEditing={handleSearch}
@@ -107,7 +73,16 @@ const Search: React.FC = ({ navigation }: any) => {
                 style={styles.clearIcon}
               />
             </TouchableOpacity>
-          ) : null}
+          ) : (
+            <TouchableOpacity onPress={() => setSearchText("")}>
+              <FontAwesome
+                name="times"
+                size={20}
+                color="#888"
+                style={[styles.clearIcon, { color: "transparent" }]}
+              />
+            </TouchableOpacity>
+          )}
           <Image
             source={require("../assets/icons/send.png")}
             style={styles.iconSend}
@@ -118,9 +93,6 @@ const Search: React.FC = ({ navigation }: any) => {
         data={[1]}
         renderItem={() => (
           <View>
-            <View style={styles.container}>
-              <Text style={styles.title}>Săn deal hời Tết</Text>
-            </View>
             <View style={[styles.container, { marginTop: 8 }]}>
               <View style={styles.rowContainer}>
                 <View style={styles.iconIncrease}>
@@ -158,11 +130,12 @@ const Search: React.FC = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   appDfColor: {
     backgroundColor: "#F8F8FF",
+    flex: 1,
   },
   header: {
     width: "100%",
     top: 0,
-    position: "absolute",
+    position: "fixed",
     flexDirection: "row",
     backgroundColor: "#fff",
     elevation: 3,
@@ -196,7 +169,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   title: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "500",
   },
   iconIncrease: {
@@ -218,6 +191,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   rowContainer2: {
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
