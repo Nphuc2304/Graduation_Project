@@ -3,6 +3,7 @@ import { FlashList } from "@shopify/flash-list";
 import React, { useState } from "react";
 import {
   Image,
+  ImageSourcePropType,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -19,7 +20,8 @@ const Cart: React.FC = ({ navigation }: any) => {
   const productData = [
     {
       id: "1",
-      image: require("../assets/images/img_def.jpg"),
+      image:
+        "https://i.pinimg.com/736x/81/cf/82/81cf8275972c05cf87b45156894c0d5b.jpg" as any,
       name: "Sản phẩm 1",
       price: 100000,
       sale: 10,
@@ -27,7 +29,8 @@ const Cart: React.FC = ({ navigation }: any) => {
     },
     {
       id: "2",
-      image: require("../assets/images/img_def.jpg"),
+      image:
+        "https://i.pinimg.com/736x/81/cf/82/81cf8275972c05cf87b45156894c0d5b.jpg" as any,
       name: "Sản phẩm 2",
       price: 150000,
       sale: 5,
