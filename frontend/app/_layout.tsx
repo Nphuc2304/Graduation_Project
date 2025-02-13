@@ -11,6 +11,7 @@ import Search from "./search";
 import Cart from "./cart";
 import LoginScreen from "./login";
 import CreateAccountScreen from "./createAccount";
+import DetailProduct from "./detailProdutc";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -149,6 +150,11 @@ function Index() {
       <Stack.Screen
         name="SignUp"
         component={CreateAccountScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="DetailProduct"
+        component={DetailProduct}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

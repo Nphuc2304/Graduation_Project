@@ -262,20 +262,10 @@ const Home = ({ navigation }: any) => {
             <View style={styles.appDfColor}>
               <View style={styles.appColorBg}>
                 <View style={styles.carouselWrapper}>
-                  <Animated.View
-                    style={{
-                      flexDirection: "row",
-                      transform: [{ translateX: scrollX }],
-                    }}
-                  >
-                    {imgCarousel.map((item) => (
-                      <Image
-                        key={item.id.toLocaleString()}
-                        source={item.image}
-                        style={styles.carouselImage}
-                      />
-                    ))}
-                  </Animated.View>
+                  <Image
+                    source={require("../assets/images/banner1.jpg")}
+                    style={styles.carouselImage}
+                  />
                 </View>
 
                 {renderDots()}
@@ -347,10 +337,11 @@ const Home = ({ navigation }: any) => {
                       price={item.price}
                       sale={item.sale}
                       brandName={item.brandName}
+                      navigation={navigation}
                     />
                   )}
                   keyExtractor={(item) => item.id}
-                  showsVerticalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}
                 />
               </View>
               <View style={{ backgroundColor: "#fff" }}>
@@ -372,10 +363,11 @@ const Home = ({ navigation }: any) => {
                       price={item.price}
                       sale={item.sale}
                       brandName={item.brandName}
+                      navigation={navigation}
                     />
                   )}
                   keyExtractor={(item) => item.id}
-                  showsVerticalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}
                 />
               </View>
               <View style={{ marginTop: 8 }}>
@@ -398,6 +390,7 @@ const Home = ({ navigation }: any) => {
                     price={item.price}
                     sale={item.sale}
                     brandName={item.brandName}
+                    navigation={navigation}
                   />
                 )}
                 keyExtractor={(item) => item.id}
