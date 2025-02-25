@@ -8,15 +8,21 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import { getUser } from "@/src/services/productsServices";
 
 const LoginScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // Logic for logging in the user
-    console.log("Logging in with", { email, password });
-    navigation.navigate("HomeTabs");
+    // console.log("Logging in with", { email, password });
+    // navigation.navigate("HomeTabs");
+    if (!email || !password) {
+      alert("Vui lòng nhập đầy đủ email và mật khẩu!");
+      return;
+    }
+    await getUser(email, password, navigation);
   };
 
   return (

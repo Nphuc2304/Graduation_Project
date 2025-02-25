@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import { getPopularSearches } from "@/src/services/productsServices";
 import { FlashList } from "@shopify/flash-list";
@@ -25,15 +26,18 @@ interface popularSearch {
 const Search: React.FC = ({ navigation }: any) => {
   const [searchText, setSearchText] = useState("");
   const [popularSearches, setPopularSearches] = useState<popularSearch[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchPopularSearches = async () => {
       try {
+        setLoading(true);
         const data = await getPopularSearches();
         setPopularSearches(data);
       } catch (error) {
         console.error("Error fetching popular searches:", error);
       }
+      setLoading(false);
     };
     fetchPopularSearches();
   }, []);
@@ -123,6 +127,11 @@ const Search: React.FC = ({ navigation }: any) => {
           </View>
         )}
       />
+      {loading && (
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color="#FFBBFF" />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -201,6 +210,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingBottom: 5,
     paddingHorizontal: 5,
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 });
 

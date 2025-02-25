@@ -1,6 +1,7 @@
 import { FlashList } from "@shopify/flash-list";
-import React from "react";
+import React, { useRef } from "react";
 import {
+  Animated,
   Image,
   SafeAreaView,
   StyleSheet,
@@ -14,6 +15,15 @@ const DetailProduct: React.FC = ({ navigation }: any) => {
   const sale = 20;
   const price = 27000000;
   ////////////////////
+
+  const scrollY = useRef(new Animated.Value(0)).current;
+
+  const headerBackgroundColor = scrollY.interpolate({
+    inputRange: [0, 250],
+    outputRange: ["transparent", "#fff"],
+    extrapolate: "clamp",
+  });
+
   const renderPrice = () => {
     if (sale > 0) {
       const discountedPrice = price * (1 - sale / 100);
@@ -39,7 +49,12 @@ const DetailProduct: React.FC = ({ navigation }: any) => {
 
   return (
     <SafeAreaView style={styles.appDfColor}>
-      <View style={styles.headerContainer}>
+      <Animated.View
+        style={[
+          styles.headerContainer,
+          { backgroundColor: headerBackgroundColor },
+        ]}
+      >
         <TouchableOpacity
           style={styles.headerIcon}
           onPress={() => {
@@ -76,7 +91,7 @@ const DetailProduct: React.FC = ({ navigation }: any) => {
             />
           </TouchableOpacity>
         </View>
-      </View>
+      </Animated.View>
       <FlashList
         data={[1]}
         refreshing={false}
@@ -177,9 +192,48 @@ const DetailProduct: React.FC = ({ navigation }: any) => {
               </View>
             </View>
             <View style={styles.container}>
+              <View style={styles.shopContainer}>
+                <View style={styles.rowBlock}>
+                  <View style={styles.imageShopBlock}>
+                    <Image
+                      style={styles.imageShop}
+                      source={{
+                        uri: "https://i.pinimg.com/736x/ff/40/94/ff40949975197b8c6b8bf27f22d3fc0c.jpg",
+                      }}
+                    />
+                  </View>
+                  <Text style={styles.title}>Shop của Phúc</Text>
+                </View>
+                <TouchableOpacity>
+                  <Image source={require("@/assets/icons/next.png")} />
+                </TouchableOpacity>
+              </View>
+              <View style={[styles.shopContainer, { marginTop: 10 }]}>
+                <View style={styles.btnShop}>
+                  <Image
+                    style={styles.iconShop}
+                    source={require("@/assets/icons/shop.png")}
+                  />
+                  <Text>Xem cửa hàng</Text>
+                </View>
+                <View style={styles.btnShop}>
+                  <Image
+                    style={styles.iconShop}
+                    source={require("@/assets/icons/chat.png")}
+                  />
+                  <Text>Chat</Text>
+                </View>
+              </View>
+            </View>
+            <View style={styles.container}>
               <Text style={styles.title}>Thông tin chi tiết</Text>
             </View>
           </View>
+        )}
+        estimatedItemSize={200}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false }
         )}
         showsVerticalScrollIndicator={false}
       />
@@ -236,7 +290,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 10,
+    paddingVertical: 10,
+    paddingLeft: 10,
     zIndex: 1,
   },
   blockIcon: {
@@ -343,6 +398,37 @@ const styles = StyleSheet.create({
     height: 20,
     marginRight: 10,
     tintColor: "blue",
+  },
+  shopContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  imageShop: {
+    width: "100%",
+    height: "100%",
+  },
+  imageShopBlock: {
+    width: 50,
+    height: 50,
+    borderRadius: "50%",
+    overflow: "hidden",
+    marginRight: 10,
+  },
+  btnShop: {
+    width: "48%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 5,
+    borderRadius: 5,
+    borderColor: "gray",
+    borderWidth: 0.5,
+  },
+  iconShop: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
   },
 });
 

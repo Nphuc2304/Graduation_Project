@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 14,
     textAlign: "center",
-    marginRight: 20,
   },
   iconBack: {
     width: 20,
