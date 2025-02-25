@@ -12,6 +12,7 @@ import {
   Dimensions,
   Animated,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { getAllProducts } from "@/src/services/productsServices";
@@ -31,20 +32,22 @@ interface Product {
 
 const Home = ({ navigation }: any) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const scrollX = useRef(new Animated.Value(0)).current;
 
   const [sugesstProducts, setProducts] = useState<Product[]>([]);
   const [salesProducts, setSaleProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
         const data = await getAllProducts();
         console.log("Fetched products: ", data);
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch products", error);
       }
+      setLoading(false);
     };
     fetchProducts();
   }, []);
@@ -102,129 +105,6 @@ const Home = ({ navigation }: any) => {
       </View>
     );
   };
-  // dữ liệu test
-  // const data = [
-  //   {
-  //     id: "1",
-  //     title: "Product",
-  //     image: require("../assets/images/banner1.jpg"),
-  //   },
-  //   {
-  //     id: "2",
-  //     title: "Product",
-  //     image: require("../assets/images/banner1.jpg"),
-  //   },
-  //   {
-  //     id: "3",
-  //     title: "Product",
-  //     image: require("../assets/images/banner1.jpg"),
-  //   },
-  //   {
-  //     id: "4",
-  //     title: "Product",
-  //     image: require("../assets/images/banner1.jpg"),
-  //   },
-  //   {
-  //     id: "5",
-  //     title: "Product",
-  //     image: require("../assets/images/banner1.jpg"),
-  //   },
-  // ];
-
-  // const products2 = [
-  //   {
-  //     id: "1",
-  //     image: require("../assets/images/img_def_2.jpg"),
-  //     name: "Sản phẩm 1",
-  //     rate: 4.5,
-  //     price: 100000,
-  //     sale: 10,
-  //     brandName: "Thương hiệu A",
-  //   },
-  //   {
-  //     id: "2",
-  //     image: require("../assets/images/img_def_2.jpg"),
-  //     name: "Sản phẩm 2",
-  //     rate: 4.0,
-  //     price: 150000,
-  //     sale: 5,
-  //     brandName: "Thương hiệu B",
-  //   },
-  //   {
-  //     id: "3",
-  //     image: require("../assets/images/img_def_2.jpg"),
-  //     name: "Sản phẩm 3",
-  //     rate: 4.7,
-  //     price: 200000,
-  //     sale: 0,
-  //     brandName: "Thương hiệu C",
-  //   },
-  //   {
-  //     id: "4",
-  //     image: require("../assets/images/img_def_2.jpg"),
-  //     name: "Sản phẩm 4",
-  //     rate: 3.5,
-  //     price: 120000,
-  //     sale: 0,
-  //     brandName: "Thương hiệu D",
-  //   },
-  //   {
-  //     id: "5",
-  //     image:
-  //       "https://i.pinimg.com/736x/b9/7c/31/b97c31a1b9f39a42cf06e60f024ab4df.jpg",
-  //     name: "Sản phẩm 5",
-  //     rate: 4.8,
-  //     price: 250000,
-  //     sale: 0,
-  //     brandName: "Thương hiệu E",
-  //   },
-  //   {
-  //     id: "6",
-  //     image: require("../assets/images/img_def_2.jpg"),
-  //     name: "Sản phẩm 6",
-  //     rate: 3.9,
-  //     price: 180000,
-  //     sale: 0,
-  //     brandName: "Thương hiệu F",
-  //   },
-  //   {
-  //     id: "7",
-  //     image: require("../assets/images/img_def_2.jpg"),
-  //     name: "Sản phẩm 7",
-  //     rate: 4.2,
-  //     price: 220000,
-  //     sale: 0,
-  //     brandName: "Thương hiệu G",
-  //   },
-  //   {
-  //     id: "8",
-  //     image: require("../assets/images/img_def_2.jpg"),
-  //     name: "Sản phẩm 8",
-  //     rate: 4.3,
-  //     price: 160000,
-  //     sale: 0,
-  //     brandName: "Thương hiệu H",
-  //   },
-  //   {
-  //     id: "9",
-  //     image: require("../assets/images/img_def_2.jpg"),
-  //     name: "Sản phẩm 9",
-  //     rate: 4.0,
-  //     price: 130000,
-  //     sale: 0,
-  //     brandName: "Thương hiệu I",
-  //   },
-  //   {
-  //     id: "10",
-  //     image: require("../assets/images/img_def_2.jpg"),
-  //     name: "Tịnh Tần Tương Tứn",
-  //     rate: 1.0,
-  //     price: 3500000,
-  //     sale: 15,
-  //     brandName: "Thương hiệu J97",
-  //   },
-  // ];
-  //////////////////////////
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -401,6 +281,11 @@ const Home = ({ navigation }: any) => {
         )}
         showsVerticalScrollIndicator={false}
       />
+      {loading && (
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color="#FFBBFF" />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -543,6 +428,17 @@ const styles = StyleSheet.create({
   titleList: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 });
 
