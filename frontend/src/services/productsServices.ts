@@ -49,3 +49,14 @@ export const getPopularSearches = async () => {
     throw error;
   }
 };
+
+//----------------------------------------------------CATEGORY-------------------------------------------
+export const getAllCategories =  async() => {
+  try {
+    const response = await axios.get(`${API_URL}/categories/get`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching categories: ", error);
+    throw error;
+  }
+}
