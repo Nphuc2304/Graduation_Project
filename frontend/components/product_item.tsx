@@ -108,7 +108,9 @@ const productItem: React.FC<productItem> = ({
         style={styles.imageProduct}
       />
       <View style={{ paddingLeft: 10, paddingRight: 10 }}>
-        <Text style={styles.nameProduct}>{name}</Text>
+        <Text numberOfLines={1} style={styles.nameProduct}>
+          {name}
+        </Text>
         <View style={styles.star}>{renderStars(rate)}</View>
         <View>{renderPrice()}</View>
         <Text style={styles.textSize}>{brandName}</Text>
