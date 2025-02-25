@@ -14,6 +14,7 @@ require("./models/cartItemModel");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var categoryRouter = require('./routes/category');
 var productsRouter = require('./routes/product');
 var cartsRouter = require('./routes/cart');
 var cartItemRouter = require('./routes/cartItem');
@@ -42,6 +43,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/product', productsRouter);
 app.use('/carts', cartsRouter);
+app.use('/categories', categoryRouter);
 app.use('/cartItems', cartItemRouter);
 
 
