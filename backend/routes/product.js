@@ -146,18 +146,18 @@ router.get('/getDetailProduct/:id', async (req, res) => {
             return res.status(404).json({ status: false, message: 'Sản phẩm không tồn tại' });
         }
         res.status(200).json({ status: true, product });
-        const dateProduct = {
-            ...product._doc,
-            addDay: new Date(product.addDay).toLocaleString('vi-VN', {
-                timeZone: 'Asia/Ho_Chi_Minh',
-                hour12: false,
-            }),
-            updateDay: new Date(product.updateDay).toLocaleString('vi-VN', {
-                timeZone: 'Asia/Ho_Chi_Minh',
-                hour12: false,
-            }),
-        };
-        res.status(200).json(dateProduct);
+        // const dateProduct = {
+        //     ...product._doc,
+        //     addDay: new Date(product.addDay).toLocaleString('vi-VN', {
+        //         timeZone: 'Asia/Ho_Chi_Minh',
+        //         hour12: false,
+        //     }),
+        //     updateDay: new Date(product.updateDay).toLocaleString('vi-VN', {
+        //         timeZone: 'Asia/Ho_Chi_Minh',
+        //         hour12: false,
+        //     }),
+        // };
+        // res.status(200).json(dateProduct);
     } catch (error) {
         res.status(400).json({ status: false, message: 'Có lỗi xảy ra' });
     }

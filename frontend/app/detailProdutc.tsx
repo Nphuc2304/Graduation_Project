@@ -1,5 +1,5 @@
 import { FlashList } from "@shopify/flash-list";
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import {
   Animated,
   Image,
@@ -7,16 +7,57 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
+  ImageSourcePropType,
   View,
 } from "react-native";
+import { getDetailProduct } from "@/src/services/productsServices";
 
-const DetailProduct: React.FC = ({ navigation }: any) => {
-  ////////////////////
-  const sale = 20;
-  const price = 27000000;
-  ////////////////////
+interface Product {
+  id: string;
+  image: string;
+  name: string;
+  rate: number;
+  price: number;
+  sale: number;
+  brandName: string;
+  description: string;
+}
 
+const DetailProduct: React.FC = ({ navigation, route }: any) => {
+  const { productId } = route.params;
   const scrollY = useRef(new Animated.Value(0)).current;
+  console.log("đmmmmm:", productId);
+
+
+  const [product, setProduct] = useState<Product>();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchDetail = async () => {
+      try {
+        setLoading(true);
+        const data = await getDetailProduct(productId);
+        setProduct(data.product)
+        console.log("API response:", data.product);
+        // if (data) {
+        //   setProduct(data.product);
+        //   console.log(data.product);
+        // } else {
+        //   console.error("API did not return a valid product:", data);
+        // }
+      } catch (error) {
+        console.error("Lỗi khi lấy sản phẩm:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDetail();
+  }, []);
+
+  if (!product) {
+    return <View style={styles.appDfColor}></View>;
+  }
 
   const headerBackgroundColor = scrollY.interpolate({
     inputRange: [0, 250],
@@ -24,7 +65,7 @@ const DetailProduct: React.FC = ({ navigation }: any) => {
     extrapolate: "clamp",
   });
 
-  const renderPrice = () => {
+  const renderPrice = (price : number, sale : number)  => {
     if (sale > 0) {
       const discountedPrice = price * (1 - sale / 100);
       return (
@@ -97,17 +138,10 @@ const DetailProduct: React.FC = ({ navigation }: any) => {
         refreshing={false}
         renderItem={() => (
           <View>
-            <Image
-              style={styles.imgProduct}
-              source={{
-                uri: "https://i.pinimg.com/736x/d1/78/6f/d1786f54d137c24b93c017c9ba533087.jpg",
-              }}
-            />
+            <Image style={styles.imgProduct} source={{ uri: product.image }} />
             <View style={styles.container}>
-              <Text style={styles.name}>
-                Hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
-              </Text>
-              <View>{renderPrice()}</View>
+              <Text style={styles.name}>{product.name}</Text>
+              <View>{renderPrice(product.price, product.sale)}</View>
               <View style={styles.rowBlock}>
                 <Image source={require("@/assets/icons/coupon.png")} />
                 <Text style={styles.textCoupon}>
@@ -237,11 +271,27 @@ const DetailProduct: React.FC = ({ navigation }: any) => {
         )}
         showsVerticalScrollIndicator={false}
       />
+      {loading && (
+              <View style={styles.overlay}>
+                <ActivityIndicator size="large" color="#FFBBFF" />
+              </View>
+            )}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
   priceContainer: {
     marginTop: 10,
     marginBottom: 10,
