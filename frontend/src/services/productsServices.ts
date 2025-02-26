@@ -1,6 +1,24 @@
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const API_URL = "https://graduation-project-r010.onrender.com";
+
+export const getUser = async (username: string, password: string, navigation: any) => {
+  try{
+    const response = await axios.post(`${API_URL}/users/login`, { 
+      username, password 
+    });
+    if(response.data.status){
+      await AsyncStorage.setItem("token", response.data.token);
+      navigation.navigate("HomeTabs");
+    }else{
+      alert(response.data.message);
+    }
+  }catch(error){
+    console.error("Error fetching users:", error);
+    throw error;
+  }
+};
 
 export const getAllProducts = async () => {
   try {
@@ -31,3 +49,14 @@ export const getPopularSearches = async () => {
     throw error;
   }
 };
+
+//----------------------------------------------------CATEGORY-------------------------------------------
+export const getAllCategories =  async() => {
+  try {
+    const response = await axios.get(`${API_URL}/categories/get`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching categories: ", error);
+    throw error;
+  }
+}
