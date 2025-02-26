@@ -1,9 +1,7 @@
 import {
-  Dimensions,
   FlatList,
   Image,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
