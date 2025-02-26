@@ -15,7 +15,12 @@ const Settings: React.FC = ({ navigation }: any) => {
           <Text style={styles.titleSettings}>Thiết Lập Tài Khoản</Text>
         </View>
         <View style={styles.container}>
-          <View style={styles.featureContainer}>
+          <TouchableOpacity
+            style={styles.featureContainer}
+            onPress={() => {
+              navigation.navigate("UserInformation");
+            }}
+          >
             <Text style={styles.title}>Thông tin tài khoản</Text>
             <TouchableOpacity>
               <Image
@@ -23,8 +28,8 @@ const Settings: React.FC = ({ navigation }: any) => {
                 style={styles.icon}
               />
             </TouchableOpacity>
-          </View>
-          <View style={styles.featureContainer}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.featureContainer}>
             <Text style={styles.title}>Kết nối mạng xã hội</Text>
             <TouchableOpacity>
               <Image
@@ -32,8 +37,8 @@ const Settings: React.FC = ({ navigation }: any) => {
                 style={styles.icon}
               />
             </TouchableOpacity>
-          </View>
-          <View style={styles.featureContainer}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.featureContainer}>
             <Text style={styles.title}>Sổ địa chỉ</Text>
             <TouchableOpacity>
               <Image
@@ -41,8 +46,8 @@ const Settings: React.FC = ({ navigation }: any) => {
                 style={styles.icon}
               />
             </TouchableOpacity>
-          </View>
-          <View style={styles.featureContainer}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.featureContainer}>
             <Text style={styles.title}>Thông tin thanh toán</Text>
             <TouchableOpacity>
               <Image
@@ -50,8 +55,8 @@ const Settings: React.FC = ({ navigation }: any) => {
                 style={styles.icon}
               />
             </TouchableOpacity>
-          </View>
-          <View style={styles.featureContainer}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.featureContainer}>
             <Text style={styles.title}>Thiết lập bảo mật</Text>
             <TouchableOpacity>
               <Image
@@ -59,8 +64,8 @@ const Settings: React.FC = ({ navigation }: any) => {
                 style={styles.icon}
               />
             </TouchableOpacity>
-          </View>
-          <View style={styles.featureContainer}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.featureContainer}>
             <Text style={styles.title}>Yêu cầu xoá tài khoản</Text>
             <TouchableOpacity>
               <Image
@@ -68,8 +73,8 @@ const Settings: React.FC = ({ navigation }: any) => {
                 style={styles.icon}
               />
             </TouchableOpacity>
-          </View>
-          <View style={styles.featureContainer}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.featureContainer}>
             <Text style={styles.title}>Thiết lập thông báo</Text>
             <TouchableOpacity>
               <Image
@@ -77,7 +82,7 @@ const Settings: React.FC = ({ navigation }: any) => {
                 style={styles.icon}
               />
             </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
           <View style={styles.featureContainer}>
             <Text style={styles.title}>Phiên bản</Text>
             <Text style={styles.title}>4.160.1.1700647</Text>
