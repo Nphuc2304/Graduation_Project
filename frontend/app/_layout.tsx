@@ -12,6 +12,7 @@ import Cart from "./cart";
 import LoginScreen from "./login";
 import CreateAccountScreen from "./createAccount";
 import DetailProduct from "./detailProdutc";
+import UserInformation from "./(setting_feature)/user_information";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -155,6 +156,11 @@ function Index() {
       <Stack.Screen
         name="DetailProduct"
         component={DetailProduct}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserInformation"
+        component={UserInformation}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
