@@ -23,7 +23,7 @@ interface popularSearch {
   name: string;
 }
 
-const Search: React.FC = ({ navigation }: any) => {
+const Search: React.FC = ({ navigation, router }: any) => {
   const [searchText, setSearchText] = useState("");
   const [popularSearches, setPopularSearches] = useState<popularSearch[]>([]);
   const [loading, setLoading] = useState(false);
