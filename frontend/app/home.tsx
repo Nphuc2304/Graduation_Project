@@ -21,7 +21,7 @@ import { FlashList } from "@shopify/flash-list";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Product {
-  id: string;
+  _id: string;
   image: ImageSourcePropType;
   name: string;
   rate: number;
@@ -210,7 +210,7 @@ const Home = ({ navigation }: any) => {
                   style={styles.listTopDeal}
                   renderItem={({ item }) => (
                     <ProductItem
-                      id={item.id}
+                      id={item._id}
                       image={item.image}
                       name={item.name}
                       rate={item.rate}
@@ -220,7 +220,7 @@ const Home = ({ navigation }: any) => {
                       navigation={navigation}
                     />
                   )}
-                  keyExtractor={(item) => item.id}
+                  keyExtractor={(item) => item._id}
                   showsHorizontalScrollIndicator={false}
                 />
               </View>
@@ -236,7 +236,7 @@ const Home = ({ navigation }: any) => {
                   style={styles.listTopDeal}
                   renderItem={({ item }) => (
                     <ProductItem
-                      id={item.id}
+                      id={item._id}
                       image={item.image}
                       name={item.name}
                       rate={item.rate}
@@ -246,7 +246,7 @@ const Home = ({ navigation }: any) => {
                       navigation={navigation}
                     />
                   )}
-                  keyExtractor={(item) => item.id}
+                  keyExtractor={(item) => item._id}
                   showsHorizontalScrollIndicator={false}
                 />
               </View>
@@ -263,7 +263,7 @@ const Home = ({ navigation }: any) => {
                 style={styles.listTopDeal}
                 renderItem={({ item }) => (
                   <ProductItem1
-                    id={item.id}
+                    id={item._id}
                     image={item.image}
                     name={item.name}
                     rate={item.rate}
@@ -273,7 +273,7 @@ const Home = ({ navigation }: any) => {
                     navigation={navigation}
                   />
                 )}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item._id}
                 showsVerticalScrollIndicator={false}
               />
             </View>
