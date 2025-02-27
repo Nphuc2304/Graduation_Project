@@ -1,6 +1,7 @@
 import CategoryProduct from "@/components/category_product";
+import { getAllCategories } from "@/src/services/productsServices";
 import { FlashList } from "@shopify/flash-list";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Image,
   SafeAreaView,
@@ -14,68 +15,6 @@ import { data } from "react-router-dom";
 const Category = () => {
   ///////////////////////////
   // data mẫu
-  const data1 = [
-    {
-      id: 1,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Điện thoại",
-    },
-    {
-      id: 2,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Laptop",
-    },
-    {
-      id: 3,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Máy ảnh",
-    },
-    {
-      id: 4,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Thời trang nam",
-    },
-    {
-      id: 5,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Thời trang nữ",
-    },
-    {
-      id: 6,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Đồ gia dụng",
-    },
-    {
-      id: 7,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Thực phẩm",
-    },
-    {
-      id: 8,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Sách & Văn phòng phẩm",
-    },
-    {
-      id: 9,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Thể thao & Ngoài trời",
-    },
-    {
-      id: 10,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Mẹ & Bé",
-    },
-  ];
   const data2 = [
     {
       id: 1,
@@ -138,6 +77,21 @@ const Category = () => {
       name: "Mẹ & Bé",
     },
   ];
+
+  const [categoryData, setCategoryData] = useState([]);
+
+  useEffect(() => {
+      const fetchCategory = async () => {
+        try {
+          const data = await getAllCategories();
+          console.log("Fetched products: ", data.categories);
+          setCategoryData(data.categories);
+        } catch (error) {
+          console.error("Failed to fetch products", error);
+        }
+      };
+      fetchCategory();
+    }, []);
   ///////////////////////////
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -162,7 +116,7 @@ const Category = () => {
       <View style={styles.body}>
         <View style={styles.colCategory}>
           <FlashList
-            data={data1}
+            data={categoryData}
             horizontal={false}
             refreshing={false}
             showsVerticalScrollIndicator={false}
@@ -170,6 +124,7 @@ const Category = () => {
               <TouchableOpacity
                 onPress={() => {
                   setSelectedIndex(index);
+                  console.log(item);
                 }}
                 style={[
                   styles.container,
@@ -183,9 +138,9 @@ const Category = () => {
               >
                 <Image
                   style={styles.img}
-                  source={{ uri: item.image.toLocaleString() }}
+                  source={{ uri: item.categoryImage}}
                 />
-                <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.name}>{item.categoryName}</Text>
               </TouchableOpacity>
             )}
             extraData={selectedIndex}
