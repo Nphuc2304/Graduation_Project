@@ -13,6 +13,8 @@ import LoginScreen from "./login";
 import CreateAccountScreen from "./createAccount";
 import DetailProduct from "./detailProdutc";
 import UserInformation from "./(setting_feature)/user_information";
+import Address from "./(setting_feature)/address";
+import Location from "./(setting_feature)/location";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -161,6 +163,16 @@ function Index() {
       <Stack.Screen
         name="UserInformation"
         component={UserInformation}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Address"
+        component={Address}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Location"
+        component={Location}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
