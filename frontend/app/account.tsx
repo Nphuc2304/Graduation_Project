@@ -5,13 +5,45 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ImageSourcePropType,
+  ActivityIndicator,
   View,
 } from "react-native";
 import ProductItem from "@/components/product_item";
 import ProductItem1 from "@/components/product_item_1";
 import { FlashList } from "@shopify/flash-list";
+import React, { useState, useEffect } from "react";
+import { getAllProducts } from "@/src/services/productsServices";
 
-const Account = ({ navigation }: any) => {
+
+interface Product {
+  _id: string;
+  image: ImageSourcePropType;
+  name: string;
+  rate: number;
+  price: number;
+  sale: number;
+  brandName: string;
+}
+
+const Account = ({ navigation, route }: any) => {
+  const [loading, setLoading] = useState(false);
+  const [suggestProducts, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+      const fetchProducts = async () => {
+        try {
+          setLoading(true);
+          const data = await getAllProducts();
+          console.log("Fetched products: ", data);
+          setProducts(data);
+        } catch (error) {
+          console.error("Failed to fetch products", error);
+        }
+        setLoading(false);
+      };
+      fetchProducts();
+    }, []);
   // data test
   const products = [
     {
@@ -89,7 +121,7 @@ const Account = ({ navigation }: any) => {
     },
   ];
 
-  const products2 = [
+  const product2 = [
     {
       id: "1",
       image: require("../assets/images/img_def_2.jpg"),
@@ -333,13 +365,13 @@ const Account = ({ navigation }: any) => {
               </View>
             </View>
             <FlatList
-              data={products}
+              data={suggestProducts}
               horizontal={true}
               refreshing={false}
               style={styles.listMaybeLove}
               renderItem={({ item }) => (
                 <ProductItem
-                  id={item.id}
+                  id={item._id}
                   image={item.image}
                   name={item.name}
                   rate={item.rate}
@@ -349,7 +381,7 @@ const Account = ({ navigation }: any) => {
                   navigation={navigation}
                 />
               )}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item._id}
               showsVerticalScrollIndicator={false}
             />
             <View style={styles.container2}>
@@ -414,14 +446,14 @@ const Account = ({ navigation }: any) => {
               </View>
             </View>
             <FlatList
-              data={products2}
+              data={suggestProducts}
               horizontal={false}
               numColumns={2}
               refreshing={false}
               style={styles.listTopDeal}
               renderItem={({ item }) => (
                 <ProductItem1
-                  id={item.id}
+                  id={item._id}
                   image={item.image}
                   name={item.name}
                   rate={item.rate}
@@ -431,18 +463,34 @@ const Account = ({ navigation }: any) => {
                   navigation={navigation}
                 />
               )}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item._id}
               showsVerticalScrollIndicator={false}
             />
           </View>
         )}
         showsVerticalScrollIndicator={false}
       />
+      {loading && (
+              <View style={styles.overlay}>
+                <ActivityIndicator size="large" color="#FFBBFF" />
+              </View>
+            )}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
   appDfColor: {
     backgroundColor: "#F8F8FF",
     flex: 1,
