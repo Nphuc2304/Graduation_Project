@@ -89,7 +89,8 @@ const LoginScreen = ({ navigation }: any) => {
       </View>
 
       {/* Footer */}
-      <Text style={styles.footerText}>
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>
         Bạn chưa có tài khoản?{" "}
         <TouchableOpacity
           onPress={() => {
@@ -98,7 +99,8 @@ const LoginScreen = ({ navigation }: any) => {
         >
           <Text style={styles.linkText}>Đăng ký ngay</Text>
         </TouchableOpacity>
-      </Text>
+      </Text></View>
+      
     </ScrollView>
   );
 };
@@ -197,12 +199,17 @@ const styles = StyleSheet.create({
     height: "100%",
     resizeMode: "contain",
   },
+  footer:{
+    flex:1,
+    display:"flex"
+  },
 
   footerText: {
+    flex:1,
     fontSize: 14,
     color: "#666666",
     textAlign: "center",
-    marginTop: 20,
+    marginTop: 1010,
   },
 
   linkText: {
