@@ -10,8 +10,8 @@ import {
 } from "react-native";
 
 const CreateAccountScreen = ({ navigation }: any) => {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-
+  // const [passwordVisible, setPasswordVisible] = useState(false);
+  const [showRePassword, setShowRePassword] = useState(false);
   return (
     <View style={styles.body}>
       <SafeAreaView style={styles.container}>
@@ -45,26 +45,35 @@ const CreateAccountScreen = ({ navigation }: any) => {
         </View>
 
         <View style={styles.inputGroup}>
-          <Text style={styles.label}>Đặt mật khẩu</Text>
-          <View style={styles.passwordContainer}>
-            <TextInput
-              style={[styles.input, { flex: 1 }]}
-              placeholder="Mật khẩu"
-              placeholderTextColor="#999"
-              secureTextEntry={!passwordVisible}
-            />
+          <Text style={styles.label}>Vui lòng nhập Email</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor="#999"
+          />
+          <Text style={styles.hint}>
+            Nhập email của bạn
+          </Text>
+        </View>
 
-            <TouchableOpacity
-              onPress={() => setPasswordVisible(!passwordVisible)}
-            >
-              <Text style={styles.showText}>
-                {passwordVisible ? "Ẩn" : "Hiện"}
-              </Text>
+        <View style={styles.inputGroup}>
+          <Text style={styles.label}>Đặt mật khẩu</Text>
+          <View style={styles.inputContainer}>
+            <TextInput placeholder="Re-type password"
+              placeholderTextColor='#828282'
+              style={styles.input}
+              secureTextEntry={!showRePassword}></TextInput>
+            <TouchableOpacity onPress={() => setShowRePassword(!showRePassword)} style={styles.eye}>
+              <Image
+                source={require('../assets/images/eye.png')}
+                style={{ width: 29, height: 18 }}
+              />
             </TouchableOpacity>
           </View>
 
           <Text style={styles.hint}>Từ 8 đến 32 ký tự, bao gồm số và chữ</Text>
         </View>
+
 
         <TouchableOpacity
           style={styles.button}
@@ -80,6 +89,19 @@ const CreateAccountScreen = ({ navigation }: any) => {
 };
 
 const styles = StyleSheet.create({
+
+  inputContainer: {
+    width: '100%',
+    marginTop: 16
+  },
+  eye: {
+    marginRight: 15,
+    width: 15,
+    height: 18,
+    position: 'absolute',
+    right: 13,
+    top: 15
+  },
   body: {
     padding: 20,
     backgroundColor: "#F8F8FF",
@@ -107,6 +129,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
+
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
@@ -128,6 +151,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 10,
   },
+
   button: {
     backgroundColor: "#FF3B30",
     height: 50,
