@@ -38,7 +38,12 @@ const Settings: React.FC = ({ navigation }: any) => {
               />
             </TouchableOpacity>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.featureContainer}>
+          <TouchableOpacity
+            style={styles.featureContainer}
+            onPress={() => {
+              navigation.navigate("Address");
+            }}
+          >
             <Text style={styles.title}>Sổ địa chỉ</Text>
             <TouchableOpacity>
               <Image
