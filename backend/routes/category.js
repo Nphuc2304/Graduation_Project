@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var Category = require('../models/categoryModel');
-const categoryModel = require('../models/categoryModel');
 
 router.post("/add", async (req, res) => {
     try {
@@ -12,7 +11,7 @@ router.post("/add", async (req, res) => {
             return res.status(200).json({status: false, message:"The category is existed"});
         };
 
-        const newCategory = new categoryModel({
+        const newCategory = new Category({
             categoryName,
             categoryImage
         });
