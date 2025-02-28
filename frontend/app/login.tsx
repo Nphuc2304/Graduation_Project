@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666666",
     textAlign: "center",
-    marginTop: 1010,
+    marginTop: 10,
   },
 
   linkText: {
