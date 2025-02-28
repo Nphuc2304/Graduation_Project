@@ -1,5 +1,5 @@
 import CategoryProduct from "@/components/category_product";
-import { getAllCategories } from "@/src/services/productsServices";
+import { getAllCategories, getSubCate } from "@/src/services/productsServices";
 import { FlashList } from "@shopify/flash-list";
 import { useEffect, useState } from "react";
 import {
@@ -79,6 +79,8 @@ const Category = () => {
   ];
 
   const [categoryData, setCategoryData] = useState([]);
+  const [subCategory, setSubCategory] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
   useEffect(() => {
       const fetchCategory = async () => {
@@ -87,11 +89,23 @@ const Category = () => {
           console.log("Fetched products: ", data.categories);
           setCategoryData(data.categories);
         } catch (error) {
-          console.error("Failed to fetch products", error);
+          console.error("Failed to fetch category", error);
         }
       };
       fetchCategory();
     }, []);
+
+    useEffect(()=>{
+      const fetchSubCate = async ()=>{
+        try {
+          const data = await getSubCate(selectedCategoryId);
+          console.log("Fetched sub category: ", data);
+        } catch (error) {
+          console.error("Failed to fetch subcategories", error);
+        }
+      };
+      fetchSubCate();
+    }, [selectedCategoryId])
   ///////////////////////////
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -124,7 +138,8 @@ const Category = () => {
               <TouchableOpacity
                 onPress={() => {
                   setSelectedIndex(index);
-                  console.log(item);
+                  setSelectedCategoryId(item._id);
+                  console.log(selectedCategoryId);
                 }}
                 style={[
                   styles.container,
