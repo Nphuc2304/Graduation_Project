@@ -86,7 +86,7 @@ export const getSubCate = async(categoryId : string) => {
     return null;
   }
   try {
-    const response = await axios.get(`${API_URL}/subCates/get`);
+    const response = await axios.get(`${API_URL}/subCates/get/?categoryId=${categoryId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching products:", error);

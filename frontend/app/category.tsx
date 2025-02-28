@@ -100,6 +100,7 @@ const Category = () => {
         try {
           const data = await getSubCate(selectedCategoryId);
           console.log("Fetched sub category: ", data);
+          setSubCategory(data.subCate);
         } catch (error) {
           console.error("Failed to fetch subcategories", error);
         }
@@ -163,16 +164,16 @@ const Category = () => {
         </View>
         <View style={styles.colProduct}>
           <FlashList
-            data={data2}
+            data={subCategory}
             horizontal={false}
             showsVerticalScrollIndicator={false}
             refreshing={false}
             numColumns={3}
             renderItem={({ item }) => (
               <CategoryProduct
-                id={item.id.toLocaleString()}
-                imageCategory={item.image}
-                nameCategory={item.name}
+                id={item._id}
+                imageCategory={item.subCateImage}
+                nameCategory={item.subCateName}
               />
             )}
           />
