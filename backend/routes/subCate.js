@@ -28,8 +28,9 @@ router.post("/add", async (req, res) => {
 
 router.get("/get", async (req, res) => {
     try {
-        const {categoryId} = req.body;
-        const categoryExist = await category.findOne({_id: categoryId})
+        const {categoryId} = req.query;
+        const categoryExist = await category.findOne({_id: categoryId});
+        console.log("category from backend", categoryId);
         if (categoryExist){
             const listSubCate = await subCate.find({categoryId});
             if(listSubCate){

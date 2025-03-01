@@ -77,4 +77,19 @@ export const getAllCategories =  async() => {
     console.error("Error fetching categories: ", error);
     throw error;
   }
+};
+
+export const getSubCate = async(categoryId : string) => {
+  console.log("Calling API with categoryId: ", categoryId);
+  if (!categoryId) {
+    console.error("Invalid category ID: ", {categoryId});
+    return null;
+  }
+  try {
+    const response = await axios.get(`${API_URL}/subCates/get/?categoryId=${categoryId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return null;
+  }
 }
