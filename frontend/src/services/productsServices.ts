@@ -10,10 +10,6 @@ export const getUser = async (username: string, password: string, navigation: an
 
     const response = await axios.post(`${API_URL}/users/login`, { username, password });
 
-    const response = await axios.post(`${API_URL}/users/login`, {
-      username, password
-    });
-
     if (response.data.status) {
       await AsyncStorage.setItem("token", response.data.token);
       navigation.navigate("HomeTabs");
