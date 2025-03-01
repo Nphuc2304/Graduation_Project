@@ -37,7 +37,8 @@ router.post('/add_new_product', async (req, res) => {
             image,
             brandName,
             sale,
-            rate
+            rate,
+            subCateId
         } = req.body;
         const newProduct = new Product({
             name,
@@ -48,7 +49,8 @@ router.post('/add_new_product', async (req, res) => {
             image,
             brandName,
             sale,
-            rate
+            rate,
+            subCateId
         });
         const saveProduct = await newProduct.save();
 
@@ -83,7 +85,7 @@ router.put('/update_product/:id', async (req, res) => {
             image,
             brandName,
             sale,
-            rate
+            rate,
         } = req.body;
 
         const updatedProduct = await Product.findByIdAndUpdate(id,
@@ -188,6 +190,20 @@ router.get('/popular_searches', async (req, res) => {
     } catch (error) {
         console.error('Error fetching popular searches:', error);
         res.status(500).json({ status: false, message: 'Có lỗi xảy ra' });
+    }
+});
+
+//lấy sản phẩm dựa subcate
+router.get('/subCate_product/:subCateId', async (req, res) => {
+    try{
+        const {subCateId} = req.params;
+        const products = await Product.find();
+        if (!products.length) {
+            return res.status(404).json({status: false, message: "không có sp trong danh mục"})
+        }
+        res.status(200).json(products);
+    } catch (error){
+        res.status(400).json({ status: false, message: "Lôi rồi"})
     }
 });
 

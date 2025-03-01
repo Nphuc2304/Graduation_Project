@@ -20,7 +20,7 @@ const product = new Schema({
     },
     sold: {
         type: Number,
-        require: true,
+        required: true,
         min: 0
     },
     addDay: {
@@ -35,10 +35,21 @@ const product = new Schema({
     brandName: { type: String },
     sale: { type: Number},
     rate: { type: Number},
-    categoryId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Category'
+    // sellerId: {
+    //     type: ObjectId,
+    //     ref: 'seller',
+    //     required: true
+    // },
+    subCateId: {
+        type: ObjectId,
+        ref: 'subCate',
+        required: true
     },
+    // status: {
+    //     type: String,
+    //     enum: ['Chờ duyệt', 'Đã duyệt', 'Bị từ chối'],
+    //     default: 'Chờ duyệt'
+    // }
 });
 
 product.pre('findOneAndUpdate', function(next){
