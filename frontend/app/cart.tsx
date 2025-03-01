@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     top: 25,
   },
   titlePage: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
   },
   selectedAllContainer: {
