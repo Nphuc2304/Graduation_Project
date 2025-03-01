@@ -69,7 +69,7 @@ export const getPopularSearches = async () => {
 };
 
 //----------------------------------------------------CATEGORY-------------------------------------------
-export const getAllCategories =  async() => {
+export const getAllCategories = async () => {
   try {
     const response = await axios.get(`${API_URL}/categories/get`);
     return response.data;
@@ -79,17 +79,16 @@ export const getAllCategories =  async() => {
   }
 };
 
-export const getSubCate = async(categoryId : string) => {
-  console.log("Calling API with categoryId: ", categoryId);
+export const getSubCate = async (categoryId: string) => {
   if (!categoryId) {
-    console.error("Invalid category ID: ", {categoryId});
-    return null;
+    console.log("Invalid category ID: ", { categoryId });
+    return [];
   }
   try {
-    const response = await axios.get(`${API_URL}/subCates/get/?categoryId=${categoryId}`);
+    const response = await axios.get(`${API_URL}/subCates/get/`, {params : {categoryId}});
     return response.data;
   } catch (error) {
     console.error("Error fetching products:", error);
     return null;
   }
-}
+};
