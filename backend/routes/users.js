@@ -24,6 +24,31 @@ router.post("/login", async function(req, res){
   }
 });
 
+//lay token băng email
+router.post("/get-token", async function (req, res) {
+  try {
+    const { email, password } = req.body;
+    const user = await userModel.findOne({ email: email, password: password });
+
+    if (!user) {
+      return res.status(401).json({ status: false, message: "Email hoặc mật khẩu không đúng" });
+    }
+
+    const token = JWT.sign({ username: user.username, email: user.email }, config.SECRETKEY, { expiresIn: '1h' });
+    const refreshToken = JWT.sign({ username: user.username, email: user.email }, config.SECRETKEY, { expiresIn: '1d' });
+
+    res.status(200).json({
+      status: true,
+      message: "Lấy token thành công",
+      token: token,
+      refreshToken: refreshToken,
+    });
+  } catch (error) {
+    res.status(500).json({ status: false, message: "Đã có lỗi xảy ra", error: error.message });
+  }
+});
+
+
 // Lấy danh sách tất cả người dùng
 router.get("/all", async function (req, res) {
   try {
