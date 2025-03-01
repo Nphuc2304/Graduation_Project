@@ -13,81 +13,28 @@ import {
 import { data } from "react-router-dom";
 
 const Category = () => {
-  ///////////////////////////
-  // data mẫu
-  const data2 = [
-    {
-      id: 1,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Điện thoại",
-    },
-    {
-      id: 2,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Laptop",
-    },
-    {
-      id: 3,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Máy ảnh",
-    },
-    {
-      id: 4,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Thời trang nam",
-    },
-    {
-      id: 5,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Thời trang nữ",
-    },
-    {
-      id: 6,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Đồ gia dụng",
-    },
-    {
-      id: 7,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Thực phẩm",
-    },
-    {
-      id: 8,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Sách & Văn phòng phẩm",
-    },
-    {
-      id: 9,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Thể thao & Ngoài trời",
-    },
-    {
-      id: 10,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Mẹ & Bé",
-    },
-  ];
 
-  const [categoryData, setCategoryData] = useState([]);
-  const [subCategory, setSubCategory] = useState([]);
+  interface SubCategory {
+    _id: string;
+    subCateName: string;
+    subCateImage: string;
+  };
+  interface Category {
+    _id: string;
+    categoryName: string;
+    categoryImage: string;
+  }
+
+  const [categoryData, setCategoryData] = useState<Category[]>([]);
+  const [subCategory, setSubCategory] = useState<SubCategory[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
   useEffect(() => {
       const fetchCategory = async () => {
         try {
           const data = await getAllCategories();
-          console.log("Fetched products: ", data.categories);
           setCategoryData(data.categories);
+          setSelectedCategoryId(data.categories[0]._id);
         } catch (error) {
           console.error("Failed to fetch category", error);
         }
@@ -99,7 +46,6 @@ const Category = () => {
       const fetchSubCate = async ()=>{
         try {
           const data = await getSubCate(selectedCategoryId);
-          console.log("Fetched sub category: ", data);
           setSubCategory(data.subCate);
         } catch (error) {
           console.error("Failed to fetch subcategories", error);
@@ -140,7 +86,6 @@ const Category = () => {
                 onPress={() => {
                   setSelectedIndex(index);
                   setSelectedCategoryId(item._id);
-                  console.log(selectedCategoryId);
                 }}
                 style={[
                   styles.container,
