@@ -22,7 +22,8 @@ const LoginScreen = ({ navigation }: any) => {
 
   // Đăng nhập Google từ Google Cloud Console
   const [request, response, promptAsync] = Google.useAuthRequest({
-    clientId: "788836681295-3iueoamu04iup63ibjntsp10l9dmltj2.apps.googleusercontent.com",
+    clientId:
+      "788836681295-3iueoamu04iup63ibjntsp10l9dmltj2.apps.googleusercontent.com",
   });
 
   useEffect(() => {
@@ -100,26 +101,14 @@ const LoginScreen = ({ navigation }: any) => {
           <Image source={require("../assets/icons/facebook.png")} style={styles.socialIcon} />
         </TouchableOpacity>
       </View>
-
-      <Text style={styles.footerText}>
-        Bạn chưa có tài khoản? {" "}
-        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-
-
-      {/* Footer */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-        Bạn chưa có tài khoản?{" "}
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("SignUp");
-          }}
-        >
-
-          <Text style={styles.linkText}>Đăng ký ngay</Text>
-        </TouchableOpacity>
-      </Text></View>
-      
+          Bạn chưa có tài khoản? {" "}
+          <Text style={styles.linkText} onPress={() => navigation.navigate("SignUp")}>
+            Đăng ký ngay
+          </Text>
+        </Text>
+      </View>
     </ScrollView>
   );
 };
@@ -170,35 +159,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   socialIcon: { width: "100%", height: "100%", resizeMode: "contain" },
-  footerText: { fontSize: 14, color: "#666", textAlign: "center", marginTop: 20 },
+  footer: { alignItems: "center", marginTop: 10 },
+  footerText: { fontSize: 14, color: "#666", textAlign: "center" },
   linkText: { color: "#007AFF", textDecorationLine: "underline" },
-
-
-  socialIcon: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "contain",
-  },
-  footer:{
-    flex:1,
-    display:"flex"
-  },
-
-  footerText: {
-    flex:1,
-    fontSize: 14,
-    color: "#666666",
-    textAlign: "center",
-    marginTop: 10,
-  },
-
-  linkText: {
-    color: "#007AFF",
-    textDecorationLine: "underline",
-  },
-
 });
 
 export default LoginScreen;
