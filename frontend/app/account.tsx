@@ -34,7 +34,7 @@ const Account = ({ navigation, route }: any) => {
       try {
         setLoading(true);
         const data = await getAllProducts();
-        console.log("Fetched products: ", data);
+        // console.log("Fetched products: ", data);
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch products", error);

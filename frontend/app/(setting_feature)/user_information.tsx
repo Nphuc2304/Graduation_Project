@@ -147,16 +147,6 @@ const UserInformation: React.FC = ({ navigation }: any) => {
                   source={require("@/assets/icons/next.png")}
                 />
               </TouchableOpacity>
-              <View style={styles.imgContainer}>
-                <View style={styles.block}>
-                  <TouchableOpacity style={styles.blockImg}>
-                    <Image
-                      style={styles.imgUser}
-                      source={require("@/assets/icons/user_img_default.png")}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
             </View>
           );
         }}

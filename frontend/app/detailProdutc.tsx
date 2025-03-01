@@ -27,8 +27,7 @@ interface Product {
 const DetailProduct: React.FC = ({ navigation, route }: any) => {
   const { productId } = route.params;
   const scrollY = useRef(new Animated.Value(0)).current;
-  console.log("đmmmmm:", productId);
-
+  // console.log("đmmmmm:", productId);
 
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState(false);
@@ -38,8 +37,8 @@ const DetailProduct: React.FC = ({ navigation, route }: any) => {
       try {
         setLoading(true);
         const data = await getDetailProduct(productId);
-        setProduct(data.product)
-        console.log("API response:", data.product);
+        setProduct(data.product);
+        // console.log("API response:", data.product);
         // if (data) {
         //   setProduct(data.product);
         //   console.log(data.product);
@@ -65,7 +64,7 @@ const DetailProduct: React.FC = ({ navigation, route }: any) => {
     extrapolate: "clamp",
   });
 
-  const renderPrice = (price : number, sale : number)  => {
+  const renderPrice = (price: number, sale: number) => {
     if (sale > 0) {
       const discountedPrice = price * (1 - sale / 100);
       return (
@@ -272,10 +271,10 @@ const DetailProduct: React.FC = ({ navigation, route }: any) => {
         showsVerticalScrollIndicator={false}
       />
       {loading && (
-              <View style={styles.overlay}>
-                <ActivityIndicator size="large" color="#FFBBFF" />
-              </View>
-            )}
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color="#FFBBFF" />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
