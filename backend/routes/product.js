@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Product = require('../models/productModel');
+var subCate = require('../models/subCateModel');
 
 //get all product
 router.get('/all_products', async (req, res) => {
@@ -28,7 +29,7 @@ router.get('/all_products', async (req, res) => {
 // add new product
 router.post('/add_new_product', async (req, res) => {
     try {
-        const { 
+        const {
             name,
             description,
             price,
@@ -195,15 +196,15 @@ router.get('/popular_searches', async (req, res) => {
 
 //lấy sản phẩm dựa subcate
 router.get('/subCate_product/:subCateId', async (req, res) => {
-    try{
-        const {subCateId} = req.params;
-        const products = await Product.find();
+    try {
+        const { subCateId } = req.params;
+        const products = await Product.find({subCateId});
         if (!products.length) {
-            return res.status(404).json({status: false, message: "không có sp trong danh mục"})
+            return res.status(404).json({ status: false, message: "không có sp trong danh mục" })
         }
         res.status(200).json(products);
-    } catch (error){
-        res.status(400).json({ status: false, message: "Lôi rồi"})
+    } catch (error) {
+        res.status(400).json({ status: false, message: "Lôi rồi" })
     }
 });
 
