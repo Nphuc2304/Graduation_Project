@@ -15,10 +15,12 @@ const CategoryProduct: React.FC<Category> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.img}
-        source={{ uri: imageCategory.toLocaleString() }}
-      />
+      <View style={styles.imgBlock}>
+        <Image
+          style={styles.img}
+          source={{ uri: imageCategory.toLocaleString() }}
+        />
+      </View>
       <Text numberOfLines={1} style={styles.name}>
         {nameCategory}
       </Text>
@@ -34,9 +36,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
   },
-  img: {
+  imgBlock: {
     width: 70,
     height: 70,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  img: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
   },
   name: {
     color: "#000",
