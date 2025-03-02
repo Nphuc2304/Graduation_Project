@@ -23,6 +23,20 @@ export const getUser = async (username: string, password: string, navigation: an
     throw error;
   }
 };
+export interface RegisterData {
+  email: string;
+  username: string;
+  password: string;
+}
+// đăng ký
+export const register = async (userData: RegisterData) => {
+  try {
+    const response = await axios.post(`${API_URL}/users/register`, userData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 // Đăng nhập bằng email
 export const getUserByEmail = async (email: string, password: string, navigation: any) => {
@@ -40,7 +54,7 @@ export const getUserByEmail = async (email: string, password: string, navigation
     throw error;
   }
 };
-
+// ------------------ Product --------------------- //
 // Lấy tất cả sản phẩm
 export const getAllProducts = async () => {
   try {
@@ -90,6 +104,20 @@ export const getPopularSearches = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching popular searches:", error);
+    throw error;
+  }
+};
+
+export const getProductSubCate = async (subCateId: string) => {
+  if(!subCateId){
+    console.log("ID subcate k hợp lệ");
+    return [];
+  }
+  try {
+    const response = await axios.get(`${API_URL}/product/subCate_product/${subCateId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Lỗi lấy dữ liệu", error)
     throw error;
   }
 };

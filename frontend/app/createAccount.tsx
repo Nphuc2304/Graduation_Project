@@ -7,9 +7,49 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
+  Alert
 } from "react-native";
+import { register } from "@/src/services/productsServices";
 
 const CreateAccountScreen = ({ navigation }: any) => {
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegister = async () => {
+    if (!email.includes("@")) {
+      Alert.alert("Lỗi", "Email không hợp lệ");
+      return;
+    }
+  
+    if (username.trim().length < 2) {
+      Alert.alert("Lỗi", "Tên người dùng phải có ít nhất 2 ký tự");
+      return;
+    }
+  
+    if (password.length < 8) {
+      Alert.alert("Lỗi", "Mật khẩu phải có ít nhất 8 ký tự");
+      return;
+    }
+  
+    try {
+      const userData = { email, username, password };
+      const response = await register(userData); // Đã sửa lỗi truyền dữ liệu
+  
+      if (response.status) {
+        Alert.alert("Thành công", "Tạo tài khoản thành công!", [
+          { text: "OK", onPress: () => navigation.goBack() },
+        ]);
+      } else {
+        Alert.alert("Thất bại", response.message);
+      }
+    } catch (error: any) {
+      Alert.alert("Lỗi", error.response?.data?.message || "Không thể tạo tài khoản");
+    }
+  };
+
+
+
   // const [passwordVisible, setPasswordVisible] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
   return (
@@ -38,6 +78,8 @@ const CreateAccountScreen = ({ navigation }: any) => {
             style={styles.input}
             placeholder="Họ & Tên"
             placeholderTextColor="#999"
+            value={username}
+            onChangeText={setUsername}
           />
           <Text style={styles.hint}>
             Gồm 2 từ trở lên, không bao gồm số và ký tự đặc biệt
@@ -50,6 +92,8 @@ const CreateAccountScreen = ({ navigation }: any) => {
             style={styles.input}
             placeholder="Email"
             placeholderTextColor="#999"
+            value={email}
+            onChangeText={setEmail}
           />
           <Text style={styles.hint}>
             Nhập email của bạn
@@ -62,6 +106,8 @@ const CreateAccountScreen = ({ navigation }: any) => {
             <TextInput placeholder="Re-type password"
               placeholderTextColor='#828282'
               style={styles.input}
+              value={password}
+              onChangeText={setPassword}
               secureTextEntry={!showRePassword}></TextInput>
             <TouchableOpacity onPress={() => setShowRePassword(!showRePassword)} style={styles.eye}>
               <Image
@@ -77,9 +123,8 @@ const CreateAccountScreen = ({ navigation }: any) => {
 
         <TouchableOpacity
           style={styles.button}
-          onPress={() => {
-            navigation.goBack();
-          }}
+          // 
+          onPress={handleRegister}
         >
           <Text style={styles.buttonText}>Tạo Tài Khoản</Text>
         </TouchableOpacity>
