@@ -79,35 +79,62 @@ router.get("/all", async function (req, res) {
 });
 
 // Thêm người dùng mới
-router.post("/add", async function (req, res) {
+// router.post("/add", async function (req, res) {
+//   try {
+//     const token = req.header("Authorization")?.split(" ")[1];
+//     if (!token) {
+//       return res.status(401).json({ status: false, message: "Không xác thực" });
+//     }
+
+//     JWT.verify(token, config.SECRETKEY, async function (err, decoded) {
+//       if (err) {
+//         return res.status(403).json({ status: false, message: "Token không hợp lệ hoặc hết hạn" });
+//       }
+
+//       const { email, username, password, role } = req.body;
+
+//       // Tạo người dùng mới
+//       const newUser = new userModel({
+//         email,
+//         username,
+//         password,
+//         role: role || "buyer", 
+//         createDay: new Date(),
+//         updateDay: new Date(),
+//       });
+
+//       await newUser.save();
+//       res.status(201).json({ status: true, message: "Thêm người dùng thành công", data: newUser });
+//     });
+//   } catch (error) {
+//     res.status(500).json({ status: false, message: "Đã có lỗi xảy ra", error: error.message });
+//   }
+// });
+
+router.post("/register", async function (req, res) {
   try {
-    const token = req.header("Authorization")?.split(" ")[1];
-    if (!token) {
-      return res.status(401).json({ status: false, message: "Không xác thực" });
+    const { email, username, password } = req.body;
+
+    // Kiểm tra xem email đã tồn tại chưa
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ status: false, message: "Email đã tồn tại" });
     }
 
-    JWT.verify(token, config.SECRETKEY, async function (err, decoded) {
-      if (err) {
-        return res.status(403).json({ status: false, message: "Token không hợp lệ hoặc hết hạn" });
-      }
-
-      const { email, username, password, role } = req.body;
-
-      // Tạo người dùng mới
-      const newUser = new userModel({
-        email,
-        username,
-        password,
-        role: role || "buyer", 
-        createDay: new Date(),
-        updateDay: new Date(),
-      });
-
-      await newUser.save();
-      res.status(201).json({ status: true, message: "Thêm người dùng thành công", data: newUser });
+    // Tạo tài khoản mới
+    const newUser = new userModel({
+      email,
+      username,
+      password,
+      role: "buyer",
+      createDay: new Date(),
+      updateDay: new Date(),
     });
+
+    await newUser.save();
+    res.status(201).json({ status: true, message: "Đăng ký thành công" });
   } catch (error) {
-    res.status(500).json({ status: false, message: "Đã có lỗi xảy ra", error: error.message });
+    res.status(500).json({ status: false, message: "Lỗi server", error: error.message });
   }
 });
 
