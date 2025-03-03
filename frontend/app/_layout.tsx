@@ -6,6 +6,7 @@ import Account from "./account";
 import Home from "./home";
 import Category from "./category";
 import AI from "./ai";
+import Sea from "./searchproduct";
 import Notify from "./notiffy";
 import Search from "./search";
 import Cart from "./cart";
@@ -129,7 +130,12 @@ function Index() {
       />
       <Stack.Screen
         name="Search"
-        component={Search}
+        component={Sea}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="Sea"
+        component={Sea}
         options={{ headerShown: false }}
       />
       <Stack.Screen
