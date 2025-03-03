@@ -1,6 +1,7 @@
 import CartItem from "@/components/cart_item";
+import { getCartId, getCartItem } from "@/src/services/productsServices";
 import { FlashList } from "@shopify/flash-list";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   ImageSourcePropType,
@@ -15,6 +16,9 @@ import { Checkbox } from "react-native-paper";
 
 const Cart: React.FC = ({ navigation }: any) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [userId, setUserId] = useState("678268b47d7fd692d23161c9");
+  const [cartId, setCartId] = useState("");
+  const [cartData, setCartData] = useState("");
 
   //////////////////////
   const productData = [
@@ -37,6 +41,31 @@ const Cart: React.FC = ({ navigation }: any) => {
       shopName: "Cửa hàng B",
     },
   ];
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const data = await getCartId(userId);
+        setCartId(data.cart);
+      } catch (error) {
+        console.error("Failed to fetch cartId", error);
+      }
+    };
+    fetchCart();
+  }, []);
+  
+  useEffect(() => {
+    const fetchCartItem = async () => {
+      try {
+        const data = await getCartItem(cartId);
+        setCartId(data.cartItems);
+      } catch (error) {
+        console.error("Failed to fetch cart item", error);
+      }
+    };
+    fetchCartItem();
+  }, []);
+
 
   return (
     <SafeAreaView style={styles.appDfColor}>
