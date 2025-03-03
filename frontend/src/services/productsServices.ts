@@ -118,3 +118,33 @@ export const getSubCate = async (categoryId: string) => {
     return null;
   }
 };
+//----------------------------------------------------CART-------------------------------------------
+export const getCartId = async (userId:string) => {
+  if (!userId) {
+    console.log("Invalid user ID: ", { userId });
+    return [];
+  }
+  try {
+    const response = await axios.get(`${API_URL}/carts/getCart/`, {params : {userId}});
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return null;
+  }
+};
+
+export const getCartItem = async (cartId:string) => {
+  if (!cartId) {
+    console.log("Invalid cart ID: ", { cartId });
+    return [];
+  }
+  try {
+    const response = await axios.get(`${API_URL}/cartItems/getItem/`, {params : {cartId}});
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return null;
+  }
+}
+
+
