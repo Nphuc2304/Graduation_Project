@@ -73,10 +73,10 @@ router.get("/getItem/:cartId", async (req, res) => {
             return res.status(404).json({ status: false, message: "Cart not found" });
         }
 
-        const cartItems = await Item.find({ cartId }).populate("productId");
+        const cartItems = await Item.find({ cartId: cart._id }).populate("productId");
 
-        res.status(200).json({ status: true, data: 
-            cartItems, 
+        res.status(200).json({ status: true, 
+            cartItems: cartItems, 
             totalPrice: cart.totalPrice, 
             discount: cart.discount, 
             finalPrice: cart.finalPrice
