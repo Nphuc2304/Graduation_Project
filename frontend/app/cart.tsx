@@ -60,8 +60,8 @@ const Cart: React.FC = ({ navigation }: any) => {
     const fetchCartItem = async () => {
       try {
         const data = await getCartItem(cartId);
-        console.log(data);
-        setCartData(data);
+        console.log(data.cartItems);
+        setCartData(data.cartItems);
         console.log("cartDataa ", cartData);
       } catch (error) {
         console.error("Failed to fetch cart item", error);
