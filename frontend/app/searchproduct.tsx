@@ -15,8 +15,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { getAllProducts } from "@/src/services/productsServices";
-import { saleProducts } from "@/src/services/productsServices";
+import { getAllProducts, saleProducts } from "@/src/services/productsServices";
 import { FlashList } from "@shopify/flash-list";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -30,7 +29,8 @@ interface Product {
   brandName: string;
 }
 
-const Home = ({ navigation }: any) => {
+const Sea = ({ navigation , route}: any) => {
+  const { searchResults } = route.params || { searchResults: [] };
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sugesstProducts, setProducts] = useState<Product[]>([]);
   const [salesProducts, setSaleProducts] = useState<Product[]>([]);
@@ -101,7 +101,9 @@ const Home = ({ navigation }: any) => {
               source={require("../assets/icons/search.png")}
               style={styles.searchIcon}
             />
-            <Text style={styles.searchInput}>Tìm kiếm...</Text>
+            <TextInput style={styles.searchInput}
+              placeholder="Tìm kiếm"
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -194,8 +196,6 @@ const Home = ({ navigation }: any) => {
         ))}
       </View>
             
-
-
       <FlashList
         data={[1]}
         renderItem={() => (
@@ -218,7 +218,7 @@ const Home = ({ navigation }: any) => {
               </View> */}
 
               <FlatList
-                data={sugesstProducts}
+                data={searchResults}
                 horizontal={false}
                 numColumns={2}
                 refreshing={false}
@@ -526,4 +526,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default Sea;

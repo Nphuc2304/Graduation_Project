@@ -14,7 +14,7 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from "react-native";
-import { getPopularSearches } from "@/src/services/productsServices";
+import { getPopularSearches, getSearch } from "@/src/services/productsServices";
 import { FlashList } from "@shopify/flash-list";
 
 interface popularSearch {
@@ -23,7 +23,7 @@ interface popularSearch {
   name: string;
 }
 
-const Search: React.FC = ({ navigation, router }: any) => {
+const Search: React.FC = ({ navigation }: any) => {
   const [searchText, setSearchText] = useState("");
   const [popularSearches, setPopularSearches] = useState<popularSearch[]>([]);
   const [loading, setLoading] = useState(false);
@@ -42,8 +42,23 @@ const Search: React.FC = ({ navigation, router }: any) => {
     fetchPopularSearches();
   }, []);
 
-  const handleSearch = () => {
-    console.log("Searching for:", searchText);
+  const handleSearch = async () => {
+    if (!searchText.trim()) return;
+    try {
+      setLoading(true);
+      const result = await getSearch(searchText);
+  
+      if (result && result.status && result.products.length > 0) {
+        navigation.navigate("Sea", { searchResults: result.products });
+      } else {
+        alert("Không tìm thấy sản phẩm!");
+      }
+    } catch (error) {
+      console.error("Lỗi khi tìm kiếm sản phẩm:", error);
+    } finally {
+      setLoading(false);
+    }
+    // console.log("Searching for:", searchText);
   };
 
   return (
@@ -87,10 +102,12 @@ const Search: React.FC = ({ navigation, router }: any) => {
               />
             </TouchableOpacity>
           )}
+          <TouchableOpacity onPress={handleSearch}>
           <Image
             source={require("../assets/icons/send.png")}
             style={styles.iconSend}
           />
+          </TouchableOpacity>
         </View>
       </View>
       <FlashList
