@@ -147,16 +147,17 @@ export const getSubCate = async (categoryId: string) => {
   }
 };
 //----------------------------------------------------CART-------------------------------------------
-export const getCartId = async (userId:string) => {
+export const getCartId = async (userId : string) => {
   if (!userId) {
     console.log("Invalid user ID: ", { userId });
     return [];
   }
   try {
-    const response = await axios.get(`${API_URL}/carts/getCart/`, {params : {userId}});
+    const response = await axios.get(`${API_URL}/carts/getCart/${userId}`);
+    console.log(response);
     return response.data;
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching carts:", error);
     return null;
   }
 };
@@ -167,10 +168,10 @@ export const getCartItem = async (cartId:string) => {
     return [];
   }
   try {
-    const response = await axios.get(`${API_URL}/cartItems/getItem/`, {params : {cartId}});
+    const response = await axios.get(`${API_URL}/cartItems/getItem/${cartId}` );
     return response.data;
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching cartItem:", error);
     return null;
   }
 }
