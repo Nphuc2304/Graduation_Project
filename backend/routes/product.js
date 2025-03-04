@@ -208,4 +208,17 @@ router.get('/subCate_product/:subCateId', async (req, res) => {
     }
 });
 
+router.get('/search', async (req, res) => {
+    try {
+        const { name } = req.query;
+        const products = await Product.find({ name: { $regex: name, $options: "i" } });
+        if (products.length === 0) {
+            return res.status(404).json({ status: false, message: "Không tìm thấy sản phẩm" });
+        }
+        res.status(200).json({ status: true, products });
+    } catch (error) {
+        res.status(400).json({ status: false, message: 'Có lỗi xảy ra' });
+    }
+});
+
 module.exports = router;
