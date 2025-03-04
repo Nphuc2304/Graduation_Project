@@ -46,7 +46,9 @@ const Cart: React.FC = ({ navigation }: any) => {
     const fetchCart = async () => {
       try {
         const data = await getCartId(userId);
+        // console.log(data);
         setCartId(data.cart);
+        console.log(cartId);
       } catch (error) {
         console.error("Failed to fetch cartId", error);
       }
@@ -58,13 +60,15 @@ const Cart: React.FC = ({ navigation }: any) => {
     const fetchCartItem = async () => {
       try {
         const data = await getCartItem(cartId);
-        setCartId(data.cartItems);
+        console.log(data);
+        setCartData(data);
+        console.log("cartDataa ", cartData);
       } catch (error) {
         console.error("Failed to fetch cart item", error);
       }
     };
     fetchCartItem();
-  }, []);
+  }, [cartId]);
 
 
   return (

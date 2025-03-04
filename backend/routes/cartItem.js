@@ -75,12 +75,12 @@ router.get("/getItem/:cartId", async (req, res) => {
 
         const cartItems = await Item.find({ cartId }).populate("productId");
 
-        res.status(200).json({ status: true, data: [
-            {cartItems: cartItems}, 
-            {totalPrice: cart.totalPrice}, 
-            {discount: cart.discount}, 
-            {finalPrice: cart.finalPrice}
-        ]});
+        res.status(200).json({ status: true, data: 
+            cartItems, 
+            totalPrice: cart.totalPrice, 
+            discount: cart.discount, 
+            finalPrice: cart.finalPrice
+        });
     } catch (error) {
         console.error("Error fetching cart items:", error);
         res.status(400).json({ status: false, message: "Error fetching cart items: " + error.message });
