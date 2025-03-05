@@ -10,11 +10,8 @@ import {
 import React, { useState } from "react";
 import { FlashList } from "@shopify/flash-list";
 import StoreScreen from "../components/StoreScreen";
-import React, { useState } from 'react';
-import { FlashList } from '@shopify/flash-list';
-import StoreScreen from '../components/StoreScreen';
-import StoreProfile from '@/components/StoreProfile';
-import StoreProduct from '@/components/StoreProduct';
+import StoreProfile from "@/components/StoreProfile";
+import StoreProduct from "@/components/StoreProduct";
 
 type menuItem = {
   id: number;
@@ -64,18 +61,19 @@ const SellerPage = () => {
       </TouchableOpacity>
     );
   };
-    const renderContentByMenu = () => {
-        switch (currentIndex) {
-            case 0:
-                return <StoreScreen />;
-            case 1:
-                return <StoreProduct />;
-            case 4:
-                return <StoreProfile />;
-            default:
-                return <StoreScreen />;
-        }
-    };
+
+  const renderContentByMenu = () => {
+    switch (currentIndex) {
+      case 0:
+        return <StoreScreen />;
+      case 1:
+        return <StoreProduct />;
+      case 4:
+        return <StoreProfile />;
+      default:
+        return <StoreScreen />;
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -233,12 +231,23 @@ const SellerPage = () => {
                 507.9 k+
               </Text>
             </View>
-            <View style={{ flex: 1 }}>
-                {renderContentByMenu()}
-            </View>
+          </View>
+          <TouchableOpacity style={styles.btnFollow}>
+            <Text style={{ color: "#FFFFFF" }}>Theo dõi</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ marginLeft: 20, paddingRight: 20 }}>
+          <FlashList
+            data={menu}
+            renderItem={renderMenu}
+            extraData={currentIndex}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            ItemSeparatorComponent={() => <View style={{ width: 45 }} />}
+          />
         </View>
       </View>
-      <ScrollView style={{ flex: 1 }}>{renderContentByMenu()}</ScrollView>
+      <View style={{ flex: 1 }}>{renderContentByMenu()}</View>
     </View>
   );
 };
