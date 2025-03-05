@@ -1,5 +1,5 @@
 import { FlashList } from "@shopify/flash-list";
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import {
   Animated,
   Image,
@@ -7,16 +7,51 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
+  ImageSourcePropType,
   View,
 } from "react-native";
+import { getDetailProduct } from "@/src/services/productsServices";
 
-const DetailProduct: React.FC = ({ navigation }: any) => {
-  ////////////////////
-  const sale = 20;
-  const price = 27000000;
-  ////////////////////
+interface Product {
+  id: string;
+  image: string;
+  name: string;
+  rate: number;
+  price: number;
+  sale: number;
+  brandName: string;
+  description: string;
+}
 
+const DetailProduct: React.FC = ({ navigation, route }: any) => {
+  const { productId } = route.params;
   const scrollY = useRef(new Animated.Value(0)).current;
+
+  const [product, setProduct] = useState<Product>();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchDetail = async () => {
+      try {
+        setLoading(true);
+        const data = await getDetailProduct(productId);
+        setProduct(data.product);
+        // console.log("API response:", data.product);
+        // if (data) {
+        //   setProduct(data.product);
+        //   console.log(data.product);
+        // } else {
+        //   console.error("API did not return a valid product:", data);
+        // }
+      } catch (error) {
+        console.error("Lỗi khi lấy sản phẩm:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDetail();
+  }, []);
 
   const headerBackgroundColor = scrollY.interpolate({
     inputRange: [0, 250],
@@ -24,7 +59,7 @@ const DetailProduct: React.FC = ({ navigation }: any) => {
     extrapolate: "clamp",
   });
 
-  const renderPrice = () => {
+  const renderPrice = (price: number, sale: number) => {
     if (sale > 0) {
       const discountedPrice = price * (1 - sale / 100);
       return (
@@ -49,199 +84,230 @@ const DetailProduct: React.FC = ({ navigation }: any) => {
 
   return (
     <SafeAreaView style={styles.appDfColor}>
-      <Animated.View
-        style={[
-          styles.headerContainer,
-          { backgroundColor: headerBackgroundColor },
-        ]}
-      >
-        <TouchableOpacity
-          style={styles.headerIcon}
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Image
-            style={styles.icon}
-            source={require("@/assets/icons/left-arrow.png")}
-          />
-        </TouchableOpacity>
-        <View style={styles.blockIcon}>
-          <TouchableOpacity style={styles.headerIcon}>
-            <Image
-              style={styles.icon}
-              source={require("@/assets/icons/ai.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.headerIcon}
-            onPress={() => {
-              navigation.navigate("Cart");
-            }}
+      {product != null ? (
+        <View style={styles.appDfColor}>
+          <Animated.View
+            style={[
+              styles.headerContainer,
+              { backgroundColor: headerBackgroundColor },
+            ]}
           >
-            <Image
-              style={styles.icon}
-              source={require("@/assets/icons/shopping-cart.png")}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.headerIcon}>
-            <Image
-              style={styles.icon}
-              source={require("@/assets/icons/option.png")}
-            />
-          </TouchableOpacity>
-        </View>
-      </Animated.View>
-      <FlashList
-        data={[1]}
-        refreshing={false}
-        renderItem={() => (
-          <View>
-            <Image
-              style={styles.imgProduct}
-              source={{
-                uri: "https://i.pinimg.com/736x/d1/78/6f/d1786f54d137c24b93c017c9ba533087.jpg",
+            <TouchableOpacity
+              style={styles.headerIcon}
+              onPress={() => {
+                navigation.goBack();
               }}
-            />
-            <View style={styles.container}>
-              <Text style={styles.name}>
-                Hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
-              </Text>
-              <View>{renderPrice()}</View>
-              <View style={styles.rowBlock}>
-                <Image source={require("@/assets/icons/coupon.png")} />
-                <Text style={styles.textCoupon}>
-                  Giảm 25.500 đ từ mã khuyến mãi của nhà bán
-                </Text>
-              </View>
-            </View>
-            <View style={styles.addCartContainer}>
-              <TouchableOpacity style={styles.btnAddToCart}>
-                <Text style={styles.textAddToCart}>Thêm vào giỏ</Text>
+            >
+              <Image
+                style={styles.icon}
+                source={require("@/assets/icons/left-arrow.png")}
+              />
+            </TouchableOpacity>
+            <View style={styles.blockIcon}>
+              <TouchableOpacity style={styles.headerIcon}>
+                <Image
+                  style={styles.icon}
+                  source={require("@/assets/icons/ai.png")}
+                />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.btnBuy}>
-                <Text style={styles.textBuy}>Mua ngay</Text>
+              <TouchableOpacity
+                style={styles.headerIcon}
+                onPress={() => {
+                  navigation.navigate("Cart");
+                }}
+              >
+                <Image
+                  style={styles.icon}
+                  source={require("@/assets/icons/shopping-cart.png")}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.headerIcon}>
+                <Image
+                  style={styles.icon}
+                  source={require("@/assets/icons/option.png")}
+                />
               </TouchableOpacity>
             </View>
-            <View style={styles.container}>
-              <Text style={styles.title}>Thông tin vận chuyển</Text>
-              <View
-                style={[
-                  styles.rowBlock,
-                  { justifyContent: "space-between", marginTop: 10 },
-                ]}
-              >
-                <View style={styles.rowBlock}>
-                  <Image
-                    style={styles.iconPlaceholder}
-                    source={require("@/assets/icons/placeholder.png")}
-                  />
-                  <Text
-                    style={{ color: "gray", fontSize: 12, marginHorizontal: 5 }}
-                  >
-                    Giao đến
-                  </Text>
-                  <Text numberOfLines={1} style={styles.address}>
-                    45 Tân Lập, Đông Hoà, Dĩ An, Bình Dương
-                  </Text>
-                </View>
-                <TouchableOpacity>
-                  <Text style={styles.editAddress}>Đổi</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.container}>
-              <Text style={styles.title}>Ưu đãi khác</Text>
-              <View
-                style={[styles.rowBlock, { justifyContent: "space-between" }]}
-              >
-                <Text style={styles.textNormal}>4 mã giảm giá</Text>
-                <TouchableOpacity>
-                  <Image source={require("@/assets/icons/next.png")} />
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.container}>
-              <Text style={styles.title}>Yên tâm mua sắm</Text>
-              <View style={styles.blockWarrant}>
+          </Animated.View>
+          <FlashList
+            data={[1]}
+            refreshing={false}
+            renderItem={() => (
+              <View>
                 <Image
-                  style={styles.iconWarrant}
-                  source={require("@/assets/icons/box.png")}
+                  style={styles.imgProduct}
+                  source={{ uri: product.image }}
                 />
-                <Text style={styles.textNormal}>
-                  Được đồng kiểm khi nhận hàng
-                </Text>
-              </View>
-              <View style={styles.blockWarrant}>
-                <Image
-                  style={styles.iconWarrant}
-                  source={require("@/assets/icons/repayment.png")}
-                />
-                <Text style={styles.textNormal}>
-                  Được hoàn tiền 200% nếu là hàng giả
-                </Text>
-              </View>
-              <View style={styles.blockWarrant}>
-                <Image
-                  style={styles.iconWarrant}
-                  source={require("@/assets/icons/reorder.png")}
-                />
-                <Text style={styles.textNormal}>
-                  Đổi trả miễn phí trong 30 ngày
-                </Text>
-              </View>
-            </View>
-            <View style={styles.container}>
-              <View style={styles.shopContainer}>
-                <View style={styles.rowBlock}>
-                  <View style={styles.imageShopBlock}>
-                    <Image
-                      style={styles.imageShop}
-                      source={{
-                        uri: "https://i.pinimg.com/736x/ff/40/94/ff40949975197b8c6b8bf27f22d3fc0c.jpg",
-                      }}
-                    />
+                <View style={styles.container}>
+                  <Text style={styles.name}>{product.name}</Text>
+                  <View>{renderPrice(product.price, product.sale)}</View>
+                  <View style={styles.rowBlock}>
+                    <Image source={require("@/assets/icons/coupon.png")} />
+                    <Text style={styles.textCoupon}>
+                      Giảm 25.500 đ từ mã khuyến mãi của nhà bán
+                    </Text>
                   </View>
-                  <Text style={styles.title}>Shop của Phúc</Text>
                 </View>
-                <TouchableOpacity>
-                  <Image source={require("@/assets/icons/next.png")} />
-                </TouchableOpacity>
+                <View style={styles.addCartContainer}>
+                  <TouchableOpacity style={styles.btnAddToCart}>
+                    <Text style={styles.textAddToCart}>Thêm vào giỏ</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.btnBuy}>
+                    <Text style={styles.textBuy}>Mua ngay</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.container}>
+                  <Text style={styles.title}>Thông tin vận chuyển</Text>
+                  <View
+                    style={[
+                      styles.rowBlock,
+                      { justifyContent: "space-between", marginTop: 10 },
+                    ]}
+                  >
+                    <View style={styles.rowBlock}>
+                      <Image
+                        style={styles.iconPlaceholder}
+                        source={require("@/assets/icons/placeholder.png")}
+                      />
+                      <Text
+                        style={{
+                          color: "gray",
+                          fontSize: 12,
+                          marginHorizontal: 5,
+                        }}
+                      >
+                        Giao đến
+                      </Text>
+                      <Text numberOfLines={1} style={styles.address}>
+                        45 Tân Lập, Đông Hoà, Dĩ An, Bình Dương
+                      </Text>
+                    </View>
+                    <TouchableOpacity>
+                      <Text style={styles.editAddress}>Đổi</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <View style={styles.container}>
+                  <Text style={styles.title}>Ưu đãi khác</Text>
+                  <View
+                    style={[
+                      styles.rowBlock,
+                      { justifyContent: "space-between" },
+                    ]}
+                  >
+                    <Text style={styles.textNormal}>4 mã giảm giá</Text>
+                    <TouchableOpacity>
+                      <Image source={require("@/assets/icons/next.png")} />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <View style={styles.container}>
+                  <Text style={styles.title}>Yên tâm mua sắm</Text>
+                  <View style={styles.blockWarrant}>
+                    <Image
+                      style={styles.iconWarrant}
+                      source={require("@/assets/icons/box.png")}
+                    />
+                    <Text style={styles.textNormal}>
+                      Được đồng kiểm khi nhận hàng
+                    </Text>
+                  </View>
+                  <View style={styles.blockWarrant}>
+                    <Image
+                      style={styles.iconWarrant}
+                      source={require("@/assets/icons/repayment.png")}
+                    />
+                    <Text style={styles.textNormal}>
+                      Được hoàn tiền 200% nếu là hàng giả
+                    </Text>
+                  </View>
+                  <View style={styles.blockWarrant}>
+                    <Image
+                      style={styles.iconWarrant}
+                      source={require("@/assets/icons/reorder.png")}
+                    />
+                    <Text style={styles.textNormal}>
+                      Đổi trả miễn phí trong 30 ngày
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.container}>
+                  <View style={styles.shopContainer}>
+                    <View style={styles.rowBlock}>
+                      <View style={styles.imageShopBlock}>
+                        <Image
+                          style={styles.imageShop}
+                          source={{
+                            uri: "https://i.pinimg.com/736x/ff/40/94/ff40949975197b8c6b8bf27f22d3fc0c.jpg",
+                          }}
+                        />
+                      </View>
+                      <Text style={styles.title}>Shop của Phúc</Text>
+                    </View>
+                    <TouchableOpacity>
+                      <Image source={require("@/assets/icons/next.png")} />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={[styles.shopContainer, { marginTop: 10 }]}>
+                    <TouchableOpacity
+                      style={styles.btnShop}
+                      onPress={() => {
+                        navigation.navigate("Shop");
+                      }}
+                    >
+                      <Image
+                        style={styles.iconShop}
+                        source={require("@/assets/icons/shop.png")}
+                      />
+                      <Text>Xem cửa hàng</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.btnShop}>
+                      <Image
+                        style={styles.iconShop}
+                        source={require("@/assets/icons/chat.png")}
+                      />
+                      <Text>Chat</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+                <View style={styles.container}>
+                  <Text style={styles.title}>Thông tin chi tiết</Text>
+                </View>
               </View>
-              <View style={[styles.shopContainer, { marginTop: 10 }]}>
-                <View style={styles.btnShop}>
-                  <Image
-                    style={styles.iconShop}
-                    source={require("@/assets/icons/shop.png")}
-                  />
-                  <Text>Xem cửa hàng</Text>
-                </View>
-                <View style={styles.btnShop}>
-                  <Image
-                    style={styles.iconShop}
-                    source={require("@/assets/icons/chat.png")}
-                  />
-                  <Text>Chat</Text>
-                </View>
-              </View>
-            </View>
-            <View style={styles.container}>
-              <Text style={styles.title}>Thông tin chi tiết</Text>
-            </View>
-          </View>
-        )}
-        estimatedItemSize={200}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: false }
-        )}
-        showsVerticalScrollIndicator={false}
-      />
+            )}
+            estimatedItemSize={200}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              { useNativeDriver: false }
+            )}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      ) : (
+        <View style={styles.appDfColor}></View>
+      )}
+
+      {loading && (
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color="#FFBBFF" />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
   priceContainer: {
     marginTop: 10,
     marginBottom: 10,

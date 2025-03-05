@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import {
   FlatList,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -14,7 +13,7 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from "react-native";
-import { getPopularSearches } from "@/src/services/productsServices";
+import { getPopularSearches, getSearch } from "@/src/services/productsServices";
 import { FlashList } from "@shopify/flash-list";
 
 interface popularSearch {
@@ -42,8 +41,23 @@ const Search: React.FC = ({ navigation }: any) => {
     fetchPopularSearches();
   }, []);
 
-  const handleSearch = () => {
-    console.log("Searching for:", searchText);
+  const handleSearch = async () => {
+    if (!searchText.trim()) return;
+    try {
+      setLoading(true);
+      const result = await getSearch(searchText);
+
+      if (result && result.status && result.products.length > 0) {
+        navigation.navigate("Sea", { searchResults: result.products });
+      } else {
+        alert("Không tìm thấy sản phẩm!");
+      }
+    } catch (error) {
+      console.error("Lỗi khi tìm kiếm sản phẩm:", error);
+    } finally {
+      setLoading(false);
+    }
+    // console.log("Searching for:", searchText);
   };
 
   return (
@@ -87,10 +101,12 @@ const Search: React.FC = ({ navigation }: any) => {
               />
             </TouchableOpacity>
           )}
-          <Image
-            source={require("../assets/icons/send.png")}
-            style={styles.iconSend}
-          />
+          <TouchableOpacity onPress={handleSearch}>
+            <Image
+              source={require("../assets/icons/send.png")}
+              style={styles.iconSend}
+            />
+          </TouchableOpacity>
         </View>
       </View>
       <FlashList
@@ -143,8 +159,6 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    top: 0,
-    position: "fixed",
     flexDirection: "row",
     backgroundColor: "#fff",
     elevation: 3,

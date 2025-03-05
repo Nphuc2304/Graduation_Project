@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Product = require('../models/productModel');
+var subCate = require('../models/subCateModel');
 
 //get all product
 router.get('/all_products', async (req, res) => {
@@ -28,7 +29,8 @@ router.get('/all_products', async (req, res) => {
 // add new product
 router.post('/add_new_product', async (req, res) => {
     try {
-        const { name,
+        const {
+            name,
             description,
             price,
             stock,
@@ -36,7 +38,8 @@ router.post('/add_new_product', async (req, res) => {
             image,
             brandName,
             sale,
-            rate
+            rate,
+            subCateId
         } = req.body;
         const newProduct = new Product({
             name,
@@ -47,7 +50,8 @@ router.post('/add_new_product', async (req, res) => {
             image,
             brandName,
             sale,
-            rate
+            rate,
+            subCateId
         });
         const saveProduct = await newProduct.save();
 
@@ -82,7 +86,7 @@ router.put('/update_product/:id', async (req, res) => {
             image,
             brandName,
             sale,
-            rate
+            rate,
         } = req.body;
 
         const updatedProduct = await Product.findByIdAndUpdate(id,
@@ -136,6 +140,33 @@ router.delete('/delete_product/:id', async (req, res) => {
     }
 });
 
+//lấy chi tiết sản phẩm dựa vào id sản phẩm
+router.get('/getDetailProduct/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await Product.findById(id);
+        if (!product) {
+            return res.status(404).json({ status: false, message: 'Sản phẩm không tồn tại' });
+        }
+        res.status(200).json({ status: true, product });
+        // const dateProduct = {
+        //     ...product._doc,
+        //     addDay: new Date(product.addDay).toLocaleString('vi-VN', {
+        //         timeZone: 'Asia/Ho_Chi_Minh',
+        //         hour12: false,
+        //     }),
+        //     updateDay: new Date(product.updateDay).toLocaleString('vi-VN', {
+        //         timeZone: 'Asia/Ho_Chi_Minh',
+        //         hour12: false,
+        //     }),
+        // };
+        // res.status(200).json(dateProduct);
+    } catch (error) {
+        res.status(400).json({ status: false, message: 'Có lỗi xảy ra' });
+    }
+});
+
+
 //sale
 router.get('/sale_products', async (req, res) => {
     try {
@@ -160,6 +191,33 @@ router.get('/popular_searches', async (req, res) => {
     } catch (error) {
         console.error('Error fetching popular searches:', error);
         res.status(500).json({ status: false, message: 'Có lỗi xảy ra' });
+    }
+});
+
+//lấy sản phẩm dựa subcate
+router.get('/subCate_product/:subCateId', async (req, res) => {
+    try {
+        const { subCateId } = req.params;
+        const products = await Product.find({subCateId});
+        if (!products.length) {
+            return res.status(404).json({ status: false, message: "không có sp trong danh mục" })
+        }
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(400).json({ status: false, message: "Lôi rồi" })
+    }
+});
+
+router.get('/search', async (req, res) => {
+    try {
+        const { name } = req.query;
+        const products = await Product.find({ name: { $regex: name, $options: "i" } });
+        if (products.length === 0) {
+            return res.status(404).json({ status: false, message: "Không tìm thấy sản phẩm" });
+        }
+        res.status(200).json({ status: true, products });
+    } catch (error) {
+        res.status(400).json({ status: false, message: 'Có lỗi xảy ra' });
     }
 });
 

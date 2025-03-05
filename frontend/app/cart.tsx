@@ -1,6 +1,7 @@
 import CartItem from "@/components/cart_item";
+import { getCartId, getCartItem } from "@/src/services/productsServices";
 import { FlashList } from "@shopify/flash-list";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   ImageSourcePropType,
@@ -15,6 +16,9 @@ import { Checkbox } from "react-native-paper";
 
 const Cart: React.FC = ({ navigation }: any) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [userId, setUserId] = useState("678268b47d7fd692d23161c9");
+  const [cartId, setCartId] = useState("");
+  const [cartData, setCartData] = useState("");
 
   //////////////////////
   const productData = [
@@ -37,6 +41,35 @@ const Cart: React.FC = ({ navigation }: any) => {
       shopName: "Cửa hàng B",
     },
   ];
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const data = await getCartId(userId);
+        // console.log(data);
+        setCartId(data.cart);
+        console.log(cartId);
+      } catch (error) {
+        console.error("Failed to fetch cartId", error);
+      }
+    };
+    fetchCart();
+  }, []);
+  
+  useEffect(() => {
+    const fetchCartItem = async () => {
+      try {
+        const data = await getCartItem(cartId);
+        console.log(data.cartItems);
+        setCartData(data.cartItems);
+        console.log("cartDataa ", cartData);
+      } catch (error) {
+        console.error("Failed to fetch cart item", error);
+      }
+    };
+    fetchCartItem();
+  }, [cartId]);
+
 
   return (
     <SafeAreaView style={styles.appDfColor}>
@@ -122,7 +155,7 @@ const styles = StyleSheet.create({
     top: 25,
   },
   titlePage: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
   },
   selectedAllContainer: {

@@ -6,12 +6,18 @@ import Account from "./account";
 import Home from "./home";
 import Category from "./category";
 import AI from "./ai";
+// import Sea from "./searchproduct";
+import Sea from "./searchproduct";
 import Notify from "./notiffy";
 import Search from "./search";
 import Cart from "./cart";
 import LoginScreen from "./login";
 import CreateAccountScreen from "./createAccount";
 import DetailProduct from "./detailProdutc";
+import UserInformation from "./(setting_feature)/user_information";
+import Address from "./(setting_feature)/address";
+import Location from "./(setting_feature)/location";
+import SellerPage from "./SellerPage";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -122,6 +128,11 @@ function TabNavigation() {
 function Index() {
   return (
     <Stack.Navigator>
+      {/* <Stack.Screen
+        name="SellerPage"
+        component={SellerPage}
+        options={{ headerShown: false }}
+      /> */}
       <Stack.Screen
         name="HomeTabs"
         component={TabNavigation}
@@ -130,6 +141,11 @@ function Index() {
       <Stack.Screen
         name="Search"
         component={Search}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Sea"
+        component={Sea}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -155,6 +171,26 @@ function Index() {
       <Stack.Screen
         name="DetailProduct"
         component={DetailProduct}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="UserInformation"
+        component={UserInformation}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Address"
+        component={Address}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Location"
+        component={Location}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Shop"
+        component={SellerPage}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

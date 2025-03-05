@@ -43,7 +43,7 @@ router.post('/addItem', async (req, res) => {
         const totalPrice = allCartItem.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
         cart.totalPrice = totalPrice;
-        cart.finalPrice = totalPrice - (totalPrice * cart.discount);
+        cart.finalPrice = cart.totalPrice - (cart.totalPrice * (cart.discount * 0.01));
         await cart.save();
 
         return res.status(200).json({
@@ -63,14 +63,27 @@ router.post('/addItem', async (req, res) => {
     }
 });
 
-router.get("/getItem", async (req, res) => {
+router.get("/getItem/:cartId", async (req, res) => {
     try {
-        const { cartId } = req.body;
-        const item = await Cart.findOne({ cartId: cartId });
-        const cartItems = await Item.find({ cartId }).populate("productId");
-        res.status(200).json({ data: cartItems });
+        const { cartId } = req.params;
+
+        const cart = await Cart.findById(cartId);
+
+        if (!cart) {
+            return res.status(404).json({ status: false, message: "Cart not found" });
+        }
+
+        const cartItems = await Item.find({ cartId: cart._id }).populate("productId");
+
+        res.status(200).json({ status: true, 
+            cartItems: cartItems, 
+            totalPrice: cart.totalPrice, 
+            discount: cart.discount, 
+            finalPrice: cart.finalPrice
+        });
     } catch (error) {
-        res.status(400).json({ error: error })
+        console.error("Error fetching cart items:", error);
+        res.status(400).json({ status: false, message: "Error fetching cart items: " + error.message });
     }
 });
 
@@ -78,7 +91,7 @@ router.delete("/deleteItem", async (req, res) => {
     try {
         const { cartId, itemId } = req.body;
         const cart = await Cart.findOne({ cartId: cartId });
-        const item = await Item.findByIdAndDelete( itemId );
+        const item = await Item.findByIdAndDelete(itemId);
         if (!item) {
             res.status(200).json({ status: false, message: "Sản phẩm không tồn tại!!!" });
         }

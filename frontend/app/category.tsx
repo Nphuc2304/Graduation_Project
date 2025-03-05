@@ -1,6 +1,7 @@
 import CategoryProduct from "@/components/category_product";
+import { getAllCategories, getSubCate } from "@/src/services/productsServices";
 import { FlashList } from "@shopify/flash-list";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Image,
   SafeAreaView,
@@ -12,132 +13,46 @@ import {
 import { data } from "react-router-dom";
 
 const Category = () => {
-  ///////////////////////////
-  // data mẫu
-  const data1 = [
-    {
-      id: 1,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Điện thoại",
-    },
-    {
-      id: 2,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Laptop",
-    },
-    {
-      id: 3,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Máy ảnh",
-    },
-    {
-      id: 4,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Thời trang nam",
-    },
-    {
-      id: 5,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Thời trang nữ",
-    },
-    {
-      id: 6,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Đồ gia dụng",
-    },
-    {
-      id: 7,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Thực phẩm",
-    },
-    {
-      id: 8,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Sách & Văn phòng phẩm",
-    },
-    {
-      id: 9,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Thể thao & Ngoài trời",
-    },
-    {
-      id: 10,
-      image:
-        "https://png.pngtree.com/png-clipart/20230511/original/pngtree-plush-bear-toy-white-illustration-png-image_9157825.png",
-      name: "Mẹ & Bé",
-    },
-  ];
-  const data2 = [
-    {
-      id: 1,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Điện thoại",
-    },
-    {
-      id: 2,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Laptop",
-    },
-    {
-      id: 3,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Máy ảnh",
-    },
-    {
-      id: 4,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Thời trang nam",
-    },
-    {
-      id: 5,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Thời trang nữ",
-    },
-    {
-      id: 6,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Đồ gia dụng",
-    },
-    {
-      id: 7,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Thực phẩm",
-    },
-    {
-      id: 8,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Sách & Văn phòng phẩm",
-    },
-    {
-      id: 9,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Thể thao & Ngoài trời",
-    },
-    {
-      id: 10,
-      image:
-        "https://static.vecteezy.com/system/resources/thumbnails/018/743/022/small/laptop-computer-with-blank-transparent-screen-and-background-format-png.png",
-      name: "Mẹ & Bé",
-    },
-  ];
+
+  interface SubCategory {
+    _id: string;
+    subCateName: string;
+    subCateImage: string;
+  };
+  interface Category {
+    _id: string;
+    categoryName: string;
+    categoryImage: string;
+  }
+
+  const [categoryData, setCategoryData] = useState<Category[]>([]);
+  const [subCategory, setSubCategory] = useState<SubCategory[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+
+  useEffect(() => {
+      const fetchCategory = async () => {
+        try {
+          const data = await getAllCategories();
+          setCategoryData(data.categories);
+          setSelectedCategoryId(data.categories[0]._id);
+        } catch (error) {
+          console.error("Failed to fetch category", error);
+        }
+      };
+      fetchCategory();
+    }, []);
+
+    useEffect(()=>{
+      const fetchSubCate = async ()=>{
+        try {
+          const data = await getSubCate(selectedCategoryId);
+          setSubCategory(data.subCate);
+        } catch (error) {
+          console.error("Failed to fetch subcategories", error);
+        }
+      };
+      fetchSubCate();
+    }, [selectedCategoryId])
   ///////////////////////////
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -162,7 +77,7 @@ const Category = () => {
       <View style={styles.body}>
         <View style={styles.colCategory}>
           <FlashList
-            data={data1}
+            data={categoryData}
             horizontal={false}
             refreshing={false}
             showsVerticalScrollIndicator={false}
@@ -170,6 +85,7 @@ const Category = () => {
               <TouchableOpacity
                 onPress={() => {
                   setSelectedIndex(index);
+                  setSelectedCategoryId(item._id);
                 }}
                 style={[
                   styles.container,
@@ -183,9 +99,9 @@ const Category = () => {
               >
                 <Image
                   style={styles.img}
-                  source={{ uri: item.image.toLocaleString() }}
+                  source={{ uri: item.categoryImage}}
                 />
-                <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.name}>{item.categoryName}</Text>
               </TouchableOpacity>
             )}
             extraData={selectedIndex}
@@ -193,16 +109,16 @@ const Category = () => {
         </View>
         <View style={styles.colProduct}>
           <FlashList
-            data={data2}
+            data={subCategory}
             horizontal={false}
             showsVerticalScrollIndicator={false}
             refreshing={false}
             numColumns={3}
             renderItem={({ item }) => (
               <CategoryProduct
-                id={item.id.toLocaleString()}
-                imageCategory={item.image}
-                nameCategory={item.name}
+                id={item._id}
+                imageCategory={item.subCateImage}
+                nameCategory={item.subCateName}
               />
             )}
           />
