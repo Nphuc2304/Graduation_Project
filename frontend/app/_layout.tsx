@@ -11,7 +11,6 @@ import Sea from "./searchproduct";
 import Notify from "./notiffy";
 import Search from "./search";
 import Cart from "./cart";
-import SellerPage from "./SellerPage";
 import LoginScreen from "./login";
 import CreateAccountScreen from "./createAccount";
 import DetailProduct from "./detailProdutc";
