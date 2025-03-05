@@ -8,6 +8,8 @@ import {
 import React, { useState } from 'react';
 import { FlashList } from '@shopify/flash-list';
 import StoreScreen from '../components/StoreScreen';
+import StoreProfile from '@/components/StoreProfile';
+import StoreProduct from '@/components/StoreProduct';
 
 type menuItem = {
     id: number;
@@ -57,6 +59,10 @@ const SellerPage = () => {
         switch (currentIndex) {
             case 0:
                 return <StoreScreen />;
+            case 1:
+                return <StoreProduct />;
+            case 4:
+                return <StoreProfile />;
             default:
                 return <StoreScreen />;
         }
@@ -176,9 +182,9 @@ const SellerPage = () => {
                     />
                 </View>
             </View>
-            <ScrollView style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
                 {renderContentByMenu()}
-            </ScrollView>
+            </View>
         </View>
     )
 }
