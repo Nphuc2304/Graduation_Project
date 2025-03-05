@@ -46,7 +46,7 @@ const Search: React.FC = ({ navigation }: any) => {
     try {
       setLoading(true);
       const result = await getSearch(searchText);
-  
+
       if (result && result.status && result.products.length > 0) {
         navigation.navigate("Sea", { searchResults: result.products });
       } else {
@@ -102,10 +102,10 @@ const Search: React.FC = ({ navigation }: any) => {
             </TouchableOpacity>
           )}
           <TouchableOpacity onPress={handleSearch}>
-          <Image
-            source={require("../assets/icons/send.png")}
-            style={styles.iconSend}
-          />
+            <Image
+              source={require("../assets/icons/send.png")}
+              style={styles.iconSend}
+            />
           </TouchableOpacity>
         </View>
       </View>

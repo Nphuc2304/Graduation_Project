@@ -29,7 +29,7 @@ interface Product {
   brandName: string;
 }
 
-const Sea = ({ navigation , route}: any) => {
+const Sea = ({ navigation, route }: any) => {
   const { searchResults } = route.params || { searchResults: [] };
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sugesstProducts, setProducts] = useState<Product[]>([]);
@@ -100,9 +100,7 @@ const Sea = ({ navigation , route}: any) => {
               source={require("../assets/icons/search.png")}
               style={styles.searchIcon}
             />
-            <TextInput style={styles.searchInput}
-              placeholder="Tìm kiếm"
-            />
+            <TextInput style={styles.searchInput} placeholder="Tìm kiếm" />
           </TouchableOpacity>
 
           <TouchableOpacity
