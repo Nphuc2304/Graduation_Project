@@ -75,7 +75,7 @@ const Sea = ({ navigation, route }: any) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#F8F8FF" }}>
       <View style={styles.container}>
         <View style={styles.searchAndCartContainer}>
           <TouchableOpacity
@@ -138,7 +138,10 @@ const Sea = ({ navigation, route }: any) => {
             <Text style={styles.bannerSubtitle}>Tài trợ bởi </Text>
             <Text style={styles.bannerSubtitle1}>Acnes Official Store </Text>
             <Text style={styles.bannerSubtitle}>4.7/5 </Text>
-            <Image source={require("../assets/icons/start.png")} style={styles.bannersao} />
+            <Image
+              source={require("../assets/icons/start.png")}
+              style={styles.bannersao}
+            />
           </View>
         </View>
         <TouchableOpacity style={styles.iconnn}>
@@ -190,7 +193,7 @@ const Sea = ({ navigation, route }: any) => {
       <View style={styles.filterBar1}>
         <TouchableOpacity style={styles.LOCC}>
           <View style={styles.Loc}>
-          <Image
+            <Image
               source={require("../assets/icons/Loc.png")}
               style={styles.imageLoc}
             />
@@ -233,13 +236,12 @@ const Sea = ({ navigation, route }: any) => {
                 </View>
               </View> */}
 
-              <FlatList
+              <FlashList
                 data={searchResults}
                 horizontal={false}
                 numColumns={2}
                 refreshing={false}
-                style={styles.listTopDeal}
-                renderItem={({ item }) => (
+                renderItem={({ item }: any) => (
                   <ProductItem1
                     id={item._id}
                     image={item.image}
@@ -251,7 +253,6 @@ const Sea = ({ navigation, route }: any) => {
                     navigation={navigation}
                   />
                 )}
-                keyExtractor={(item) => item._id}
                 showsVerticalScrollIndicator={false}
               />
             </View>
@@ -281,7 +282,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "auto",
     padding: 4,
-    alignItems:"center",
+    alignItems: "center",
     flexDirection: "row",
     fontWeight: "bold",
   },
@@ -300,15 +301,13 @@ const styles = StyleSheet.create({
   banner: {
     marginTop: 2,
     flexDirection: "row",
-
     backgroundColor: "#fff",
     padding: 10,
-    borderRadius: 8,
   },
   bannerImage: {
     borderWidth: 1,
     borderColor: "rgb(197, 197, 197)",
-    alignItems:"center",
+    alignItems: "center",
     width: 50,
     height: "auto",
     borderRadius: 10,
@@ -318,8 +317,8 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
   },
-  bannerText: { marginLeft: 10, flex: 1, },
-  bannerText1:{ flex: 1, flexDirection:"row", alignItems:"center"},
+  bannerText: { marginLeft: 10, flex: 1 },
+  bannerText1: { flex: 1, flexDirection: "row", alignItems: "center" },
   bannerTitle: { fontSize: 15, fontWeight: "bold" },
   buttonxt: {
     alignSelf: "center",
@@ -344,13 +343,13 @@ const styles = StyleSheet.create({
   bannerSubtitle1: {
     fontSize: 12,
     color: "#666",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
 
-  bannersao:{
+  bannersao: {
     width: 20,
     height: 20,
-    alignItems:"center"
+    alignItems: "center",
   },
 
   bannerButton: {
@@ -378,9 +377,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-
     backgroundColor: "#fff",
-    borderRadius: 12,
     elevation: 3,
     shadowColor: "#000",
     shadowOpacity: 0.1,
@@ -393,15 +390,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     paddingHorizontal: 15,
-    paddingVertical: 10,
-    width: "70%",
+    width: "60%",
     borderColor: "gray",
     borderWidth: 1,
   },
   cartIcon1: {
-    marginRight: 10,
-    width: 25,
-    height: 25,
+    marginRight: 20,
+    width: 20,
+    height: 20,
   },
   cartIcon2: {
     flex: 1,
@@ -409,13 +405,12 @@ const styles = StyleSheet.create({
     height: 20,
   },
   iconnn: {
-    
-    marginRight:1,
+    marginRight: 1,
     width: 20,
     height: 20,
   },
   cartIcon: {
-    marginLeft: 10,
+    marginHorizontal: 10,
     width: 25,
     height: 25,
   },
@@ -498,9 +493,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "blue",
   },
-  listTopDeal: {
-    padding: 5,
-  },
   titleList: {
     fontSize: 16,
     fontWeight: "bold",
@@ -537,7 +529,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 
-  filterText: { fontSize: 12, color: "#666", flexDirection: "row", },
+  filterText: { fontSize: 12, color: "#666", flexDirection: "row" },
   filterText1: {
     padding: 5,
     right: 35,

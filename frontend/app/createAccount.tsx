@@ -7,7 +7,7 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
-  Alert
+  Alert,
 } from "react-native";
 import { register } from "@/src/services/productsServices";
 
@@ -21,21 +21,21 @@ const CreateAccountScreen = ({ navigation }: any) => {
       Alert.alert("Lỗi", "Email không hợp lệ");
       return;
     }
-  
+
     if (username.trim().length < 2) {
       Alert.alert("Lỗi", "Tên người dùng phải có ít nhất 2 ký tự");
       return;
     }
-  
+
     if (password.length < 8) {
       Alert.alert("Lỗi", "Mật khẩu phải có ít nhất 8 ký tự");
       return;
     }
-  
+
     try {
       const userData = { email, username, password };
-      const response = await register(userData); // Đã sửa lỗi truyền dữ liệu
-  
+      const response = await register(userData);
+
       if (response.status) {
         Alert.alert("Thành công", "Tạo tài khoản thành công!", [
           { text: "OK", onPress: () => navigation.goBack() },
@@ -44,11 +44,12 @@ const CreateAccountScreen = ({ navigation }: any) => {
         Alert.alert("Thất bại", response.message);
       }
     } catch (error: any) {
-      Alert.alert("Lỗi", error.response?.data?.message || "Không thể tạo tài khoản");
+      Alert.alert(
+        "Lỗi",
+        error.response?.data?.message || "Không thể tạo tài khoản"
+      );
     }
   };
-
-
 
   // const [passwordVisible, setPasswordVisible] = useState(false);
   const [showRePassword, setShowRePassword] = useState(false);
@@ -95,23 +96,26 @@ const CreateAccountScreen = ({ navigation }: any) => {
             value={email}
             onChangeText={setEmail}
           />
-          <Text style={styles.hint}>
-            Nhập email của bạn
-          </Text>
+          <Text style={styles.hint}>Nhập email của bạn</Text>
         </View>
 
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Đặt mật khẩu</Text>
           <View style={styles.inputContainer}>
-            <TextInput placeholder="Re-type password"
-              placeholderTextColor='#828282'
+            <TextInput
+              placeholder="Re-type password"
+              placeholderTextColor="#828282"
               style={styles.input}
               value={password}
               onChangeText={setPassword}
-              secureTextEntry={!showRePassword}></TextInput>
-            <TouchableOpacity onPress={() => setShowRePassword(!showRePassword)} style={styles.eye}>
+              secureTextEntry={!showRePassword}
+            ></TextInput>
+            <TouchableOpacity
+              onPress={() => setShowRePassword(!showRePassword)}
+              style={styles.eye}
+            >
               <Image
-                source={require('../assets/images/eye.png')}
+                source={require("../assets/images/eye.png")}
                 style={{ width: 29, height: 18 }}
               />
             </TouchableOpacity>
@@ -120,10 +124,9 @@ const CreateAccountScreen = ({ navigation }: any) => {
           <Text style={styles.hint}>Từ 8 đến 32 ký tự, bao gồm số và chữ</Text>
         </View>
 
-
         <TouchableOpacity
           style={styles.button}
-          // 
+          //
           onPress={handleRegister}
         >
           <Text style={styles.buttonText}>Tạo Tài Khoản</Text>
@@ -134,18 +137,17 @@ const CreateAccountScreen = ({ navigation }: any) => {
 };
 
 const styles = StyleSheet.create({
-
   inputContainer: {
-    width: '100%',
-    marginTop: 16
+    width: "100%",
+    marginTop: 16,
   },
   eye: {
     marginRight: 15,
     width: 15,
     height: 18,
-    position: 'absolute',
+    position: "absolute",
     right: 13,
-    top: 15
+    top: 15,
   },
   body: {
     padding: 20,
