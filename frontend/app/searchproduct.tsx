@@ -20,7 +20,7 @@ import { FlashList } from "@shopify/flash-list";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Product {
-  id: string;
+  _id: string;
   image: ImageSourcePropType;
   name: string;
   rate: number;
@@ -74,20 +74,19 @@ const Sea = ({ navigation , route}: any) => {
     fetchDiscountedProducts();
   }, []);
 
-
   return (
-    
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
         <View style={styles.searchAndCartContainer}>
-
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("HomeTabs");
-            }}>
+            }}
+          >
             <Image
               source={require("../assets/icons/left-arrow.png")}
-              style={styles.cartIcon1} />
+              style={styles.cartIcon1}
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -127,81 +126,98 @@ const Sea = ({ navigation , route}: any) => {
               style={styles.cartIcon}
             />
           </TouchableOpacity>
-
         </View>
       </View>
       {/* Banner quảng cáo */}
       <View style={styles.banner}>
-              <Image source={require("../assets/images/img_def.jpg")} style={styles.bannerImage} />
-              <View style={styles.bannerText}>
-                <Text style={styles.bannerTitle}>Giảm đến 30%</Text>
-                <Text style={styles.bannerSubtitle}>Tài trợ bởi Acnes Official Store ★ 4.7/5</Text>
-              </View>
-              <TouchableOpacity style={styles.iconnn}>
-              <Image
-              source={require("../assets/icons/rightt.png")}
-              style={styles.cartIcon2} />
-              </TouchableOpacity>
-            </View>
-
-              {/* Danh sách sản phẩm */}
-      <View style={styles.xemthem}>
-      <FlatList
-        horizontal
-        data={products}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.productCard}>
-            <Image source={item.image} style={styles.productImage} />
-            <Text style={styles.discountTag}>{item.discount}</Text>
-          </View>
-        )}
-      />
-      
-      <View >
-        <TouchableOpacity style={styles.buttonxt}>
-          <Text style={styles.bannerTitle1}>Xem thêm</Text>
+        <Image
+          source={require("../assets/images/img_def.jpg")}
+          style={styles.bannerImage}
+        />
+        <View style={styles.bannerText}>
+          <Text style={styles.bannerTitle}>Giảm đến 30%</Text>
+          <Text style={styles.bannerSubtitle}>
+            Tài trợ bởi Acnes Official Store ★ 4.7/5
+          </Text>
+        </View>
+        <TouchableOpacity style={styles.iconnn}>
+          <Image
+            source={require("../assets/icons/rightt.png")}
+            style={styles.cartIcon2}
+          />
         </TouchableOpacity>
       </View>
+
+      {/* Danh sách sản phẩm */}
+      <View style={styles.xemthem}>
+        <FlatList
+          horizontal
+          data={products}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.productCard}>
+              <Image source={item.image} style={styles.productImage} />
+              <Text style={styles.discountTag}>{item.discount}</Text>
+            </View>
+          )}
+        />
+
+        <View>
+          <TouchableOpacity style={styles.buttonxt}>
+            <Text style={styles.bannerTitle1}>Xem thêm</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
-          
       {/* Thanh lọc & sắp xếp */}
       <View style={styles.filterBar}>
         {filters.map((item) => (
           <TouchableOpacity key={item} onPress={() => setSelectedFilter(item)}>
-            <Text style={[styles.filterText, selectedFilter === item && styles.selectedFilter]}>
+            <Text
+              style={[
+                styles.filterText,
+                selectedFilter === item && styles.selectedFilter,
+              ]}
+            >
               {item}
             </Text>
           </TouchableOpacity>
         ))}
       </View>
 
-    
-
       {/* Các tag khuyến mãi */}
       <View style={styles.filterBar1}>
-        <TouchableOpacity  style={styles.LOCC}>
-          <View style={styles.Loc} >
-          <Text style={styles.Loctxt}>LỌC</Text>
-          <Image source={require("../assets/icons/Loc.png")} style={styles.imageLoc} />  
+        <TouchableOpacity style={styles.LOCC}>
+          <View style={styles.Loc}>
+            <Text style={styles.Loctxt}>LỌC</Text>
+            <Image
+              source={require("../assets/icons/Loc.png")}
+              style={styles.imageLoc}
+            />
           </View>
-        </TouchableOpacity >
-          {tags.map((tag) => (
-          <TouchableOpacity style={styles.tag}  key={tag} onPress={() => setSelectedFilter(tag)}>
-            <Text style={[styles.filterText1, selectedFilter === tag && styles.selectedFilter1]}>
+        </TouchableOpacity>
+        {tags.map((tag) => (
+          <TouchableOpacity
+            style={styles.tag}
+            key={tag}
+            onPress={() => setSelectedFilter(tag)}
+          >
+            <Text
+              style={[
+                styles.filterText1,
+                selectedFilter === tag && styles.selectedFilter1,
+              ]}
+            >
               {tag}
             </Text>
           </TouchableOpacity>
         ))}
       </View>
-            
       <FlashList
         data={[1]}
         renderItem={() => (
           <View>
             <View style={styles.appDfColor}>
-
               <View style={styles.addressContainer}>
                 <Image
                   source={require("../assets/icons/placeholder.png")}
@@ -209,7 +225,6 @@ const Sea = ({ navigation , route}: any) => {
                 />
                 <Text style={styles.textSize}>Giao đến: </Text>
               </View>
-
 
               {/* <View style={{ marginTop: 20 }}>
                 <View style={styles.headerTopDeal}>
@@ -225,7 +240,7 @@ const Sea = ({ navigation , route}: any) => {
                 style={styles.listTopDeal}
                 renderItem={({ item }) => (
                   <ProductItem1
-                    id={item.id}
+                    id={item._id}
                     image={item.image}
                     name={item.name}
                     rate={item.rate}
@@ -235,7 +250,7 @@ const Sea = ({ navigation , route}: any) => {
                     navigation={navigation}
                   />
                 )}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item._id}
                 showsVerticalScrollIndicator={false}
               />
             </View>
@@ -249,77 +264,84 @@ const Sea = ({ navigation , route}: any) => {
         </View>
       )}
     </SafeAreaView>
-    
-    
   );
-}
+};
 const styles = StyleSheet.create({
-
-  LOCC:{
-    marginRight:5,
+  LOCC: {
+    marginRight: 5,
   },
 
-  tag:{
-    fontSize:10,
-    alignSelf: 'center',
+  tag: {
+    fontSize: 10,
+    alignSelf: "center",
   },
-  
-  Loc:{
-    width:"100%",
-    height:"auto",
-    padding:4,
-    alignSelf: 'center',
-    flexDirection:"row",
-    fontWeight: "bold"
+
+  Loc: {
+    width: "100%",
+    height: "auto",
+    padding: 4,
+    alignSelf: "center",
+    flexDirection: "row",
+    fontWeight: "bold",
   },
-  Loctxt:{
-    fontSize:12,
+  Loctxt: {
+    fontSize: 12,
     // fontWeight:"bold"
-    alignSelf: 'center',
-    
+    alignSelf: "center",
   },
 
-  imageLoc:{
-    width:20,
-    height:20,
-    alignSelf: 'center',
-   
-  },
-  
-  banner: { 
-    marginTop:2,
-    flexDirection: "row", 
-  
-    backgroundColor: "#fff", 
-    padding: 10, 
-    borderRadius: 8 
-  },
-  bannerImage: { 
-    width: 50,
-    height: "auto", 
-    borderRadius: 10,
-  },
-  bannerImage1: { 
+  imageLoc: {
     width: 20,
-    height: 20, 
+    height: 20,
+    alignSelf: "center",
+  },
+
+  banner: {
+    marginTop: 2,
+    flexDirection: "row",
+
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 8,
+  },
+  bannerImage: {
+    width: 50,
+    height: "auto",
     borderRadius: 10,
-   
   },
-  bannerText: { marginLeft: 10, flex: 1,  alignSelf: 'center',},
-  bannerTitle: { fontSize: 15, fontWeight: "bold",  },
-  buttonxt:{
-    alignSelf: 'center',
-    marginTop: 10, 
-    backgroundColor: "rgb(61, 129, 255)", 
-    
-    padding:2, 
+  bannerImage1: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+  },
+  bannerText: { marginLeft: 10, flex: 1, alignSelf: "center" },
+  bannerTitle: { fontSize: 15, fontWeight: "bold" },
+  buttonxt: {
+    alignSelf: "center",
+    marginTop: 10,
+    backgroundColor: "rgb(61, 129, 255)",
+
+    padding: 2,
     borderRadius: 5,
-    height:30,
-    width:"auto"
+    height: 30,
+    width: "auto",
   },
-  bannerTitle1: { color: "#fff",justifyContent:"space-between",   alignSelf: 'center', paddingBottom:3,paddingTop:3, fontSize:12, paddingHorizontal:2} ,
+  bannerTitle1: {
+    color: "#fff",
+    justifyContent: "space-between",
+    alignSelf: "center",
+    paddingBottom: 3,
+    paddingTop: 3,
+    fontSize: 12,
+    paddingHorizontal: 2,
+  },
   bannerSubtitle: { fontSize: 12, color: "#666" },
-  bannerButton: { marginTop: 5, backgroundColor: "#007AFF", padding: 5, borderRadius: 5 },
+  bannerButton: {
+    marginTop: 5,
+    backgroundColor: "#007AFF",
+    padding: 5,
+    borderRadius: 5,
+  },
   bannerButtonText: { color: "#fff", textAlign: "center" },
   appDfColor: {
     backgroundColor: "#F8F8FF",
@@ -332,14 +354,14 @@ const styles = StyleSheet.create({
   },
   container: {
     width: "100%",
-    height:"auto",
+    height: "auto",
     backgroundColor: "#fff",
   },
   searchAndCartContainer: {
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-   
+
     backgroundColor: "#fff",
     borderRadius: 12,
     elevation: 3,
@@ -365,14 +387,14 @@ const styles = StyleSheet.create({
     height: 25,
   },
   cartIcon2: {
-    flex:1,
+    flex: 1,
     width: 20,
     height: 20,
   },
-  iconnn:{
-    alignSelf: 'center',
-    width:20,
-    height:20
+  iconnn: {
+    alignSelf: "center",
+    width: 20,
+    height: 20,
   },
   cartIcon: {
     marginLeft: 10,
@@ -477,43 +499,61 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 
-
-    // Thanh lọc & sắp xếp
-    filterBar: { flexDirection: "row", justifyContent: "space-between", padding:10, backgroundColor: "rgb(255, 255, 255)", width:"100%", height:"auto", marginTop:5 },
-    filterBar1: { 
-      
-      flexDirection: "row", 
-      justifyContent: "space-between", 
-      padding:5.5, 
-      backgroundColor: "rgb(255, 255, 255)", 
-      width:"100%", 
-      height:"auto",
-      marginTop:5 },
-
-    filterText: { fontSize: 12, color: "#666",   flexDirection: "row",  },
-    filterText1: { 
-       backgroundColor: "#f1f1f1",
-       marginLeft: 3,
-       marginRight: 3,
-      fontSize: 14,
-      alignSelf: 'center',
-      color: "#007AFF",
-      paddingHorizontal: 5,
-      borderRadius: 10,
-      fontWeight: "bold" 
-    },
-    selectedFilter: { color: "#007AFF", fontWeight:"bold"  },
-    selectedFilter1: {   fontSize:14, color: "rgba(255, 37, 37, 0.69)", fontWeight: "bold", backgroundColor: "rgba(196, 196, 196, 0.88)",  alignSelf: 'center',  flexDirection: "row", },
-  
-     // Danh sách sản phẩm
-  xemthem:{
-    flexDirection: "row", 
-    backgroundColor: "#fff", 
-    padding: 8,
-    
+  // Thanh lọc & sắp xếp
+  filterBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 10,
+    backgroundColor: "rgb(255, 255, 255)",
+    width: "100%",
+    height: "auto",
+    marginTop: 5,
   },
-  productCard: { marginRight: 10,  borderRadius:10 ,borderWidth:1, borderColor:"rgb(197, 197, 197)"},
-  productImage: { width: 50, height: 50, borderRadius: 10, },
+  filterBar1: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 5.5,
+    backgroundColor: "rgb(255, 255, 255)",
+    width: "100%",
+    height: "auto",
+    marginTop: 5,
+  },
+
+  filterText: { fontSize: 12, color: "#666", flexDirection: "row" },
+  filterText1: {
+    backgroundColor: "#f1f1f1",
+    marginLeft: 3,
+    marginRight: 3,
+    fontSize: 14,
+    alignSelf: "center",
+    color: "#007AFF",
+    paddingHorizontal: 5,
+    borderRadius: 10,
+    fontWeight: "bold",
+  },
+  selectedFilter: { color: "#007AFF", fontWeight: "bold" },
+  selectedFilter1: {
+    fontSize: 14,
+    color: "rgba(255, 37, 37, 0.69)",
+    fontWeight: "bold",
+    backgroundColor: "rgba(196, 196, 196, 0.88)",
+    alignSelf: "center",
+    flexDirection: "row",
+  },
+
+  // Danh sách sản phẩm
+  xemthem: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    padding: 8,
+  },
+  productCard: {
+    marginRight: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "rgb(197, 197, 197)",
+  },
+  productImage: { width: 50, height: 50, borderRadius: 10 },
   discountTag: {
     position: "absolute",
     top: 5,

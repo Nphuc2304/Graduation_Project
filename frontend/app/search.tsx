@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import {
   FlatList,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -160,8 +159,6 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    top: 0,
-    position: "fixed",
     flexDirection: "row",
     backgroundColor: "#fff",
     elevation: 3,

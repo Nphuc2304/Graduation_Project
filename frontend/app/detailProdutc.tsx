@@ -85,7 +85,7 @@ const DetailProduct: React.FC = ({ navigation, route }: any) => {
   return (
     <SafeAreaView style={styles.appDfColor}>
       {product != null ? (
-        <View>
+        <View style={styles.appDfColor}>
           <Animated.View
             style={[
               styles.headerContainer,
@@ -249,20 +249,25 @@ const DetailProduct: React.FC = ({ navigation, route }: any) => {
                     </TouchableOpacity>
                   </View>
                   <View style={[styles.shopContainer, { marginTop: 10 }]}>
-                    <View style={styles.btnShop}>
+                    <TouchableOpacity
+                      style={styles.btnShop}
+                      onPress={() => {
+                        navigation.navigate("Shop");
+                      }}
+                    >
                       <Image
                         style={styles.iconShop}
                         source={require("@/assets/icons/shop.png")}
                       />
                       <Text>Xem cửa hàng</Text>
-                    </View>
-                    <View style={styles.btnShop}>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.btnShop}>
                       <Image
                         style={styles.iconShop}
                         source={require("@/assets/icons/chat.png")}
                       />
                       <Text>Chat</Text>
-                    </View>
+                    </TouchableOpacity>
                   </View>
                 </View>
                 <View style={styles.container}>

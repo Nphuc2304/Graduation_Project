@@ -18,6 +18,7 @@ import DetailProduct from "./detailProdutc";
 import UserInformation from "./(setting_feature)/user_information";
 import Address from "./(setting_feature)/address";
 import Location from "./(setting_feature)/location";
+import SellerPage from "./SellerPage";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -143,7 +144,7 @@ function Index() {
         component={Search}
         options={{ headerShown: false }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="Sea"
         component={Sea}
         options={{ headerShown: false }}
@@ -186,6 +187,11 @@ function Index() {
       <Stack.Screen
         name="Location"
         component={Location}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Shop"
+        component={SellerPage}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
