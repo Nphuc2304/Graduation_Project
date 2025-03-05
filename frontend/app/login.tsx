@@ -75,10 +75,17 @@ const LoginScreen = ({ navigation }: any) => {
         {
           headers: { Authorization: `Bearer ${token}` },
         }
-      );
+      )
+        .then((res) => res.json())
+        .then((user) => {
+          Alert.alert("Đăng nhập Google thành công!", `Chào ${user.name}`);
 
-      const user = await response.json();
-      console.log(user);
+          navigation.navigate("HomeTabs");
+        })
+        .catch((error) => {
+          console.log("Lỗi khi lấy thông tin user từ Google:", error);
+          Alert.alert("Lỗi", error.message);
+        });
     } catch (error) {
       console.log(error);
     }
