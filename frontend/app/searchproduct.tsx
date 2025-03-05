@@ -75,7 +75,7 @@ const Sea = ({ navigation, route }: any) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, padding:5, }}>
       <View style={styles.container}>
         <View style={styles.searchAndCartContainer}>
           <TouchableOpacity
@@ -300,7 +300,6 @@ const styles = StyleSheet.create({
   banner: {
     marginTop: 2,
     flexDirection: "row",
-
     backgroundColor: "#fff",
     padding: 10,
     borderRadius: 8,
