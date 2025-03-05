@@ -108,8 +108,21 @@ export const getPopularSearches = async () => {
   }
 };
 
+export const getSearch = async (searchText: string) => {
+  try {
+    const response = await axios.get(`${API_URL}/product/search`, {
+      params: { name: searchText },
+    });
+    return response.data;
+
+  } catch (error) {
+    console.error("Lỗi khi tìm kiếm sản phẩm:", error);
+    return null;
+  }
+};
+
 export const getProductSubCate = async (subCateId: string) => {
-  if(!subCateId){
+  if (!subCateId) {
     console.log("ID subcate k hợp lệ");
     return [];
   }
@@ -139,7 +152,7 @@ export const getSubCate = async (categoryId: string) => {
     return [];
   }
   try {
-    const response = await axios.get(`${API_URL}/subCates/get/`, {params : {categoryId}});
+    const response = await axios.get(`${API_URL}/subCates/get/`, { params: { categoryId } });
     return response.data;
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -147,7 +160,7 @@ export const getSubCate = async (categoryId: string) => {
   }
 };
 //----------------------------------------------------CART-------------------------------------------
-export const getCartId = async (userId : string) => {
+export const getCartId = async (userId: string) => {
   if (!userId) {
     console.log("Invalid user ID: ", { userId });
     return [];
@@ -162,13 +175,13 @@ export const getCartId = async (userId : string) => {
   }
 };
 
-export const getCartItem = async (cartId:string) => {
+export const getCartItem = async (cartId: string) => {
   if (!cartId) {
     console.log("Invalid cart ID: ", { cartId });
     return [];
   }
   try {
-    const response = await axios.get(`${API_URL}/cartItems/getItem/${cartId}` );
+    const response = await axios.get(`${API_URL}/cartItems/getItem/${cartId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching cartItem:", error);
