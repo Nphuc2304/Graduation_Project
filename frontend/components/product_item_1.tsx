@@ -123,7 +123,6 @@ const productItem1: React.FC<productItem1> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: 140,
     flex: 1,
     overflow: "hidden",
     borderRadius: 5,

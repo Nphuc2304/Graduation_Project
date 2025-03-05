@@ -198,7 +198,7 @@ router.get('/popular_searches', async (req, res) => {
 router.get('/subCate_product/:subCateId', async (req, res) => {
     try {
         const { subCateId } = req.params;
-        const products = await Product.find({subCateId});
+        const products = await Product.find({subCateId: subCateId});
         if (!products.length) {
             return res.status(404).json({ status: false, message: "không có sp trong danh mục" })
         }

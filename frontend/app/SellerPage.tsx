@@ -42,7 +42,7 @@ const MENU: menuItem[] = [
   },
 ];
 
-const SellerPage = () => {
+const SellerPage = ({ navigation }: any) => {
   const [menu, setMenu] = useState<menuItem[]>(MENU);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
@@ -80,7 +80,11 @@ const SellerPage = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.headerContainer}>
         <View style={styles.navContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
             <Image
               source={require("../assets/icons/left.png")}
               style={{ width: 28, height: 28 }}
@@ -127,7 +131,7 @@ const SellerPage = () => {
             />
           </TouchableOpacity>
           <TouchableOpacity style={{ flexDirection: "row" }}>
-            <Text
+            <View
               style={{
                 width: 5,
                 height: 5,
@@ -135,8 +139,8 @@ const SellerPage = () => {
                 borderRadius: "50%",
                 marginHorizontal: 2,
               }}
-            ></Text>
-            <Text
+            ></View>
+            <View
               style={{
                 width: 5,
                 height: 5,
@@ -144,8 +148,8 @@ const SellerPage = () => {
                 borderRadius: "50%",
                 marginHorizontal: 2,
               }}
-            ></Text>
-            <Text
+            ></View>
+            <View
               style={{
                 width: 5,
                 height: 5,
@@ -153,7 +157,7 @@ const SellerPage = () => {
                 borderRadius: "50%",
                 marginHorizontal: 2,
               }}
-            ></Text>
+            ></View>
           </TouchableOpacity>
         </View>
         <View
@@ -165,15 +169,23 @@ const SellerPage = () => {
             justifyContent: "space-between",
           }}
         >
-          <Image
-            source={require("../assets/images/img_test.jpg")}
+          <View
             style={{
+              borderRadius: "50%",
               width: 80,
               height: 80,
-              borderRadius: 40,
               marginRight: 10,
+              overflow: "hidden",
             }}
-          />
+          >
+            <Image
+              source={require("../assets/images/img_test.jpg")}
+              style={{
+                width: 80,
+                height: 80,
+              }}
+            />
+          </View>
           <View style={{ alignItems: "center", flex: 1 }}>
             <Text
               style={{
@@ -184,16 +196,17 @@ const SellerPage = () => {
               }}
             >
               Tiki Trading
-              <Image
-                source={require("../assets/icons/right.png")}
-                style={{
-                  width: 12,
-                  height: 12,
-                  backgroundColor: "white",
-                  borderRadius: 6,
-                  marginHorizontal: 10,
-                }}
-              />
+              <View style={{ borderRadius: 6 }}>
+                <Image
+                  source={require("../assets/icons/right.png")}
+                  style={{
+                    width: 12,
+                    height: 12,
+                    backgroundColor: "white",
+                    marginHorizontal: 10,
+                  }}
+                />
+              </View>
             </Text>
             <Text
               style={{

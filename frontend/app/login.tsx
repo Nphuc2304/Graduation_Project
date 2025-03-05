@@ -11,8 +11,7 @@ import {
 } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import * as SecureStore from "expo-secure-store";
-import { getUserByEmail } from "../src/services/productsServices"; // Sử dụng API đăng nhập bằng email
+import { getUserByEmail, register } from "../src/services/productsServices"; // Sử dụng API đăng nhập bằng email
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -50,6 +49,25 @@ const LoginScreen = ({ navigation }: any) => {
   //   }
   // }, [response]);
 
+  const handleCreateAccount = async (
+    email: string,
+    username: string,
+    password: string
+  ) => {
+    try {
+      const userData = { email, username, password };
+      const response = await register(userData);
+
+      if (response.status) {
+        navigation.navigate("HomeTabs");
+      } else {
+        console.log("Có lỗi lưu vào database");
+      }
+    } catch (error: any) {
+      Alert.alert("Đã có lỗi xảy ra");
+    }
+  };
+
   const webClientId =
     "237211522273-0mgbs9pqnjg348eqkrd9h477toimnip6.apps.googleusercontent.com";
   const iosClientId =
@@ -80,7 +98,7 @@ const LoginScreen = ({ navigation }: any) => {
         .then((user) => {
           Alert.alert("Đăng nhập Google thành công!", `Chào ${user.name}`);
 
-          navigation.navigate("HomeTabs");
+          // handleCreateAccount(user.email, user.name, user.password);
         })
         .catch((error) => {
           console.log("Lỗi khi lấy thông tin user từ Google:", error);
