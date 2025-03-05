@@ -6,10 +6,12 @@ import Account from "./account";
 import Home from "./home";
 import Category from "./category";
 import AI from "./ai";
+// import Sea from "./searchproduct";
 import Sea from "./searchproduct";
 import Notify from "./notiffy";
 import Search from "./search";
 import Cart from "./cart";
+import SellerPage from "./SellerPage";
 import LoginScreen from "./login";
 import CreateAccountScreen from "./createAccount";
 import DetailProduct from "./detailProdutc";
@@ -127,6 +129,11 @@ function TabNavigation() {
 function Index() {
   return (
     <Stack.Navigator>
+      {/* <Stack.Screen
+        name="SellerPage"
+        component={SellerPage}
+        options={{ headerShown: false }}
+      /> */}
       <Stack.Screen
         name="HomeTabs"
         component={TabNavigation}
