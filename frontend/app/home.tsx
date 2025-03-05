@@ -203,11 +203,10 @@ const Home = ({ navigation }: any) => {
                   />
                   <Text style={styles.textLink}>Xem tất cả</Text>
                 </View>
-                <FlatList
+                <FlashList
                   data={salesProducts}
                   horizontal={true}
                   refreshing={false}
-                  style={styles.listTopDeal}
                   renderItem={({ item }) => (
                     <ProductItem
                       id={item._id}
@@ -229,11 +228,10 @@ const Home = ({ navigation }: any) => {
                   <Text style={styles.titleList}>Hàng ngoại giá hot</Text>
                   <Text style={styles.textLink}>Xem tất cả</Text>
                 </View>
-                <FlatList
+                <FlashList
                   data={sugesstProducts}
                   horizontal={true}
                   refreshing={false}
-                  style={styles.listTopDeal}
                   renderItem={({ item }) => (
                     <ProductItem
                       id={item._id}
@@ -255,12 +253,10 @@ const Home = ({ navigation }: any) => {
                   <Text style={styles.titleList}>Gợi ý hôm nay</Text>
                 </View>
               </View>
-              <FlatList
+              <FlashList
                 data={sugesstProducts}
                 horizontal={false}
-                numColumns={2}
                 refreshing={false}
-                style={styles.listTopDeal}
                 renderItem={({ item }) => (
                   <ProductItem1
                     id={item._id}
@@ -274,6 +270,7 @@ const Home = ({ navigation }: any) => {
                   />
                 )}
                 keyExtractor={(item) => item._id}
+                numColumns={2}
                 showsVerticalScrollIndicator={false}
               />
             </View>
@@ -421,9 +418,6 @@ const styles = StyleSheet.create({
   textLink: {
     fontSize: 14,
     color: "blue",
-  },
-  listTopDeal: {
-    padding: 5,
   },
   titleList: {
     fontSize: 16,

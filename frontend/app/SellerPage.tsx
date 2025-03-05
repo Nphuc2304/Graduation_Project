@@ -1,16 +1,18 @@
 import {
-  StyleSheet, Text, View,
+  StyleSheet,
+  Text,
+  View,
   Image,
   TextInput,
   TouchableOpacity,
   ScrollView,
-  SafeAreaView
-} from 'react-native'
-import React, { useState } from 'react';
-import { FlashList } from '@shopify/flash-list';
-import StoreScreen from '../components/StoreScreen';
-import StoreProfile from '@/components/StoreProfile';
-import StoreProduct from '@/components/StoreProduct';
+  SafeAreaView,
+} from "react-native";
+import React, { useState } from "react";
+import { FlashList } from "@shopify/flash-list";
+import StoreScreen from "../components/StoreScreen";
+import StoreProfile from "@/components/StoreProfile";
+import StoreProduct from "@/components/StoreProduct";
 
 
 type menuItem = {
@@ -41,7 +43,7 @@ const MENU: menuItem[] = [
   },
 ];
 
-const SellerPage = () => {
+const SellerPage = ({ navigation }: any) => {
   const [menu, setMenu] = useState<menuItem[]>(MENU);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
@@ -80,7 +82,11 @@ const SellerPage = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.headerContainer}>
         <View style={styles.navContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
             <Image
               source={require('../assets/icons/left.png')}
               style={{ width: 28, height: 28 }} />
@@ -103,8 +109,9 @@ const SellerPage = () => {
                 paddingLeft: 40,
                 borderRadius: 5,
                 marginHorizontal: 10,
-                color: 'white'
-              }}></TextInput>
+                color: "white",
+              }}
+            ></TextInput>
           </View>
           <TouchableOpacity>
             <Image
@@ -114,41 +121,97 @@ const SellerPage = () => {
                 marginLeft: 10
               }]} />
           </TouchableOpacity>
-          <TouchableOpacity style={{ flexDirection: 'row' }}>
-            <Text style={{ width: 5, height: 5, backgroundColor: '#F2FEFF', borderRadius: '50%', marginHorizontal: 2 }}></Text>
-            <Text style={{ width: 5, height: 5, backgroundColor: '#F2FEFF', borderRadius: '50%', marginHorizontal: 2 }}></Text>
-            <Text style={{ width: 5, height: 5, backgroundColor: '#F2FEFF', borderRadius: '50%', marginHorizontal: 2 }}></Text>
+          <TouchableOpacity style={{ flexDirection: "row" }}>
+            <View
+              style={{
+                width: 5,
+                height: 5,
+                backgroundColor: "#F2FEFF",
+                borderRadius: "50%",
+                marginHorizontal: 2,
+              }}
+            ></View>
+            <View
+              style={{
+                width: 5,
+                height: 5,
+                backgroundColor: "#F2FEFF",
+                borderRadius: "50%",
+                marginHorizontal: 2,
+              }}
+            ></View>
+            <View
+              style={{
+                width: 5,
+                height: 5,
+                backgroundColor: "#F2FEFF",
+                borderRadius: "50%",
+                marginHorizontal: 2,
+              }}
+            ></View>
           </TouchableOpacity>
         </View>
-        <View style={{
-          flexDirection: 'row',
-          paddingHorizontal: 20,
-          alignItems: 'center',
-          marginVertical: 15,
-          justifyContent: 'space-between'
-        }}>
-          <Image
-            source={require('../assets/images/img_test.jpg')}
+        <View
+          style={{
+            flexDirection: "row",
+            paddingHorizontal: 20,
+            alignItems: "center",
+            marginVertical: 15,
+            justifyContent: "space-between",
+          }}
+        >
+          <View
             style={{
-              width: 80, height: 80,
-              borderRadius: 40,
-              marginRight: 10
-            }} />
-          <View style={{ alignItems: 'center', flex: 1 }}>
-            <Text style={{
-              fontSize: 20,
-              color: '#FFFFFF',
-              fontWeight: 'semibold',
-              alignSelf: 'flex-start'
-            }}>Tiki Trading
-              <Image
-                source={require('../assets/icons/right.png')}
-                style={{
-                  width: 12, height: 12,
-                  backgroundColor: 'white',
-                  borderRadius: 6,
-                  marginHorizontal: 10
-                }} />
+              borderRadius: "50%",
+              width: 80,
+              height: 80,
+              marginRight: 10,
+              overflow: "hidden",
+            }}
+          >
+            <Image
+              source={require("../assets/images/img_test.jpg")}
+              style={{
+                width: 80,
+                height: 80,
+              }}
+            />
+          </View>
+          <View style={{ alignItems: "center", flex: 1 }}>
+            <Text
+              style={{
+                fontSize: 20,
+                color: "#FFFFFF",
+                fontWeight: "semibold",
+                alignSelf: "flex-start",
+              }}
+            >
+              Tiki Trading
+              <View style={{ borderRadius: 6 }}>
+                <Image
+                  source={require("../assets/icons/right.png")}
+                  style={{
+                    width: 12,
+                    height: 12,
+                    backgroundColor: "white",
+                    marginHorizontal: 10,
+                  }}
+                />
+              </View>
+            </Text>
+            <Text
+              style={{
+                color: "#FFFFFF",
+                fontSize: 10,
+                fontWeight: "bold",
+                padding: 1,
+                paddingHorizontal: 5,
+                marginTop: 3,
+                backgroundColor: "#1785FE",
+                alignSelf: "flex-start",
+              }}
+            >
+              OFFICIAL
             </Text>
             <Text style={{
               color: '#FFFFFF',
@@ -191,12 +254,10 @@ const SellerPage = () => {
           />
         </View>
       </View>
-      <ScrollView style={{ flex: 1 }}>
-        {renderContentByMenu()}
-      </ScrollView>
+      <ScrollView style={{ flex: 1 }}>{renderContentByMenu()}</ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 
 export default SellerPage;
