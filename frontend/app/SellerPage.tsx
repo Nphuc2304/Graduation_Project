@@ -3,7 +3,8 @@ import {
     Image,
     TextInput,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    SafeAreaView
 } from 'react-native'
 import React, { useState } from 'react';
 import { FlashList } from '@shopify/flash-list';
@@ -69,7 +70,7 @@ const SellerPage = () => {
     };
 
     return (
-        <View style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.headerContainer}>
                 <View style={styles.navContainer}>
                     <TouchableOpacity>
@@ -94,7 +95,8 @@ const SellerPage = () => {
                                 paddingVertical: 10,
                                 paddingLeft: 40,
                                 borderRadius: 5,
-                                marginHorizontal: 10
+                                marginHorizontal: 10,
+                                color: 'white'
                             }}></TextInput>
                     </View>
                     <TouchableOpacity>
@@ -182,10 +184,10 @@ const SellerPage = () => {
                     />
                 </View>
             </View>
-            <View style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1 }}>
                 {renderContentByMenu()}
-            </View>
-        </View>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 
