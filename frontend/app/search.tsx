@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import {
   FlatList,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -87,10 +86,16 @@ const Search: React.FC = ({ navigation, router }: any) => {
               />
             </TouchableOpacity>
           )}
-          <Image
-            source={require("../assets/icons/send.png")}
-            style={styles.iconSend}
-          />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Sea");
+            }}
+          >
+            <Image
+              source={require("../assets/icons/send.png")}
+              style={styles.iconSend}
+            />
+          </TouchableOpacity>
         </View>
       </View>
       <FlashList
@@ -143,8 +148,6 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    top: 0,
-    position: "fixed",
     flexDirection: "row",
     backgroundColor: "#fff",
     elevation: 3,
