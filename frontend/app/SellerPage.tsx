@@ -14,6 +14,7 @@ import StoreScreen from "../components/StoreScreen";
 import StoreProfile from "@/components/StoreProfile";
 import StoreProduct from "@/components/StoreProduct";
 
+
 type menuItem = {
   id: number;
   name: String;
@@ -76,6 +77,7 @@ const SellerPage = ({ navigation }: any) => {
     }
   };
 
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.headerContainer}>
@@ -86,29 +88,22 @@ const SellerPage = ({ navigation }: any) => {
             }}
           >
             <Image
-              source={require("../assets/icons/left.png")}
-              style={{ width: 28, height: 28 }}
-            />
+              source={require('../assets/icons/left.png')}
+              style={{ width: 28, height: 28 }} />
           </TouchableOpacity>
           <View style={{ flex: 1 }}>
             <Image
-              source={require("../assets/icons/search.png")}
-              style={[
-                styles.iconNav,
-                {
-                  position: "absolute",
-                  width: 18,
-                  height: 18,
-                  left: 20,
-                  top: 10,
-                },
-              ]}
-            />
+              source={require('../assets/icons/search.png')}
+              style={[styles.iconNav, {
+                position: 'absolute',
+                width: 18, height: 18,
+                left: 20, top: 10
+              }]} />
             <TextInput
-              placeholder="Tìm kiếm tại cửa hàng"
-              placeholderTextColor={"#7EA1D7"}
+              placeholder='Tìm kiếm tại cửa hàng'
+              placeholderTextColor={'#7EA1D7'}
               style={{
-                borderColor: "#497BC2",
+                borderColor: '#497BC2',
                 borderWidth: 0.5,
                 paddingVertical: 10,
                 paddingLeft: 40,
@@ -120,15 +115,11 @@ const SellerPage = ({ navigation }: any) => {
           </View>
           <TouchableOpacity>
             <Image
-              source={require("../assets/icons/cart.png")}
-              style={[
-                styles.iconNav,
-                {
-                  marginRight: 18,
-                  marginLeft: 10,
-                },
-              ]}
-            />
+              source={require('../assets/icons/cart.png')}
+              style={[styles.iconNav, {
+                marginRight: 18,
+                marginLeft: 10
+              }]} />
           </TouchableOpacity>
           <TouchableOpacity style={{ flexDirection: "row" }}>
             <View
@@ -222,33 +213,34 @@ const SellerPage = ({ navigation }: any) => {
             >
               OFFICIAL
             </Text>
-            <View
-              style={{
-                marginTop: 10,
-                flexDirection: "row",
-                alignItems: "center",
-                alignSelf: "flex-start",
-              }}
-            >
+            <Text style={{
+              color: '#FFFFFF',
+              fontSize: 10,
+              fontWeight: 'bold',
+              padding: 1,
+              paddingHorizontal: 5,
+              marginTop: 3,
+              backgroundColor: '#1785FE',
+              alignSelf: 'flex-start'
+            }}>OFFICIAL</Text>
+            <View style={{
+              marginTop: 10,
+              flexDirection: 'row',
+              alignItems: 'center',
+              alignSelf: 'flex-start',
+            }}>
               <Image
-                source={require("../assets/icons/start.png")}
-                style={[styles.iconS, { tintColor: "#FEBF13" }]}
-              />
-              <Text style={{ lineHeight: 13, fontSize: 10, color: "#ACC4E7" }}>
-                {" "}
-                4,7 |{" "}
-              </Text>
+                source={require('../assets/icons/start.png')}
+                style={[styles.iconS, { tintColor: '#FEBF13' }]} />
+              <Text style={{ lineHeight: 13, fontSize: 10, color: '#ACC4E7' }}> 4,7 | </Text>
               <Image
-                source={require("../assets/icons/user.png")}
-                style={[styles.iconS, { tintColor: "#ACC4E7" }]}
-              />
-              <Text style={{ lineHeight: 13, fontSize: 10, color: "#ACC4E7" }}>
-                507.9 k+
-              </Text>
+                source={require('../assets/icons/user.png')}
+                style={[styles.iconS, { tintColor: '#ACC4E7' }]} />
+              <Text style={{ lineHeight: 13, fontSize: 10, color: '#ACC4E7' }}>507.9 k+</Text>
             </View>
           </View>
           <TouchableOpacity style={styles.btnFollow}>
-            <Text style={{ color: "#FFFFFF" }}>Theo dõi</Text>
+            <Text style={{ color: '#FFFFFF' }}>Theo dõi</Text>
           </TouchableOpacity>
         </View>
         <View style={{ marginLeft: 20, paddingRight: 20 }}>
@@ -266,6 +258,7 @@ const SellerPage = ({ navigation }: any) => {
     </SafeAreaView>
   );
 };
+
 
 export default SellerPage;
 
