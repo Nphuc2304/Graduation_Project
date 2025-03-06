@@ -14,55 +14,60 @@ import {
 } from "react-native";
 import { Checkbox } from "react-native-paper";
 
+interface cartItem {
+  _id: string;
+  image: ImageSourcePropType;
+  name: string;
+  price: number;
+  quantity: number;
+  sale: number;
+  shopName: string;
+  navigation: any;
+  status: boolean;
+  productId: product;
+};
+
+interface product {
+  id: string;
+  image: ImageSourcePropType;
+  name: string;
+  sale: number;
+}
+
 const Cart: React.FC = ({ navigation }: any) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [userId, setUserId] = useState("678268b47d7fd692d23161c9");
   const [cartId, setCartId] = useState("");
-  const [cartData, setCartData] = useState("");
-
-  //////////////////////
-  const productData = [
-    {
-      id: "1",
-      image:
-        "https://i.pinimg.com/736x/81/cf/82/81cf8275972c05cf87b45156894c0d5b.jpg" as any,
-      name: "Sản phẩm 1",
-      price: 100000,
-      sale: 10,
-      shopName: "Cửa hàng A",
-    },
-    {
-      id: "2",
-      image:
-        "https://i.pinimg.com/736x/81/cf/82/81cf8275972c05cf87b45156894c0d5b.jpg" as any,
-      name: "Sản phẩm 2",
-      price: 150000,
-      sale: 5,
-      shopName: "Cửa hàng B",
-    },
-  ];
+  const [cartData, setCartData] = useState<cartItem[]>();
 
   useEffect(() => {
     const fetchCart = async () => {
       try {
         const data = await getCartId(userId);
-        // console.log(data);
         setCartId(data.cart);
-        console.log(cartId);
       } catch (error) {
         console.error("Failed to fetch cartId", error);
       }
     };
     fetchCart();
   }, []);
-  
+
   useEffect(() => {
     const fetchCartItem = async () => {
       try {
         const data = await getCartItem(cartId);
-        console.log(data.cartItems);
-        setCartData(data.cartItems);
-        console.log("cartDataa ", cartData);
+        if (!cartId) return;
+        const cartItemData = data.cartItems.map((item: cartItem) => ({
+          id: item._id,
+          image: item.productId.image || "https://pixnio.com/free-images/2017/09/26/2017-09-26-07-22-55-1536x1021.jpg",
+          name: item.productId.name || "Con meo",
+          price: item.price || 10000,
+          quantity: item.quantity || 1,
+          sale: item.productId.sale || 1,
+          shopName: item.shopName || "Cua hang ABCD",
+          status: item.status ?? true,
+        }));
+        setCartData(cartItemData);
       } catch (error) {
         console.error("Failed to fetch cart item", error);
       }
@@ -104,20 +109,21 @@ const Cart: React.FC = ({ navigation }: any) => {
         renderItem={() => (
           <View>
             <FlashList
-              data={productData}
+              data={cartData}
               refreshing={false}
               renderItem={({ item }) => (
                 <CartItem
-                  id={item.id}
+                  _id={item._id}
                   image={item.image}
                   name={item.name}
                   price={item.price}
                   sale={item.sale}
                   navigation={navigation}
                   shopName={item.shopName}
-                />
+                  status={item.status}
+                  quantity={item.quantity}/>
               )}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item._id?.toString() ?? Math.random().toString()}
               showsVerticalScrollIndicator={false}
             />
           </View>

@@ -19,13 +19,12 @@ router.post('/addItem', async (req, res) => {
                 .json({ status: false, message: "Cart not found" });
         };
 
-        // find the product in db
         const product = await Product.findById(productId);
         if (!product) {
             return res.status(400)
                 .json({ status: false, message: "Product not found" });
         };
-        // find if the product is exist in the cart
+
         const cartItem = await Item.findOneAndUpdate(
             { cartId, productId },
             {
