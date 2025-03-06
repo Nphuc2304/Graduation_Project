@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import {
   FlatList,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -47,7 +46,7 @@ const Search: React.FC = ({ navigation }: any) => {
     try {
       setLoading(true);
       const result = await getSearch(searchText);
-  
+
       if (result && result.status && result.products.length > 0) {
         navigation.navigate("Sea", { searchResults: result.products });
       } else {
@@ -103,10 +102,10 @@ const Search: React.FC = ({ navigation }: any) => {
             </TouchableOpacity>
           )}
           <TouchableOpacity onPress={handleSearch}>
-          <Image
-            source={require("../assets/icons/send.png")}
-            style={styles.iconSend}
-          />
+            <Image
+              source={require("../assets/icons/send.png")}
+              style={styles.iconSend}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -160,8 +159,6 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    top: 0,
-    position: "fixed",
     flexDirection: "row",
     backgroundColor: "#fff",
     elevation: 3,

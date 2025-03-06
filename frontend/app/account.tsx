@@ -274,12 +274,11 @@ const Account = ({ navigation, route }: any) => {
                 <Text style={styles.textBold}>Gợi ý hôm nay</Text>
               </View>
             </View>
-            <FlatList
+            <FlashList
               data={suggestProducts}
               horizontal={false}
               numColumns={2}
               refreshing={false}
-              style={styles.listTopDeal}
               renderItem={({ item }) => (
                 <ProductItem1
                   id={item._id}
@@ -444,9 +443,6 @@ const styles = StyleSheet.create({
   },
   rowBlock2: {
     flexDirection: "row",
-  },
-  listTopDeal: {
-    padding: 5,
   },
 });
 

@@ -100,7 +100,7 @@ const productItem1: React.FC<productItem1> = ({
     <TouchableOpacity
       style={styles.container}
       onPress={() => {
-        navigation.navigate("DetailProduct", {productId: id});
+        navigation.navigate("DetailProduct", { productId: id });
       }}
     >
       <Image
@@ -123,7 +123,6 @@ const productItem1: React.FC<productItem1> = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: 140,
     flex: 1,
     overflow: "hidden",
     borderRadius: 5,

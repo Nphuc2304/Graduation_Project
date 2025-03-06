@@ -11,8 +11,7 @@ import {
 } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
-import * as SecureStore from "expo-secure-store";
-import { getUserByEmail } from "../src/services/productsServices"; // Sử dụng API đăng nhập bằng email
+import { getUserByEmail, register } from "../src/services/productsServices"; // Sử dụng API đăng nhập bằng email
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -21,31 +20,106 @@ const LoginScreen = ({ navigation }: any) => {
   const [password, setPassword] = useState("");
 
   // Đăng nhập Google từ Google Cloud Console
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    clientId:
-      "788836681295-3iueoamu04iup63ibjntsp10l9dmltj2.apps.googleusercontent.com",
-  });
+  // const [request, response, promptAsync] = Google.useAuthRequest({
+  //   clientId:
+  //     "237211522273-0mgbs9pqnjg348eqkrd9h477toimnip6.apps.googleusercontent.com",
+  //   androidClientId:
+  //     "237211522273-6fjced1bf465vr84saufobu4aqo8ln73.apps.googleusercontent.com",
+  // });
 
-  useEffect(() => {
-    if (response?.type === "success") {
-      const { access_token } = response.params;
-      SecureStore.setItemAsync("google_token", access_token)
-        .then(() => console.log("Lưu token Google thành công"))
-        .catch((error) => console.log("Lỗi khi lưu token Google:", error));
+  // useEffect(() => {
+  //   if (response?.type === "success") {
+  //     const { access_token } = response.params;
+  //     SecureStore.setItemAsync("google_token", access_token)
+  //       .then(() => console.log("Lưu token Google thành công"))
+  //       .catch((error) => console.log("Lỗi khi lưu token Google:", error));
 
-      fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
-        headers: { Authorization: `Bearer ${access_token}` },
-      })
+  //     fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
+  //       headers: { Authorization: `Bearer ${access_token}` },
+  //     })
+  //       .then((res) => res.json())
+  //       .then((user) => {
+  //         Alert.alert("Đăng nhập Google thành công!", `Chào ${user.name}`);
+  //         navigation.navigate("HomeTabs");
+  //       })
+  //       .catch((error) => {
+  //         console.log("Lỗi khi lấy thông tin user từ Google:", error);
+  //         Alert.alert("Lỗi", error.message);
+  //       });
+  //   }
+  // }, [response]);
+
+  const handleCreateAccount = async (
+    email: string,
+    username: string,
+    password: string
+  ) => {
+    try {
+      const userData = { email, username, password };
+      const response = await register(userData);
+
+      if (response.status) {
+        navigation.navigate("HomeTabs");
+      } else {
+        console.log("Có lỗi lưu vào database");
+      }
+    } catch (error: any) {
+      Alert.alert("Đã có lỗi xảy ra");
+    }
+  };
+
+  const webClientId =
+    "237211522273-0mgbs9pqnjg348eqkrd9h477toimnip6.apps.googleusercontent.com";
+  const iosClientId =
+    "237211522273-d0uap22q7etdqgk6aqha6qtnn2023nf7.apps.googleusercontent.com";
+  const androidClientId =
+    "237211522273-6fjced1bf465vr84saufobu4aqo8ln73.apps.googleusercontent.com";
+
+  const config: any = {
+    webClientId,
+    iosClientId,
+    androidClientId,
+  };
+
+  const [request, response, promptAsync] = Google.useAuthRequest(config);
+
+  const getUserProfile = async (token: any) => {
+    if (!token) {
+      return;
+    }
+    try {
+      const response = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
         .then((res) => res.json())
         .then((user) => {
           Alert.alert("Đăng nhập Google thành công!", `Chào ${user.name}`);
-          navigation.navigate("HomeTabs");
+
+          // handleCreateAccount(user.email, user.name, user.password);
         })
         .catch((error) => {
           console.log("Lỗi khi lấy thông tin user từ Google:", error);
           Alert.alert("Lỗi", error.message);
         });
+    } catch (error) {
+      console.log(error);
     }
+  };
+
+  const handleToken = () => {
+    if (response?.type === "success") {
+      const { authentication } = response;
+      const token = authentication?.accessToken;
+      console.log("access token: ", token);
+      getUserProfile(token);
+    }
+  };
+
+  useEffect(() => {
+    handleToken();
   }, [response]);
 
   const handleLogin = async () => {
@@ -68,7 +142,10 @@ const LoginScreen = ({ navigation }: any) => {
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.header}>
-        <Image source={require("../assets/images/imgShop.jpg")} style={styles.pictur1} />
+        <Image
+          source={require("../assets/images/imgShop.jpg")}
+          style={styles.pictur1}
+        />
       </View>
       <Text style={styles.title}>Đăng Nhập</Text>
       <TextInput
@@ -94,17 +171,30 @@ const LoginScreen = ({ navigation }: any) => {
         Quên mật khẩu? <Text style={styles.linkText}>Khôi phục tại đây</Text>
       </Text>
       <View style={styles.socialContainer}>
-        <TouchableOpacity style={styles.socialButton} onPress={() => promptAsync()} disabled={!request}>
-          <Image source={require("../assets/icons/google.png")} style={styles.socialIcon} />
+        <TouchableOpacity
+          style={styles.socialButton}
+          onPress={() => promptAsync()}
+          disabled={!request}
+        >
+          <Image
+            source={require("../assets/icons/google.png")}
+            style={styles.socialIcon}
+          />
         </TouchableOpacity>
         <TouchableOpacity style={styles.socialButton}>
-          <Image source={require("../assets/icons/facebook.png")} style={styles.socialIcon} />
+          <Image
+            source={require("../assets/icons/facebook.png")}
+            style={styles.socialIcon}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-          Bạn chưa có tài khoản? {" "}
-          <Text style={styles.linkText} onPress={() => navigation.navigate("SignUp")}>
+          Bạn chưa có tài khoản?{" "}
+          <Text
+            style={styles.linkText}
+            onPress={() => navigation.navigate("SignUp")}
+          >
             Đăng ký ngay
           </Text>
         </Text>
@@ -126,7 +216,13 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 50,
     borderBottomLeftRadius: 50,
   },
-  title: { fontSize: 24, fontWeight: "bold", color: "#333", textAlign: "center", marginTop: 200 },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
+    textAlign: "center",
+    marginTop: 200,
+  },
   input: {
     width: "100%",
     height: 50,
@@ -147,8 +243,18 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   continueButtonText: { color: "#FFFFFF", fontSize: 16, fontWeight: "bold" },
-  forgotPasswordText: { fontSize: 14, color: "#007AFF", textAlign: "center", marginVertical: 10 },
-  socialContainer: { flexDirection: "row", justifyContent: "center", marginVertical: 20, width: "100%" },
+  forgotPasswordText: {
+    fontSize: 14,
+    color: "#007AFF",
+    textAlign: "center",
+    marginVertical: 10,
+  },
+  socialContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginVertical: 20,
+    width: "100%",
+  },
   socialButton: {
     marginHorizontal: 15,
     backgroundColor: "#F5F5F5",
