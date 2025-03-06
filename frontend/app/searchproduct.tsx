@@ -75,7 +75,9 @@ const Sea = ({ navigation, route }: any) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#F8F8FF" }}>
+
+    <SafeAreaView style={{ flex: 1, padding:5, }}>
+
       <View style={styles.container}>
         <View style={styles.searchAndCartContainer}>
           <TouchableOpacity
