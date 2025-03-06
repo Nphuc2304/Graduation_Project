@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { data } from "react-router-dom";
 
-const Category = () => {
+const Category = ({ navigation }: any) => {
 
   interface SubCategory {
     _id: string;
@@ -30,29 +30,29 @@ const Category = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
 
   useEffect(() => {
-      const fetchCategory = async () => {
-        try {
-          const data = await getAllCategories();
-          setCategoryData(data.categories);
-          setSelectedCategoryId(data.categories[0]._id);
-        } catch (error) {
-          console.error("Failed to fetch category", error);
-        }
-      };
-      fetchCategory();
-    }, []);
+    const fetchCategory = async () => {
+      try {
+        const data = await getAllCategories();
+        setCategoryData(data.categories);
+        setSelectedCategoryId(data.categories[0]._id);
+      } catch (error) {
+        console.error("Failed to fetch category", error);
+      }
+    };
+    fetchCategory();
+  }, []);
 
-    useEffect(()=>{
-      const fetchSubCate = async ()=>{
-        try {
-          const data = await getSubCate(selectedCategoryId);
-          setSubCategory(data.subCate);
-        } catch (error) {
-          console.error("Failed to fetch subcategories", error);
-        }
-      };
-      fetchSubCate();
-    }, [selectedCategoryId])
+  useEffect(() => {
+    const fetchSubCate = async () => {
+      try {
+        const data = await getSubCate(selectedCategoryId);
+        setSubCategory(data.subCate);
+      } catch (error) {
+        console.error("Failed to fetch subcategories", error);
+      }
+    };
+    fetchSubCate();
+  }, [selectedCategoryId])
   ///////////////////////////
 
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -99,7 +99,7 @@ const Category = () => {
               >
                 <Image
                   style={styles.img}
-                  source={{ uri: item.categoryImage}}
+                  source={{ uri: item.categoryImage }}
                 />
                 <Text style={styles.name}>{item.categoryName}</Text>
               </TouchableOpacity>
@@ -115,11 +115,15 @@ const Category = () => {
             refreshing={false}
             numColumns={3}
             renderItem={({ item }) => (
-              <CategoryProduct
-                id={item._id}
-                imageCategory={item.subCateImage}
-                nameCategory={item.subCateName}
-              />
+              <TouchableOpacity onPress={() => {
+                navigation.navigate("Sea", {subCateId: item._id});
+              }}>
+                <CategoryProduct
+                  id={item._id}
+                  imageCategory={item.subCateImage}
+                  nameCategory={item.subCateName}
+                />
+              </TouchableOpacity>
             )}
           />
         </View>
