@@ -39,6 +39,8 @@ const Cart: React.FC = ({ navigation }: any) => {
   const [userId, setUserId] = useState("678268b47d7fd692d23161c9");
   const [cartId, setCartId] = useState("");
   const [cartData, setCartData] = useState<cartItem[]>();
+  const [total, setTotal] = useState();
+  const [finalPrice, setFinalPrice] = useState();
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -68,6 +70,8 @@ const Cart: React.FC = ({ navigation }: any) => {
           status: item.status ?? true,
         }));
         setCartData(cartItemData);
+        setTotal(data.totalPrice);
+        setFinalPrice(data.finalPrice);
       } catch (error) {
         console.error("Failed to fetch cart item", error);
       }
@@ -132,7 +136,7 @@ const Cart: React.FC = ({ navigation }: any) => {
       <View style={styles.blockPayment}>
         <View style={styles.payContainer}>
           <View>
-            <Text>Tổng tiền</Text>
+            <Text>Tổng tiền {finalPrice}đ</Text>
             <Text style={styles.textTotalPrice}>Vui lòng chọn sản phẩm</Text>
           </View>
           <TouchableOpacity style={styles.btnPay}>

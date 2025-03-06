@@ -74,11 +74,15 @@ router.get("/getItem/:cartId", async (req, res) => {
 
         const cartItems = await Item.find({ cartId: cart._id }).populate("productId");
 
+        const checkItem = cartItems.filter(item => item.status == true);
+        
+        const sum = checkItem.reduce((sum, item) => sum + item.price, 0);
+
         res.status(200).json({ status: true, 
             cartItems: cartItems, 
-            totalPrice: cart.totalPrice, 
+            totalPrice: sum, 
             discount: cart.discount, 
-            finalPrice: cart.finalPrice
+            finalPrice: sum - cart.discount
         });
     } catch (error) {
         console.error("Error fetching cart items:", error);

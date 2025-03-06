@@ -8,7 +8,15 @@ router.get("/getCart/:userId", async (req, res) => {
         const {userId} = req.params;
         const cartUser = await cart.findOne({userId: userId});
         if(!cartUser){
-            return res.status(200).json({ status: true, message: `Không tìm thấy giỏ hàng của user ${userId}` });
+            const newCart = new cart({
+                userId
+            });
+            await newCart.save();
+            return res.status(200).json({
+                status: true,
+                message: "Lấy thông tin giỏ hàng thành công",
+                cart: newCart._id
+            });
         }
 
         return res.status(200).json({

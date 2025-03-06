@@ -11,7 +11,7 @@ import {
   ImageSourcePropType,
   View,
 } from "react-native";
-import { getDetailProduct } from "@/src/services/productsServices";
+import { addItem, getDetailProduct } from "@/src/services/productsServices";
 
 interface Product {
   id: string;
@@ -30,6 +30,7 @@ const DetailProduct: React.FC = ({ navigation, route }: any) => {
 
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState(false);
+  const [cartId, setCartId] = useState("67c3d9ba9441ed30d7a9d008");
 
   useEffect(() => {
     const fetchDetail = async () => {
@@ -52,6 +53,11 @@ const DetailProduct: React.FC = ({ navigation, route }: any) => {
     };
     fetchDetail();
   }, []);
+
+  const addToCart = async() => {
+    const data = await addItem(cartId, productId);
+    return console.log(data);;
+  }
 
   const headerBackgroundColor = scrollY.interpolate({
     inputRange: [0, 250],
@@ -150,7 +156,7 @@ const DetailProduct: React.FC = ({ navigation, route }: any) => {
                 </View>
                 <View style={styles.addCartContainer}>
                   <TouchableOpacity style={styles.btnAddToCart}>
-                    <Text style={styles.textAddToCart}>Thêm vào giỏ</Text>
+                    <Text style={styles.textAddToCart} onPress={()=>{addToCart()}}>Thêm vào giỏ</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.btnBuy}>
                     <Text style={styles.textBuy}>Mua ngay</Text>
