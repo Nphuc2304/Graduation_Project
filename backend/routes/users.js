@@ -16,16 +16,7 @@ router.post("/login", async function(req, res){
     } else {
       const token = JWT.sign({username: username}, config.SECRETKEY, {expiresIn: '1h'});
       const refreshToken = JWT.sign({username: username}, config.SECRETKEY, {expiresIn: '1d'});
-
-      const userId = checkUser._id;
-      let cart = await Cart.findOne({userId: userId});
-      if (!cart){
-        cart = new Cart({
-          userId: userId
-        })
-        await cart.save();
-      }
-      res.status(200).json({status: true, token: token, refreshToken: refreshToken, cartId: cart._id});
+      res.status(200).json({status: true, token: token, refreshToken: refreshToken});
     }
   } catch(e){
     res.status(400).json({status:false, message:"Đã có lỗi xảy ra" + e});
