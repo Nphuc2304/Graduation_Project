@@ -177,12 +177,24 @@ export const getCartId = async (userId: string) => {
 
 export const getCartItem = async (cartId: string) => {
   if (!cartId) {
-    console.log("Invalid cart ID: ", { cartId });
     return [];
   }
   try {
     const response = await axios.get(`${API_URL}/cartItems/getItem/${cartId}`);
     return response.data;
+  } catch (error) {
+    console.error("Error fetching cartItem:", error);
+    return null;
+  }
+};
+
+export const addItem = async (cartId: string, productId: string) => {
+  if(!productId || !cartId){
+    return console.log("There are not have productId or cartId");
+  }
+  try {
+    const response = await axios.post(`${API_URL}/cartItems/addItem`, {cartId, productId});
+    return console.log(response);
   } catch (error) {
     console.error("Error fetching cartItem:", error);
     return null;

@@ -165,14 +165,12 @@ const Sea = ({ navigation, route }: any) => {
             </View>
           )}
         />
-
         <View>
           <TouchableOpacity style={styles.buttonxt}>
             <Text style={styles.bannerTitle1}>Xem thêm</Text>
           </TouchableOpacity>
         </View>
       </View>
-
       {/* Thanh lọc & sắp xếp */}
       <View style={styles.filterBar}>
         {filters.map((item) => (
@@ -188,7 +186,6 @@ const Sea = ({ navigation, route }: any) => {
           </TouchableOpacity>
         ))}
       </View>
-
       {/* Các tag khuyến mãi */}
       <View style={styles.filterBar1}>
         <TouchableOpacity style={styles.LOCC}>
@@ -272,7 +269,6 @@ const styles = StyleSheet.create({
   LOCC: {
     marginRight: 5,
   },
-
   tag: {
     fontSize: 10,
     alignSelf: "center",
