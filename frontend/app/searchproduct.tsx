@@ -15,7 +15,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { getAllProducts, saleProducts } from "@/src/services/productsServices";
+import { getAllProducts, saleProducts, getProductSubCate } from "@/src/services/productsServices";
 import { FlashList } from "@shopify/flash-list";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -30,7 +30,7 @@ interface Product {
 }
 
 const Sea = ({ navigation, route }: any) => {
-  const { searchResults } = route.params || { searchResults: [] };
+  const { searchResults, subCateId } = route.params || { searchResults: [], subCateId: null };
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sugesstProducts, setProducts] = useState<Product[]>([]);
   const [salesProducts, setSaleProducts] = useState<Product[]>([]);
@@ -47,36 +47,52 @@ const Sea = ({ navigation, route }: any) => {
   ];
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-        const data = await getAllProducts();
-        console.log("Fetched products: ", data);
-        setProducts(data);
-      } catch (error) {
-        console.error("Failed to fetch products", error);
-      }
-      setLoading(false);
-    };
-    fetchProducts();
-  }, []);
+    if (subCateId) {
+      const fetchProductsBySubCate = async () => {
+        try {
+          setLoading(true);
+          const data = await getProductSubCate(subCateId);
+          setProducts(data);
+        } catch (error) {
+          console.error("Lỗi khi lấy sản phẩm theo danh mục con:", error);
+        }
+        setLoading(false);
+      };
+      fetchProductsBySubCate();
+    }
+  }, [subCateId]);
 
-  useEffect(() => {
-    const fetchDiscountedProducts = async () => {
-      try {
-        const data = await saleProducts();
-        setSaleProducts(data);
-      } catch (error) {
-        console.error("Error fetching discounted products:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const data = await getAllProducts();
+  //       console.log("Fetched products: ", data);
+  //       setProducts(data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch products", error);
+  //     }
+  //     setLoading(false);
+  //   };
+  //   fetchProducts();
+  // }, []);
 
-    fetchDiscountedProducts();
-  }, []);
+  // useEffect(() => {
+  //   const fetchDiscountedProducts = async () => {
+  //     try {
+  //       const data = await saleProducts();
+  //       setSaleProducts(data);
+  //     } catch (error) {
+  //       console.error("Error fetching discounted products:", error);
+  //     }
+  //   };
+
+  //   fetchDiscountedProducts();
+  // }, []);
 
   return (
 
-    <SafeAreaView style={{ flex: 1, padding:5, }}>
+    <SafeAreaView style={{ flex: 1, padding: 5, }}>
 
       <View style={styles.container}>
         <View style={styles.searchAndCartContainer}>
@@ -235,6 +251,27 @@ const Sea = ({ navigation, route }: any) => {
                 </View>
               </View> */}
 
+              {/* hiện sp theo danh mục con */}
+              <FlashList
+                data={sugesstProducts}
+                horizontal={false}
+                numColumns={2}
+                refreshing={false}
+                renderItem={({ item }: any) => (
+                  <ProductItem1
+                    id={item._id}
+                    image={item.image}
+                    name={item.name}
+                    rate={item.rate}
+                    price={item.price}
+                    sale={item.sale}
+                    brandName={item.brandName}
+                    navigation={navigation}
+                  />
+                )}
+                showsVerticalScrollIndicator={false}
+              />
+              {/* tìm kiếm */}
               <FlashList
                 data={searchResults}
                 horizontal={false}
@@ -259,6 +296,7 @@ const Sea = ({ navigation, route }: any) => {
         )}
         showsVerticalScrollIndicator={false}
       />
+
       {loading && (
         <View style={styles.overlay}>
           <ActivityIndicator size="large" color="#FFBBFF" />

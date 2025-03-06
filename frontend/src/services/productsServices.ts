@@ -123,7 +123,7 @@ export const getSearch = async (searchText: string) => {
 
 export const getProductSubCate = async (subCateId: string) => {
   if (!subCateId) {
-    console.log("ID subcate k hợp lệ");
+    console.log("ID subcate k hợp lệ", {subCateId});
     return [];
   }
   try {
