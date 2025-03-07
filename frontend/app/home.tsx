@@ -42,7 +42,6 @@ const Home = ({ navigation }: any) => {
       try {
         setLoading(true);
         const data = await getAllProducts();
-        console.log("Fetched products: ", data);
         setProducts(data);
       } catch (error) {
         console.error("Failed to fetch products", error);
@@ -203,7 +202,7 @@ const Home = ({ navigation }: any) => {
                   />
                   <Text style={styles.textLink}>Xem tất cả</Text>
                 </View>
-                <FlashList
+                <FlatList
                   data={salesProducts}
                   horizontal={true}
                   refreshing={false}
@@ -228,7 +227,7 @@ const Home = ({ navigation }: any) => {
                   <Text style={styles.titleList}>Hàng ngoại giá hot</Text>
                   <Text style={styles.textLink}>Xem tất cả</Text>
                 </View>
-                <FlashList
+                <FlatList
                   data={sugesstProducts}
                   horizontal={true}
                   refreshing={false}

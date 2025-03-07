@@ -3,6 +3,7 @@ import { getCartId, getCartItem } from "@/src/services/productsServices";
 import { FlashList } from "@shopify/flash-list";
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Image,
   ImageSourcePropType,
   SafeAreaView,
@@ -25,7 +26,7 @@ interface cartItem {
   navigation: any;
   status: boolean;
   productId: product;
-};
+}
 
 interface product {
   id: string;
@@ -38,9 +39,10 @@ const Cart: React.FC = ({ navigation }: any) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [userId, setUserId] = useState("678268b47d7fd692d23161c9");
   const [cartId, setCartId] = useState("");
-  const [cartData, setCartData] = useState<cartItem[]>();
+  const [cartData, setCartData] = useState<cartItem[]>([]);
   const [total, setTotal] = useState();
   const [finalPrice, setFinalPrice] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -56,12 +58,15 @@ const Cart: React.FC = ({ navigation }: any) => {
 
   useEffect(() => {
     const fetchCartItem = async () => {
+      setLoading(true);
       try {
         const data = await getCartItem(cartId);
         if (!cartId) return;
         const cartItemData = data.cartItems.map((item: cartItem) => ({
           id: item._id,
-          image: item.productId.image || "https://pixnio.com/free-images/2017/09/26/2017-09-26-07-22-55-1536x1021.jpg",
+          image:
+            item.productId.image ||
+            "https://pixnio.com/free-images/2017/09/26/2017-09-26-07-22-55-1536x1021.jpg",
           name: item.productId.name || "Con meo",
           price: item.price || 10000,
           quantity: item.quantity || 1,
@@ -72,13 +77,13 @@ const Cart: React.FC = ({ navigation }: any) => {
         setCartData(cartItemData);
         setTotal(data.totalPrice);
         setFinalPrice(data.finalPrice);
+        setLoading(false);
       } catch (error) {
         console.error("Failed to fetch cart item", error);
       }
     };
     fetchCartItem();
   }, [cartId]);
-
 
   return (
     <SafeAreaView style={styles.appDfColor}>
@@ -125,9 +130,12 @@ const Cart: React.FC = ({ navigation }: any) => {
                   navigation={navigation}
                   shopName={item.shopName}
                   status={item.status}
-                  quantity={item.quantity}/>
+                  quantity={item.quantity}
+                />
               )}
-              keyExtractor={(item) => item._id?.toString() ?? Math.random().toString()}
+              keyExtractor={(item) =>
+                item._id?.toString() ?? Math.random().toString()
+              }
               showsVerticalScrollIndicator={false}
             />
           </View>
@@ -144,6 +152,11 @@ const Cart: React.FC = ({ navigation }: any) => {
           </TouchableOpacity>
         </View>
       </View>
+      {loading && (
+        <View style={styles.overlay}>
+          <ActivityIndicator size="large" color="#FFBBFF" />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -210,6 +223,17 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "500",
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 2,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
 });
 

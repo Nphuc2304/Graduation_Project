@@ -49,24 +49,24 @@ const LoginScreen = ({ navigation }: any) => {
   //   }
   // }, [response]);
 
-  const handleCreateAccount = async (
-    email: string,
-    username: string,
-    password: string
-  ) => {
-    try {
-      const userData = { email, username, password };
-      const response = await register(userData);
+  // const handleCreateAccount = async (
+  //   email: string,s
+  //   username: string,
+  //   password: string
+  // ) => {
+  //   try {
+  //     const userData = { email, username, password };
+  //     const response = await register(userData);
 
-      if (response.status) {
-        navigation.navigate("HomeTabs");
-      } else {
-        console.log("Có lỗi lưu vào database");
-      }
-    } catch (error: any) {
-      Alert.alert("Đã có lỗi xảy ra");
-    }
-  };
+  //     if (response.status) {
+  //       navigation.navigate("HomeTabs");
+  //     } else {
+  //       console.log("Có lỗi lưu vào database");
+  //     }
+  //   } catch (error: any) {
+  //     Alert.alert("Đã có lỗi xảy ra");
+  //   }
+  // };
 
   const webClientId =
     "237211522273-0mgbs9pqnjg348eqkrd9h477toimnip6.apps.googleusercontent.com";

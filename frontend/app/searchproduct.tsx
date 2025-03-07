@@ -15,7 +15,11 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { getAllProducts, saleProducts, getProductSubCate } from "@/src/services/productsServices";
+import {
+  getAllProducts,
+  saleProducts,
+  getProductSubCate,
+} from "@/src/services/productsServices";
 import { FlashList } from "@shopify/flash-list";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -30,7 +34,10 @@ interface Product {
 }
 
 const Sea = ({ navigation, route }: any) => {
-  const { searchResults, subCateId } = route.params || { searchResults: [], subCateId: null };
+  const { searchResults, subCateId } = route.params || {
+    searchResults: [],
+    subCateId: null,
+  };
   const [currentIndex, setCurrentIndex] = useState(0);
   const [sugesstProducts, setProducts] = useState<Product[]>([]);
   const [salesProducts, setSaleProducts] = useState<Product[]>([]);
@@ -91,9 +98,7 @@ const Sea = ({ navigation, route }: any) => {
   // }, []);
 
   return (
-
-    <SafeAreaView style={{ flex: 1, padding: 5, }}>
-
+    <SafeAreaView style={{ flex: 1, padding: 5, backgroundColor: "#F8F8FF" }}>
       <View style={styles.container}>
         <View style={styles.searchAndCartContainer}>
           <TouchableOpacity
