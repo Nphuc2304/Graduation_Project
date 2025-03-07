@@ -14,6 +14,8 @@ import StoreScreen from "../components/StoreScreen";
 import StoreProfile from "@/components/StoreProfile";
 import StoreProduct from "@/components/StoreProduct";
 
+
+
 type menuItem = {
   id: number;
   name: String;
@@ -197,6 +199,21 @@ const SellerPage = ({ navigation }: any) => {
                   }}
                 />
               </View>
+
+            </Text>
+            <Text
+              style={{
+                color: "#FFFFFF",
+                fontSize: 10,
+                fontWeight: "bold",
+                padding: 1,
+                paddingHorizontal: 5,
+                marginTop: 3,
+                backgroundColor: "#1785FE",
+                alignSelf: "flex-start",
+              }}
+            >
+              OFFICIAL
             </Text>
             <Text style={{
               color: '#FFFFFF',
@@ -243,6 +260,8 @@ const SellerPage = ({ navigation }: any) => {
     </SafeAreaView>
   );
 };
+
+
 
 export default SellerPage;
 
