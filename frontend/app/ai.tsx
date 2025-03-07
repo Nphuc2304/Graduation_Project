@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput, TouchableOpacity, FlatList, Image, StyleSheet, Dimensions } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, Image, StyleSheet, Dimensions, SafeAreaView } from "react-native";
 
 const { width } = Dimensions.get("window");
 const messages = [
@@ -11,7 +11,7 @@ const messages = [
 
 const App = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerTop}>
@@ -71,7 +71,7 @@ const App = () => {
           <Image source={require('../assets/images/AI.jpg')} style={styles.sendIcon} />
 </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
