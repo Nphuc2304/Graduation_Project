@@ -1,5 +1,5 @@
 import { FlashList } from "@shopify/flash-list";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RNPickerSelect from "react-native-picker-select";
 import {
   Image,
@@ -13,15 +13,92 @@ import {
 import { Checkbox } from "react-native-paper";
 
 const Location: React.FC = ({ navigation }: any) => {
-  const provinces = [
-    { label: "Hà Nội", value: "hanoi" },
-    { label: "TP. Hồ Chí Minh", value: "hochiminh" },
-    { label: "Đà Nẵng", value: "danang" },
-    { label: "Hải Phòng", value: "haiphong" },
-    { label: "Cần Thơ", value: "cantho" },
-  ];
-  const [selectedProvince, setSelectedProvince] = useState(null);
-  const [isChecked, setIsChecked] = useState<boolean>();
+  // const provinces = [
+  //   { label: "Hà Nội", value: "hanoi" },
+  //   { label: "TP. Hồ Chí Minh", value: "hochiminh" },
+  //   { label: "Đà Nẵng", value: "danang" },
+  //   { label: "Hải Phòng", value: "haiphong" },
+  //   { label: "Cần Thơ", value: "cantho" },
+  // ];
+  const [isChecked, setIsChecked] = useState<boolean>(true);
+
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [communes, setCommunes] = useState([]);
+
+  const [selectedProvince, setSelectedProvince] = useState('');
+  const [selectedDistrict, setSelectedDistrict] = useState('');
+  const [selectedCommune, setSelectedCommune] = useState('');
+
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      if (!isChecked) return;
+      try {
+        const response = await fetch('https://provinces.open-api.vn/api/p/');
+        const data = await response.json();
+        setProvinces(data);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching provinces:', error);
+      }
+    };
+
+    fetchProvinces();
+  }, [isChecked]);
+
+  useEffect(() => {
+    const fetchDistricts = async () => {
+      if (!selectedProvince) {
+        setDistricts([]);
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://provinces.open-api.vn/api/p/${selectedProvince}?depth=2`);
+        const data = await response.json();
+        setDistricts(data.districts || []);
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching districts:', error);
+      }
+    };
+    fetchDistricts();
+  }, [selectedProvince]);
+
+  useEffect(() => {
+    const fetchCommunes = async () => {
+      if (!selectedDistrict) {
+        setCommunes([]);
+        return;
+      }
+      try {
+        const response = await fetch(`https://provinces.open-api.vn/api/d/${selectedDistrict}?depth=2`);
+        const data = await response.json();
+        setCommunes(data.wards || []);
+      } catch (error) {
+        console.error('Error fetching communes:', error);
+      } finally {
+      }
+    };
+
+    fetchCommunes();
+  }, [selectedDistrict]);
+
+
+  const handleProvinceChange = (value: string) => {
+    setSelectedProvince(value);
+    setSelectedDistrict('');
+    setSelectedCommune('');
+  };
+
+  const handleDistrictChange = (value: string) => {
+    setSelectedDistrict(value);
+    setSelectedCommune('');
+  };
+
+  const handelCommuneChange = (value: string) => {
+    setSelectedCommune(value);
+  };
 
   return (
     <SafeAreaView style={styles.appDfColor}>
@@ -62,12 +139,21 @@ const Location: React.FC = ({ navigation }: any) => {
                   <Text style={styles.text2}>Tỉnh/ Thành phố</Text>
                   <View style={styles.inputBlock}>
                     <RNPickerSelect
-                      onValueChange={(value) => setSelectedProvince(value)}
-                      items={provinces}
+                      onValueChange={(value) => {
+                        setSelectedProvince(value);
+                        setSelectedDistrict("");
+                        setSelectedCommune("");
+                      }}
+                      items={[
+                        { label: "Chọn Tỉnh/Thành phố", value: "" },
+                        ...provinces.map((p) => ({ label: p.name, value: p.code })),
+                      ]}
                       placeholder={{
                         label: "Chọn tỉnh/thành phố...",
                         value: null,
                       }}
+                      disabled={!isChecked}
+
                     />
                   </View>
                 </View>
@@ -75,13 +161,20 @@ const Location: React.FC = ({ navigation }: any) => {
                   <Text style={styles.text2}>Quận/ Huyện</Text>
                   <View style={styles.inputBlock}>
                     <RNPickerSelect
-                      onValueChange={(value) => setSelectedProvince(value)}
-                      items={provinces}
+                      onValueChange={(value) => {
+                        setSelectedDistrict(value);
+                        setSelectedCommune("");
+                      }}
+                      items={[
+                        { label: "Chọn Quận/Huyện", value: "" },
+                        ...districts.map((d) => ({ label: d.name, value: d.code })),
+                      ]}
+                      value={selectedDistrict}
                       placeholder={{
                         label: "Chọn Quận/ Huyện",
                         value: null,
                       }}
-                      disabled={true}
+                      disabled={!isChecked || !selectedProvince}
                     />
                   </View>
                 </View>
@@ -89,14 +182,18 @@ const Location: React.FC = ({ navigation }: any) => {
                   <Text style={styles.text2}>Phường/ Xã</Text>
                   <View style={styles.inputBlock}>
                     <RNPickerSelect
-                      onValueChange={(value) => setSelectedProvince(value)}
-                      items={provinces}
+                      onValueChange={(value) => setSelectedCommune(value)}
+                      items={[
+                        { label: "Chọn Phường/Xã", value: "" },
+                        ...communes.map((c) => ({ label: c.name, value: c.code })),
+                      ]}
+                      value={selectedCommune}
                       placeholder={{
                         label: "Chọn Phường/ Xã",
                         value: null,
                       }}
-                      disabled={true}
-                    />
+                      disabled={!isChecked || !selectedDistrict}
+                      />
                   </View>
                 </View>
                 <View>
