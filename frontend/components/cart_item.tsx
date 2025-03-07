@@ -11,25 +11,36 @@ import {
 import { Checkbox } from "react-native-paper";
 
 interface cartItem {
-  id: string;
+  _id: string;
   image: ImageSourcePropType;
   name: string;
   price: number;
+  quantity: number;
   sale: number;
   shopName: string;
   navigation: any;
-}
+  status: boolean;
+};
+
+interface product {
+  id: string;
+  image: ImageSourcePropType;
+  name: string;
+  sale: number;
+};
 
 const CartItem: React.FC<cartItem> = ({
-  id,
+  _id,
   image,
   name,
   price,
+  quantity,
   sale,
   shopName,
   navigation,
+  status,
 }) => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(true);
   const [count, setCount] = useState("1");
 
   const renderPrice = () => {
@@ -89,7 +100,7 @@ const CartItem: React.FC<cartItem> = ({
               </TouchableOpacity>
               <TextInput
                 style={styles.inputCount}
-                value={count}
+                value={quantity + ""}
                 onChangeText={(newText) => setCount(newText)}
                 placeholder="1"
               />
