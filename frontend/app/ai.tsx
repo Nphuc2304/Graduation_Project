@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput, TouchableOpacity, FlatList, Image, StyleSheet, Dimensions } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, Image, StyleSheet, Dimensions, SafeAreaView } from "react-native";
 
 const { width } = Dimensions.get("window");
 const messages = [
@@ -9,16 +9,13 @@ const messages = [
   "Máy ảnh nào phù hợp với người đi phượt?",
 ];
 
-const AI = () => {
+const App = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerTop}>
-            <TouchableOpacity>
-            <Image source={require('../assets/images/send.jpg')} style={styles.avatar} />
-
-            </TouchableOpacity>
+          <Image source={require('../assets/images/send.jpg')} style={styles.avatar} />
           <Text style={styles.headerText}>Trợ lý AI</Text>
           <TouchableOpacity>
             <Text style={styles.moreOptions}>⋮</Text>
@@ -44,6 +41,9 @@ const AI = () => {
         <View style={styles.aiMessageContainer}>
           <Image source={require('../assets/images/send.jpg')} style={styles.chatBubble} />
           <View style={styles.aiMessage}>
+          <Text style={styles.aiText1}>
+              Trợ lý AI
+            </Text>
             <Text style={styles.aiText}>
               Xin chào! Mình là trợ lý AI của bạn tại Tiki. Mình đang phát triển nên không phải lúc nào cũng đúng. Bạn có thể phản hồi để giúp mình cải thiện tốt hơn.
             </Text>
@@ -71,7 +71,7 @@ const AI = () => {
           <Image source={require('../assets/images/AI.jpg')} style={styles.sendIcon} />
 </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -86,26 +86,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ddd",
+    alignItems: 'center',
   },
   headerTop: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    width: '100%',
+    position: 'relative',
   },
   avatar: {
     width: 40,
     height: 40,
     borderRadius: 20,
+    position: 'absolute',
+    left: 10,
   },
   headerText: {
     fontSize: 18,
     fontWeight: "bold",
-    flex: 1,
     textAlign: "center",
-    marginRight:30
   },
   moreOptions: {
     fontSize: 18,
+    // position: 'fixed',
+    left:130,
+    top: '80%'
+       
   },
   subHeaderText: {
     textAlign: "center",
@@ -114,28 +121,25 @@ const styles = StyleSheet.create({
     color: "#777",
   },
   assistantOptions: {
-    alignItems:"center",
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "center",
     marginTop: 10,
-    marginLeft:13
+    gap: 70,
   },
   option: {
     alignItems: "center",
-   
   },
   optionIcon: {
+    borderWidth:1,
+    borderColor: "rrgba(219, 219, 219, 0.77)",
     width: 60,
     height: 60,
     borderRadius: 30,
-    alignItems:"center",
-  
   },
   optionText: {
-    justifyContent:"center",
     marginTop: 5,
-    fontSize: 14,
-    
+    fontSize: 12,
+    color: "#007AFF"
   },
   chatContainer: {
     padding: 10,
@@ -162,6 +166,10 @@ const styles = StyleSheet.create({
   aiText: {
     fontSize: 14,
   },
+  aiText1: {
+     color: "#007AFF",
+    fontSize: 12,
+  },
   messageButton: {
     backgroundColor: "#ffffff",
     padding: 10,
@@ -172,7 +180,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     maxWidth: '70%',
-    
   },
   messageIcon: {
     width: 20,
@@ -205,4 +212,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AI;
+export default App;
