@@ -41,9 +41,9 @@ const Sea = ({ navigation, route }: any) => {
   const tags = ["NEW", "TOP DEAL", "FREESHIP XTRA"];
 
   const products = [
-    { id: 5, image: require("../assets/images/img_def.jpg"), discount: "-15%" },
-    { id: 6, image: require("../assets/images/Iphone.png"), discount: "-15%" },
-    { id: 7, image: require("../assets/images/Iphone.png"), discount: "-27%" },
+    { id: 5, image: require("../assets/images/gg1.png"), discount: "-15%" },
+    { id: 6, image: require("../assets/images/quan1.png"), discount: "-15%" },
+    { id: 7, image: require("../assets/images/gg2.png"), discount: "-27%" },
   ];
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const Sea = ({ navigation, route }: any) => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#F8F8FF" }}>
       <View style={styles.container}>
         <View style={styles.searchAndCartContainer}>
           <TouchableOpacity
@@ -129,18 +129,24 @@ const Sea = ({ navigation, route }: any) => {
       {/* Banner quảng cáo */}
       <View style={styles.banner}>
         <Image
-          source={require("../assets/images/img_def.jpg")}
+          source={require("../assets/images/logoGucci.png")}
           style={styles.bannerImage}
         />
         <View style={styles.bannerText}>
           <Text style={styles.bannerTitle}>Giảm đến 30%</Text>
-          <Text style={styles.bannerSubtitle}>
-            Tài trợ bởi Acnes Official Store ★ 4.7/5
-          </Text>
+          <View style={styles.bannerText1}>
+            <Text style={styles.bannerSubtitle}>Tài trợ bởi </Text>
+            <Text style={styles.bannerSubtitle1}>Acnes Official Store </Text>
+            <Text style={styles.bannerSubtitle}>4.7/5 </Text>
+            <Image
+              source={require("../assets/icons/start.png")}
+              style={styles.bannersao}
+            />
+          </View>
         </View>
         <TouchableOpacity style={styles.iconnn}>
           <Image
-            source={require("../assets/icons/rightt.png")}
+            source={require("../assets/icons/right.png")}
             style={styles.cartIcon2}
           />
         </TouchableOpacity>
@@ -187,11 +193,11 @@ const Sea = ({ navigation, route }: any) => {
       <View style={styles.filterBar1}>
         <TouchableOpacity style={styles.LOCC}>
           <View style={styles.Loc}>
-            <Text style={styles.Loctxt}>LỌC</Text>
             <Image
               source={require("../assets/icons/Loc.png")}
               style={styles.imageLoc}
             />
+            <Text style={styles.Loctxt}>LỌC</Text>
           </View>
         </TouchableOpacity>
         {tags.map((tag) => (
@@ -230,13 +236,12 @@ const Sea = ({ navigation, route }: any) => {
                 </View>
               </View> */}
 
-              <FlatList
+              <FlashList
                 data={searchResults}
                 horizontal={false}
                 numColumns={2}
                 refreshing={false}
-                style={styles.listTopDeal}
-                renderItem={({ item }) => (
+                renderItem={({ item }: any) => (
                   <ProductItem1
                     id={item._id}
                     image={item.image}
@@ -248,7 +253,6 @@ const Sea = ({ navigation, route }: any) => {
                     navigation={navigation}
                   />
                 )}
-                keyExtractor={(item) => item._id}
                 showsVerticalScrollIndicator={false}
               />
             </View>
@@ -278,7 +282,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "auto",
     padding: 4,
-    alignSelf: "center",
+    alignItems: "center",
     flexDirection: "row",
     fontWeight: "bold",
   },
@@ -297,12 +301,13 @@ const styles = StyleSheet.create({
   banner: {
     marginTop: 2,
     flexDirection: "row",
-
     backgroundColor: "#fff",
     padding: 10,
-    borderRadius: 8,
   },
   bannerImage: {
+    borderWidth: 1,
+    borderColor: "rgb(197, 197, 197)",
+    alignItems: "center",
     width: 50,
     height: "auto",
     borderRadius: 10,
@@ -312,7 +317,8 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
   },
-  bannerText: { marginLeft: 10, flex: 1, alignSelf: "center" },
+  bannerText: { marginLeft: 10, flex: 1 },
+  bannerText1: { flex: 1, flexDirection: "row", alignItems: "center" },
   bannerTitle: { fontSize: 15, fontWeight: "bold" },
   buttonxt: {
     alignSelf: "center",
@@ -334,6 +340,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
   },
   bannerSubtitle: { fontSize: 12, color: "#666" },
+  bannerSubtitle1: {
+    fontSize: 12,
+    color: "#666",
+    fontWeight: "bold",
+  },
+
+  bannersao: {
+    width: 20,
+    height: 20,
+    alignItems: "center",
+  },
+
   bannerButton: {
     marginTop: 5,
     backgroundColor: "#007AFF",
@@ -359,9 +377,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-
     backgroundColor: "#fff",
-    borderRadius: 12,
     elevation: 3,
     shadowColor: "#000",
     shadowOpacity: 0.1,
@@ -374,15 +390,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     paddingHorizontal: 15,
-    paddingVertical: 10,
-    width: "70%",
+    width: "60%",
     borderColor: "gray",
     borderWidth: 1,
   },
   cartIcon1: {
-    marginRight: 10,
-    width: 25,
-    height: 25,
+    marginRight: 20,
+    width: 20,
+    height: 20,
   },
   cartIcon2: {
     flex: 1,
@@ -390,12 +405,12 @@ const styles = StyleSheet.create({
     height: 20,
   },
   iconnn: {
-    alignSelf: "center",
+    marginRight: 1,
     width: 20,
     height: 20,
   },
   cartIcon: {
-    marginLeft: 10,
+    marginHorizontal: 10,
     width: 25,
     height: 25,
   },
@@ -478,9 +493,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "blue",
   },
-  listTopDeal: {
-    padding: 5,
-  },
   titleList: {
     fontSize: 16,
     fontWeight: "bold",
@@ -519,22 +531,21 @@ const styles = StyleSheet.create({
 
   filterText: { fontSize: 12, color: "#666", flexDirection: "row" },
   filterText1: {
+    padding: 5,
+    right: 35,
     backgroundColor: "#f1f1f1",
     marginLeft: 3,
-    marginRight: 3,
-    fontSize: 14,
-    alignSelf: "center",
+    fontSize: 12,
     color: "#007AFF",
-    paddingHorizontal: 5,
     borderRadius: 10,
     fontWeight: "bold",
   },
   selectedFilter: { color: "#007AFF", fontWeight: "bold" },
   selectedFilter1: {
-    fontSize: 14,
+    fontSize: 12,
     color: "rgba(255, 37, 37, 0.69)",
     fontWeight: "bold",
-    backgroundColor: "rgba(196, 196, 196, 0.88)",
+    backgroundColor: "rgba(220, 220, 220, 0.88)",
     alignSelf: "center",
     flexDirection: "row",
   },
