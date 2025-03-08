@@ -215,16 +215,6 @@ const SellerPage = ({ navigation }: any) => {
             >
               OFFICIAL
             </Text>
-            <Text style={{
-              color: '#FFFFFF',
-              fontSize: 10,
-              fontWeight: 'bold',
-              padding: 1,
-              paddingHorizontal: 5,
-              marginTop: 3,
-              backgroundColor: '#1785FE',
-              alignSelf: 'flex-start'
-            }}>OFFICIAL</Text>
             <View style={{
               marginTop: 10,
               flexDirection: 'row',

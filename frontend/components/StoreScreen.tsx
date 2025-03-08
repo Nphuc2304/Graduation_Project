@@ -95,6 +95,10 @@ const StoreScreen = () => {
     const [collection, setCollection] = useState(COLLECTIONS);
     const [top3, setTop3] = useState(TOP3);
 
+    const formatCurrency = (amount: number) => {
+        return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    };
+
     const renderFlashSale = ({ item, index }: any) => {
         return (
             <TouchableOpacity style={{ justifyContent: 'space-between', width: 80, marginRight: 10 }}>
@@ -154,7 +158,7 @@ const StoreScreen = () => {
                         fontSize: 16,
                         fontWeight: 'semibold',
                         marginVertical: 5
-                    }}>{item.price} đ</Text>
+                    }}>{formatCurrency(item.price)} đ</Text>
                     </View>
                     <Text style={[styles.textM, {
                         textAlign: 'left',
